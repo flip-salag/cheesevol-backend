@@ -11,7 +11,8 @@ public enum NovelErrorCode implements ErrorCode {
 
     NOVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "NOVEL-4041", "Novel not found with this id"),
     DUPLICATE_TITLE(HttpStatus.BAD_REQUEST, "NOVEL-4001", "Novel title already exists"),
-    INVALID_CURSOR(HttpStatus.BAD_REQUEST, "NOVEL-4002", "Invalid paging cursor");
+    INVALID_CURSOR(HttpStatus.BAD_REQUEST, "NOVEL-4002", "Invalid paging cursor"),
+    HAS_NO_EPISODES(HttpStatus.BAD_REQUEST, "NOVEL-4003", "Novel doesn't have episodes");
 
     private final HttpStatus status;
     private final String code;

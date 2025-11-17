@@ -11,6 +11,11 @@ import java.util.Optional;
 
 public interface EpisodeRepository extends JpaRepository<Episode, Long> {
 
+    /**
+     * novelId에 해당하는 소설에 회차가 1개라도 존재하는 지 검사
+     */
+    boolean existsByNovelIdAndDeletedAtIsNull(long novelId);
+
     @Query("select max(e.episodeNumber) from Episode e where e.novel.id = :novelId")
     Optional<Integer> findLastEpisodeNumber(@Param("novelId") long novelId);
 

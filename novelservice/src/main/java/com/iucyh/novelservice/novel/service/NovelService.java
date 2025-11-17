@@ -2,7 +2,7 @@ package com.iucyh.novelservice.novel.service;
 
 import com.iucyh.novelservice.episode.repository.EpisodeRepository;
 import com.iucyh.novelservice.novel.exception.DuplicateNovelTitle;
-import com.iucyh.novelservice.novel.exception.HasNoEpisodes;
+import com.iucyh.novelservice.novel.exception.NovelHasNoEpisodes;
 import com.iucyh.novelservice.novel.exception.NovelNotFound;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
@@ -66,7 +66,7 @@ public class NovelService {
         if (isCompleted) {
             boolean hasEpisodes = episodeRepository.existsByNovelIdAndDeletedAtIsNull(novel.getId());
             if (!hasEpisodes) {
-                throw new HasNoEpisodes();
+                throw new NovelHasNoEpisodes();
             }
         }
 

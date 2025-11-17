@@ -10,7 +10,7 @@ import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeDetailRequest
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeResponse;
-import com.iucyh.novelservice.novel.service.command.CreateNovelCommand;
+import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelRequestMapper;
 import com.iucyh.novelservice.novel.web.dto.request.CreateNovelRequest;
 import com.iucyh.novelservice.novel.web.dto.request.NovelPagingRequest;

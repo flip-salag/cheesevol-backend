@@ -1,7 +1,7 @@
-package com.iucyh.novelservice.novel.service.command.mapper;
+package com.iucyh.novelservice.novel.service.dto.mapper;
 
 import com.iucyh.novelservice.novel.domain.Novel;
-import com.iucyh.novelservice.novel.service.command.CreateNovelCommand;
+import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
 import com.iucyh.novelservice.user.domain.User;
 
 public class NovelCommandMapper {

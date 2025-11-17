@@ -1,7 +1,7 @@
 package com.iucyh.novelservice.novel.web.dto.mapper;
 
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
-import com.iucyh.novelservice.novel.service.command.CreateNovelCommand;
+import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
 import com.iucyh.novelservice.novel.web.dto.request.CreateNovelRequest;
 
 public class NovelRequestMapper {

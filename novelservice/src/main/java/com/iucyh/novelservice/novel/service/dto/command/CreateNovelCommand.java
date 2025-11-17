@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.novel.service.command;
+package com.iucyh.novelservice.novel.service.dto.command;
 
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 

@@ -10,6 +10,8 @@ import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeDetailRequest
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeResponse;
+import com.iucyh.novelservice.novel.service.command.CreateNovelCommand;
+import com.iucyh.novelservice.novel.web.dto.mapper.NovelRequestMapper;
 import com.iucyh.novelservice.novel.web.dto.request.CreateNovelRequest;
 import com.iucyh.novelservice.novel.web.dto.request.NovelPagingRequest;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
@@ -82,7 +84,8 @@ public class NovelController {
     public SuccessResponse<NovelResponse> createNovel(
             @Valid @RequestBody CreateNovelRequest request
     ) {
-        NovelResponse newNovel = novelService.createNovel(request);
+        CreateNovelCommand command = NovelRequestMapper.toCreateNovelCommand(request);
+        NovelResponse newNovel = novelService.createNovel(command, 1);
         return ApiResponseMapper.success(newNovel);
     }
 
@@ -101,8 +104,8 @@ public class NovelController {
             @PathVariable long novelId,
             @Valid @RequestBody UpdateNovelRequest request
     ) {
-        NovelResponse updatedNovel = novelService.updateNovel(1, novelId, request);
-        return ApiResponseMapper.success(updatedNovel);
+        //NovelResponse updatedNovel = novelService.updateNovel(1, novelId, request);
+        return ApiResponseMapper.success(null);
     }
 
     @PatchMapping("/{novelId}/episodes/{episodeId}")
@@ -145,7 +148,7 @@ public class NovelController {
     public SuccessResponse<Void> deleteNovel(
             @PathVariable long novelId
     ) {
-        novelService.deleteNovel(1, novelId);
+        //novelService.deleteNovel(1, novelId);
         return ApiResponseMapper.success();
     }
 

@@ -78,7 +78,7 @@ public class Novel extends PublicEntity {
         }
     }
 
-    public void updateCompletion(boolean isCompleted) {
+    public void updateCompletion(Boolean isCompleted) {
         if (this.isCompleted != isCompleted) {
             this.isCompleted = isCompleted;
         }

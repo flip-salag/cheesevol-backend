@@ -78,6 +78,12 @@ public class Novel extends PublicEntity {
         }
     }
 
+    public void updateCompletion(boolean isCompleted) {
+        if (this.isCompleted != isCompleted) {
+            this.isCompleted = isCompleted;
+        }
+    }
+
     public void updateLastEpisode(Integer lastEpisodeNumber, LocalDateTime lastEpisodeAt) {
         this.lastEpisodeNumber = lastEpisodeNumber;
         this.lastEpisodeAt = lastEpisodeAt;

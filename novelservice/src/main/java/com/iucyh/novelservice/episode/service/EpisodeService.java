@@ -60,7 +60,7 @@ public class EpisodeService {
 
     private Novel findNovel(long novelId) {
         return novelRepository.findById(novelId)
-                .orElseThrow(() -> new NovelNotFound(novelId));
+                .orElseThrow(() -> new NovelNotFound(""));
     }
 
     private Episode findEpisodeWithNovelId(long novelId, long episodeId) {

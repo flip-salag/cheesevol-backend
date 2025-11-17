@@ -36,7 +36,7 @@ public class EpisodeQueryService {
     public PagingResponse<EpisodeResponse> findEpisodesByNovel(long novelId, EpisodePagingRequest request) {
         boolean novelExists = novelRepository.existsById(novelId);
         if (!novelExists) {
-            throw new NovelNotFound(novelId);
+            //throw new NovelNotFound(novelId);
         }
 
         EpisodeSearchCondition searchCondition = new EpisodeSearchCondition(request.lastEpisode(), request.limit());

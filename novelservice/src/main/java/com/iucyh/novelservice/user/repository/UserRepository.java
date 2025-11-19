@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface UserRepository extends PublicEntityRepository<User, Long> {
 
-    Optional<User> findByIdAndDeletedAtIsNull(long id);
+    Optional<User> findByIdAndDeletedAtIsNull(Long id);
 }

@@ -16,15 +16,17 @@ public interface NovelRepository extends PublicEntityRepository<Novel, Long> {
     Optional<Novel> findByUserIdAndPublicIdAndDeletedAtIsNull(Long userId, String publicId);
 
     /**
-     * 특정 작가의 소설 중 전달된 title과 중복되는 제목이 존재하는 지 검사
+     * <p>특정 작가의 소설 중 전달된 title과 중복되는 제목이 존재하는 지 검사</p>
+     * <b>Soft Delete 된 소설을 포함하여 검사</b>
      */
-    boolean existsByTitleAndUserIdAndDeletedAtIsNull(String title, Long userId);
+    boolean existsByTitleAndUserId(String title, Long userId);
 
     /**
-     * 특정 작가의 소설 중 전달된 publicId 에 해당하는 소설을 제외하고
-     * 나머지 소설들 중에서 전달된 title과 중복되는 제목이 존재하는 지 검사
+     * <p>특정 작가의 소설 중 전달된 publicId 에 해당하는 소설을 제외하고
+     * 나머지 소설들 중에서 전달된 title과 중복되는 제목이 존재하는 지 검사</p>
+     * <b>Soft Delete 된 소설을 포함하여 검사</b>
      */
-    boolean existsByTitleAndUserIdAndPublicIdNotAndDeletedAtIsNull(String title, Long userId, String publicId);
+    boolean existsByTitleAndUserIdAndPublicIdNot(String title, Long userId, String publicId);
 
     long countByDeletedAtIsNull();
 

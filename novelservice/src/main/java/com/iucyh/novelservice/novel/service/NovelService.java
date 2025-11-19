@@ -33,7 +33,7 @@ public class NovelService {
         User user = findUserById(userId);
         String title = command.title();
 
-        boolean isDuplicateTitle = novelRepository.existsByTitleAndUserIdAndDeletedAtIsNull(title, userId);
+        boolean isDuplicateTitle = novelRepository.existsByTitleAndUserId(title, userId);
         if (isDuplicateTitle) {
             throw new DuplicateNovelTitle(title);
         }
@@ -49,7 +49,7 @@ public class NovelService {
 
         if (command.title() != null) {
             String title = command.title();
-            boolean isDuplicateTitle = novelRepository.existsByTitleAndUserIdAndPublicIdNotAndDeletedAtIsNull(title, userId, novelPublicId);
+            boolean isDuplicateTitle = novelRepository.existsByTitleAndUserIdAndPublicIdNot(title, userId, novelPublicId);
             if (isDuplicateTitle) {
                 throw new DuplicateNovelTitle(title);
             }

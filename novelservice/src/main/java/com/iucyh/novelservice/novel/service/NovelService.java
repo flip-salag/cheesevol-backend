@@ -95,7 +95,7 @@ public class NovelService {
     }
 
     private User findUserById(long userId) {
-        return userRepository.findById(userId)
+        return userRepository.findByIdAndDeletedAtIsNull(userId)
                 .orElseThrow(() -> new UserNotFound(userId));
     }
 

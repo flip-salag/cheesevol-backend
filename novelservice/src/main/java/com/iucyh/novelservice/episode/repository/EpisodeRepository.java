@@ -11,19 +11,24 @@ import java.util.Optional;
 
 public interface EpisodeRepository extends JpaRepository<Episode, Long> {
 
+    /**
+     * novelId에 해당하는 소설에 회차가 1개라도 존재하는 지 검사
+     */
+    boolean existsByNovelIdAndDeletedAtIsNull(Long novelId);
+
     @Query("select max(e.episodeNumber) from Episode e where e.novel.id = :novelId")
-    Optional<Integer> findLastEpisodeNumber(@Param("novelId") long novelId);
+    Optional<Integer> findLastEpisodeNumber(@Param("novelId") Long novelId);
 
     @Query("select e from Episode e where e.id = :episodeId and e.novel.id = :novelId and e.deletedAt is null")
-    Optional<Episode> findByIdAndNovelId(@Param("episodeId") long id, @Param("novelId") long novelId);
+    Optional<Episode> findByIdAndNovelId(@Param("episodeId") Long id, @Param("novelId") Long novelId);
 
     @Query("select count(e) from Episode e where e.novel.id = :novelId and e.deletedAt is null")
-    int countByNovelId(@Param("novelId") long novelId);
+    int countByNovelId(@Param("novelId") Long novelId);
 
     @Query("select e.id as id, e.content as content from Episode e where e.novel.id = :novelId and e.episodeNumber = :episodeNumber and e.deletedAt is null")
-    Optional<EpisodeDetail> findEpisodeDetail(@Param("novelId") long novelId, @Param("episodeNumber") int episodeNumber);
+    Optional<EpisodeDetail> findEpisodeDetail(@Param("novelId") Long novelId, @Param("episodeNumber") Integer episodeNumber);
 
     @Modifying(clearAutomatically = true)
     @Query("update Episode e set e.viewCount = e.viewCount + 1 where e.id = :episodeId and e.deletedAt is null")
-    void increaseViewCount(@Param("episodeId") long episodeId);
+    void increaseViewCount(@Param("episodeId") Long episodeId);
 }

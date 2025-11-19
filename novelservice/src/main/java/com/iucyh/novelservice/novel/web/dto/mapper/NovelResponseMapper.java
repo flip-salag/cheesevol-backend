@@ -2,8 +2,11 @@ package com.iucyh.novelservice.novel.web.dto.mapper;
 
 import com.iucyh.novelservice.common.dto.response.PagingResponse;
 import com.iucyh.novelservice.novel.domain.Novel;
+import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelResponse;
+import com.iucyh.novelservice.user.domain.User;
+import com.iucyh.novelservice.user.web.dto.response.UserSummaryResponse;
 
 import java.util.List;
 
@@ -12,15 +15,27 @@ public class NovelResponseMapper {
     private NovelResponseMapper() {}
 
     public static NovelResponse toNovelResponse(Novel novel) {
+        User user = novel.getUser();
+        UserSummaryResponse author = new UserSummaryResponse(user.getPublicId(), user.getNickname());
+
         return new NovelResponse(
-                novel.getId(),
+                novel.getPublicId(),
+                author,
                 novel.getTitle(),
                 novel.getDescription(),
+                novel.getCategory(),
                 novel.getLikeCount(),
                 novel.getTotalViewCount(),
-                novel.getCategory(),
-                novel.getLastEpisodeAt(),
+                novel.getIsCompleted(),
+                novel.getUpdatedAt(),
                 novel.getCreatedAt()
+        );
+    }
+
+    public static NovelCompletionResponse toNovelCompletionResponse(Novel novel) {
+        return new NovelCompletionResponse(
+                novel.getPublicId(),
+                novel.getIsCompleted()
         );
     }
 

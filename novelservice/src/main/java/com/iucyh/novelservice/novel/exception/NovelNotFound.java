@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class NovelNotFound extends ServiceException {
 
-    public NovelNotFound(long novelId) {
+    public NovelNotFound(String novelId) {
         super(
                 NovelErrorCode.NOVEL_NOT_FOUND,
                 Map.of("novelId", novelId)

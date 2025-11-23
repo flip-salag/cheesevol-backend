@@ -6,7 +6,7 @@ import com.iucyh.novelservice.novel.repository.query.dto.QNovelSimpleQueryDto;
 import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
 import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelViewCountCursor;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
-import com.iucyh.novelservice.novel.repository.query.paging.template.AbstractNovelCursorPagingStrategy;
+import com.iucyh.novelservice.novel.repository.query.paging.template.AbstractNovelPagingStrategy;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import static com.iucyh.novelservice.novel.domain.QNovel.novel;
 
 @Component
-public class NovelViewCountCursorPagingStrategy extends AbstractNovelCursorPagingStrategy {
+public class NovelViewCountPagingStrategy extends AbstractNovelPagingStrategy {
 
     @Override
     protected JPAQuery<? extends NovelQueryDto> createBaseQuery(JPAQueryFactory queryFactory) {

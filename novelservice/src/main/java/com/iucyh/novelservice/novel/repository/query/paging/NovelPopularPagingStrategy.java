@@ -6,7 +6,7 @@ import com.iucyh.novelservice.novel.repository.query.dto.QNovelPopularQueryDto;
 import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
 import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelPopularCursor;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
-import com.iucyh.novelservice.novel.repository.query.paging.template.AbstractNovelCursorPagingStrategy;
+import com.iucyh.novelservice.novel.repository.query.paging.template.AbstractNovelPagingStrategy;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -19,7 +19,7 @@ import static com.iucyh.novelservice.novel.domain.QNovel.novel;
 import static com.iucyh.novelservice.novel.domain.QNovelPeriodStat.novelPeriodStat;
 
 @Component
-public class NovelPopularCursorPagingStrategy extends AbstractNovelCursorPagingStrategy {
+public class NovelPopularPagingStrategy extends AbstractNovelPagingStrategy {
 
     @Override
     protected JPAQuery<? extends NovelQueryDto> createBaseQuery(JPAQueryFactory queryFactory) {

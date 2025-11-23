@@ -6,7 +6,7 @@ import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-public interface NovelCursorPagingStrategy {
+public interface NovelPagingStrategy {
 
     JPAQuery<? extends NovelQueryDto> createQuery(JPAQueryFactory queryFactory, NovelCursor cursor);
     NovelCursor createCursor(NovelQueryDto lastResult);

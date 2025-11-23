@@ -1,7 +1,7 @@
 package com.iucyh.novelservice.novel.repository.query.paging.template;
 
 import com.iucyh.novelservice.novel.repository.query.dto.NovelQueryDto;
-import com.iucyh.novelservice.novel.repository.query.paging.NovelCursorPagingStrategy;
+import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
 import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -12,7 +12,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
  * <p>가장 일반적인 패턴의 페이징 쿼리 생성을 돕는 템플릿 클래스</p>
  * <p>{기본 쿼리}.{커서 적용}.{정렬} 패턴이라면 해당 클래스 상속 권장</p>
  */
-public abstract class AbstractNovelCursorPagingStrategy implements NovelCursorPagingStrategy {
+public abstract class AbstractNovelPagingStrategy implements NovelPagingStrategy {
 
     /**
      * <p>기본적인 조회 쿼리 생성 메서드</p>

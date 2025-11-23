@@ -4,9 +4,9 @@ import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.repository.query.dto.NovelQueryDto;
 import com.iucyh.novelservice.novel.repository.query.dto.QNovelSimpleQueryDto;
 import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
-import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelLastUpdateCursor;
+import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelLikeCountCursor;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
-import com.iucyh.novelservice.novel.repository.query.paging.template.AbstractNovelCursorPagingStrategy;
+import com.iucyh.novelservice.novel.repository.query.paging.template.AbstractNovelPagingStrategy;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import static com.iucyh.novelservice.novel.domain.QNovel.novel;
 
 @Component
-public class NovelLastUpdateCursorPagingStrategy extends AbstractNovelCursorPagingStrategy {
+public class NovelLikeCountPagingStrategy extends AbstractNovelPagingStrategy {
 
     @Override
     protected JPAQuery<? extends NovelQueryDto> createBaseQuery(JPAQueryFactory queryFactory) {
@@ -28,29 +28,29 @@ public class NovelLastUpdateCursorPagingStrategy extends AbstractNovelCursorPagi
     @Override
     protected OrderSpecifier<?>[] applyOrder() {
         return new OrderSpecifier[] {
-                novel.lastEpisodeAt.desc(),
+                novel.likeCount.desc(),
                 novel.id.desc()
         };
     }
 
     @Override
     protected BooleanExpression applyCursor(NovelCursor cursor) {
-        NovelLastUpdateCursor lastUpdateCursor = (NovelLastUpdateCursor) cursor;
-        return novel.lastEpisodeAt.lt(lastUpdateCursor.lastUpdateDate())
+        NovelLikeCountCursor likeCountCursor = (NovelLikeCountCursor) cursor;
+        return novel.likeCount.lt(likeCountCursor.lastLikeCount())
                 .or(
-                        novel.lastEpisodeAt.eq(lastUpdateCursor.lastUpdateDate())
-                                .and(novel.id.lt(lastUpdateCursor.lastNovelId()))
+                        novel.likeCount.eq(likeCountCursor.lastLikeCount())
+                                .and(novel.id.lt(likeCountCursor.lastNovelId()))
                 );
     }
 
     @Override
     public NovelCursor createCursor(NovelQueryDto lastResult) {
         Novel lastNovel = lastResult.getNovel();
-        return new NovelLastUpdateCursor(lastNovel.getId(), lastNovel.getLastEpisodeAt());
+        return new NovelLikeCountCursor(lastNovel.getId(), lastNovel.getLikeCount());
     }
 
     @Override
     public NovelSortType getSupportedSortType() {
-        return NovelSortType.LAST_UPDATE;
+        return NovelSortType.LIKE_COUNT;
     }
 }

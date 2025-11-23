@@ -3,7 +3,7 @@ package com.iucyh.novelservice.novel.repository.query;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.novel.repository.query.dto.NovelQueryDto;
 import com.iucyh.novelservice.novel.repository.query.condition.NovelSearchCondition;
-import com.iucyh.novelservice.novel.repository.query.paging.NovelCursorPagingStrategy;
+import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<? extends NovelQueryDto> findNovels(NovelSearchCondition condition, NovelCursorPagingStrategy strategy) {
+    public List<? extends NovelQueryDto> findNovels(NovelSearchCondition condition, NovelPagingStrategy strategy) {
         return strategy
                 .createQuery(queryFactory, condition.cursor())
                 .where(getDefaultFilterCondition())
@@ -30,7 +30,7 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
     }
 
     @Override
-    public List<? extends NovelQueryDto> findNovelsByCategory(NovelSearchCondition condition, NovelCursorPagingStrategy strategy, NovelCategory category) {
+    public List<? extends NovelQueryDto> findNovelsByCategory(NovelSearchCondition condition, NovelPagingStrategy strategy, NovelCategory category) {
         return strategy
                 .createQuery(queryFactory, condition.cursor())
                 .where(
@@ -42,7 +42,7 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
     }
 
     @Override
-    public List<? extends NovelQueryDto> findNewNovels(NovelSearchCondition condition, NovelCursorPagingStrategy strategy) {
+    public List<? extends NovelQueryDto> findNewNovels(NovelSearchCondition condition, NovelPagingStrategy strategy) {
         LocalDateTime thisMonth = getThisMonth();
         return strategy
                 .createQuery(queryFactory, condition.cursor())

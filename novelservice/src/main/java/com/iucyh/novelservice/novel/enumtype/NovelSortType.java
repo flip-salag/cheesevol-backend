@@ -3,7 +3,7 @@ package com.iucyh.novelservice.novel.enumtype;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.iucyh.novelservice.common.enumtype.valuedenum.ValuedEnum;
 import com.iucyh.novelservice.common.enumtype.valuedenum.ValuedEnumHelper;
-import com.iucyh.novelservice.novel.repository.query.cursor.*;
+import com.iucyh.novelservice.novel.repository.query.paging.cursor.*;
 
 public enum NovelSortType implements ValuedEnum {
 

@@ -1,12 +1,12 @@
-package com.iucyh.novelservice.novel.repository.query.pagingquery.strategy;
+package com.iucyh.novelservice.novel.repository.query.paging;
 
 import com.iucyh.novelservice.novel.repository.query.dto.NovelQueryDto;
 import com.iucyh.novelservice.novel.repository.query.dto.NovelPopularQueryDto;
 import com.iucyh.novelservice.novel.repository.query.dto.QNovelPopularQueryDto;
-import com.iucyh.novelservice.novel.repository.query.cursor.NovelCursor;
-import com.iucyh.novelservice.novel.repository.query.cursor.NovelPopularCursor;
+import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
+import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelPopularCursor;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
-import com.iucyh.novelservice.novel.repository.query.pagingquery.NovelPagingQueryBaseTemplate;
+import com.iucyh.novelservice.novel.repository.query.paging.template.AbstractNovelCursorPagingStrategy;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -19,7 +19,7 @@ import static com.iucyh.novelservice.novel.domain.QNovel.novel;
 import static com.iucyh.novelservice.novel.domain.QNovelPeriodStat.novelPeriodStat;
 
 @Component
-public class NovelPopularPagingQuery extends NovelPagingQueryBaseTemplate {
+public class NovelPopularCursorPagingStrategy extends AbstractNovelCursorPagingStrategy {
 
     @Override
     protected JPAQuery<? extends NovelQueryDto> createBaseQuery(JPAQueryFactory queryFactory) {
@@ -40,7 +40,7 @@ public class NovelPopularPagingQuery extends NovelPagingQueryBaseTemplate {
     }
 
     @Override
-    protected OrderSpecifier<?>[] createOrderSpecifiers() {
+    protected OrderSpecifier<?>[] applyOrder() {
         return new OrderSpecifier[] {
                 novelPeriodStat.viewCount.desc(),
                 novelPeriodStat.id.desc()
@@ -48,7 +48,7 @@ public class NovelPopularPagingQuery extends NovelPagingQueryBaseTemplate {
     }
 
     @Override
-    protected BooleanExpression createCursorPredicate(NovelCursor cursor) {
+    protected BooleanExpression applyCursor(NovelCursor cursor) {
         NovelPopularCursor novelPopularCursor = (NovelPopularCursor) cursor;
         return novelPeriodStat.viewCount.lt(novelPopularCursor.lastAggViewCount())
                 .or(

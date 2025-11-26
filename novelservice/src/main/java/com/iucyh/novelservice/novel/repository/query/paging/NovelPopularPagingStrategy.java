@@ -1,66 +1,54 @@
 package com.iucyh.novelservice.novel.repository.query.paging;
 
+import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.repository.query.dto.NovelQueryDto;
-import com.iucyh.novelservice.novel.repository.query.dto.NovelPopularQueryDto;
-import com.iucyh.novelservice.novel.repository.query.dto.QNovelPopularQueryDto;
 import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
 import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelPopularCursor;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import com.iucyh.novelservice.novel.repository.query.paging.template.AbstractNovelPagingStrategy;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-
 import static com.iucyh.novelservice.novel.domain.QNovel.novel;
-import static com.iucyh.novelservice.novel.domain.QNovelPeriodStat.novelPeriodStat;
 
 @Component
 public class NovelPopularPagingStrategy extends AbstractNovelPagingStrategy {
 
     @Override
-    protected JPAQuery<? extends NovelQueryDto> createBaseQuery(JPAQueryFactory queryFactory) {
-        LocalDate threeDaysAgo = LocalDate.now().minusDays(3);
-        return queryFactory
-                .select(
-                        new QNovelPopularQueryDto(
-                                novel,
-                                novelPeriodStat.id,
-                                novelPeriodStat.viewCount
-                        )
-                )
-                .from(novelPeriodStat)
-                .join(novelPeriodStat.novel, novel)
-                .where(
-                        novelPeriodStat.startDate.eq(threeDaysAgo)
-                );
-    }
-
-    @Override
     protected OrderSpecifier<?>[] applyOrder() {
         return new OrderSpecifier[] {
-                novelPeriodStat.viewCount.desc(),
-                novelPeriodStat.id.desc()
+                novel.periodViewCount.desc(),
+                novel.totalViewCount.desc(),
+                novel.id.desc()
         };
     }
 
     @Override
     protected BooleanExpression applyCursor(NovelCursor cursor) {
         NovelPopularCursor novelPopularCursor = (NovelPopularCursor) cursor;
-        return novelPeriodStat.viewCount.lt(novelPopularCursor.lastAggViewCount())
+        return novel.periodViewCount.lt(novelPopularCursor.lastPeriodViewCount())
                 .or(
-                        novelPeriodStat.viewCount.eq(novelPopularCursor.lastAggViewCount())
-                                .and(novelPeriodStat.id.lt(novelPopularCursor.lastAggId()))
+                        novel.periodViewCount.eq(novelPopularCursor.lastPeriodViewCount())
+                                .and(
+                                        novel.totalViewCount.lt(novelPopularCursor.lastTotalViewCount())
+                                )
+                )
+                .or(
+                        novel.periodViewCount.eq(novelPopularCursor.lastPeriodViewCount())
+                                .and(
+                                        novel.totalViewCount.eq(novelPopularCursor.lastTotalViewCount())
+                                )
+                                .and(
+                                        novel.id.lt(novelPopularCursor.lastNovelId())
+                                )
                 );
     }
 
     @Override
     public NovelCursor createCursor(NovelQueryDto lastResult) {
-        NovelPopularQueryDto popularQueryDto = (NovelPopularQueryDto) lastResult;
-        return new NovelPopularCursor(popularQueryDto.getLastAggId(), popularQueryDto.getLastAggViewCount());
+        Novel lastNovel = lastResult.getNovel();
+        return new NovelPopularCursor(lastNovel.getId(), lastNovel.getPeriodViewCount(), lastNovel.getTotalViewCount());
     }
 
     @Override

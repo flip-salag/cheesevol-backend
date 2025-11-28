@@ -1,6 +1,6 @@
 package com.iucyh.novelservice.novel.repository.query.condition;
 
-import com.iucyh.novelservice.novel.repository.query.cursor.NovelCursor;
+import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
 
 public record NovelSearchCondition(
 

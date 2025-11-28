@@ -3,7 +3,7 @@ package com.iucyh.novelservice.novel.repository.query;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.novel.repository.query.dto.NovelQueryDto;
 import com.iucyh.novelservice.novel.repository.query.condition.NovelSearchCondition;
-import com.iucyh.novelservice.novel.repository.query.pagingquery.NovelPagingQuery;
+import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +21,8 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<? extends NovelQueryDto> findNovels(NovelSearchCondition condition, NovelPagingQuery pagingQuery) {
-        return pagingQuery
+    public List<? extends NovelQueryDto> findNovels(NovelSearchCondition condition, NovelPagingStrategy strategy) {
+        return strategy
                 .createQuery(queryFactory, condition.cursor())
                 .where(getDefaultFilterCondition())
                 .limit(condition.limit())
@@ -30,8 +30,8 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
     }
 
     @Override
-    public List<? extends NovelQueryDto> findNovelsByCategory(NovelSearchCondition condition, NovelPagingQuery pagingQuery, NovelCategory category) {
-        return pagingQuery
+    public List<? extends NovelQueryDto> findNovelsByCategory(NovelSearchCondition condition, NovelPagingStrategy strategy, NovelCategory category) {
+        return strategy
                 .createQuery(queryFactory, condition.cursor())
                 .where(
                         getDefaultFilterCondition(),
@@ -42,9 +42,9 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
     }
 
     @Override
-    public List<? extends NovelQueryDto> findNewNovels(NovelSearchCondition condition, NovelPagingQuery pagingQuery) {
+    public List<? extends NovelQueryDto> findNewNovels(NovelSearchCondition condition, NovelPagingStrategy strategy) {
         LocalDateTime thisMonth = getThisMonth();
-        return pagingQuery
+        return strategy
                 .createQuery(queryFactory, condition.cursor())
                 .where(
                         getDefaultFilterCondition(),

@@ -11,8 +11,8 @@ import com.iucyh.novelservice.novel.service.codec.NovelCursorBase64Codec;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
 import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
 import com.iucyh.novelservice.novel.repository.query.condition.NovelSearchCondition;
-import com.iucyh.novelservice.novel.repository.query.cursor.NovelCursor;
-import com.iucyh.novelservice.novel.repository.query.pagingquery.NovelPagingQuery;
+import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
+import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,13 +29,13 @@ public class NovelQueryService {
     private final NovelCursorBase64Codec base64Codec;
     private final NovelRepository novelRepository;
     private final NovelQueryRepository novelQueryRepository;
-    private final Map<NovelSortType, NovelPagingQuery> pagingQueryMap;
+    private final Map<NovelSortType, NovelPagingStrategy> pagingQueryMap;
 
     public NovelQueryService(
             NovelCursorBase64Codec base64Codec,
             NovelRepository novelRepository,
             NovelQueryRepository novelQueryRepository,
-            List<NovelPagingQuery> pagingQueries
+            List<NovelPagingStrategy> pagingQueries
     ) {
         this.base64Codec = base64Codec;
         this.novelRepository = novelRepository;
@@ -44,7 +44,7 @@ public class NovelQueryService {
                 .stream()
                 .collect(
                         Collectors.toUnmodifiableMap(
-                                NovelPagingQuery::getSupportedSortType,
+                                NovelPagingStrategy::getSupportedSortType,
                                 Function.identity()
                         )
                 );
@@ -55,7 +55,7 @@ public class NovelQueryService {
      */
     public List<NovelResponse> findNovelsByCategoryInSummary(NovelCategory category) {
         NovelSearchCondition searchCondition = new NovelSearchCondition(null, 10);
-        NovelPagingQuery pagingQuery = getPagingQuery(NovelSortType.POPULAR);
+        NovelPagingStrategy pagingQuery = getPagingQuery(NovelSortType.POPULAR);
         List<? extends NovelQueryDto> novels = novelQueryRepository.findNovelsByCategory(searchCondition, pagingQuery, category);
 
         return mapToNovelResponseList(novels);
@@ -66,7 +66,7 @@ public class NovelQueryService {
      */
     public List<NovelResponse> findNewNovelsInSummary() {
         NovelSearchCondition searchCondition = new NovelSearchCondition(null, 30);
-        NovelPagingQuery pagingQuery = getPagingQuery(NovelSortType.LAST_UPDATE);
+        NovelPagingStrategy pagingQuery = getPagingQuery(NovelSortType.LAST_UPDATE);
         List<? extends NovelQueryDto> novels = novelQueryRepository.findNewNovels(searchCondition, pagingQuery);
 
         return mapToNovelResponseList(novels);
@@ -95,13 +95,13 @@ public class NovelQueryService {
 
     private PagingResponse<NovelResponse> executePagingQuery(
             NovelPagingRequest pagingRequest,
-            BiFunction<NovelSearchCondition, NovelPagingQuery, List<? extends NovelQueryDto>> queryFunc
+            BiFunction<NovelSearchCondition, NovelPagingStrategy, List<? extends NovelQueryDto>> queryFunc
     ) {
         NovelSortType sortType = NovelSortType.of(pagingRequest.sort());
         String cursor = pagingRequest.cursor();
         Integer limit = pagingRequest.limit();
 
-        NovelPagingQuery pagingQuery = getPagingQuery(sortType);
+        NovelPagingStrategy pagingQuery = getPagingQuery(sortType);
         NovelSearchCondition searchCondition = createSearchCondition(sortType, cursor, limit);
 
         List<? extends NovelQueryDto> result = queryFunc.apply(searchCondition, pagingQuery);
@@ -117,8 +117,8 @@ public class NovelQueryService {
         return NovelResponseMapper.toPagingResponse(novelResponses, totalCount, newCursor);
     }
 
-    private NovelPagingQuery getPagingQuery(NovelSortType sortType) {
-        NovelPagingQuery pagingQuery = pagingQueryMap.get(sortType);
+    private NovelPagingStrategy getPagingQuery(NovelSortType sortType) {
+        NovelPagingStrategy pagingQuery = pagingQueryMap.get(sortType);
         if (pagingQuery == null) {
             throw new IllegalArgumentException("There's no matched paging query with: " + sortType.name());
         }
@@ -136,7 +136,7 @@ public class NovelQueryService {
                 .toList();
     }
 
-    private String createNewEncodedCursor(NovelPagingQuery pagingQuery, List<? extends NovelQueryDto> novels) {
+    private String createNewEncodedCursor(NovelPagingStrategy pagingQuery, List<? extends NovelQueryDto> novels) {
         NovelQueryDto lastResult = novels.get(novels.size() - 1);
         NovelCursor newCursor = pagingQuery.createCursor(lastResult);
         return base64Codec.encode(newCursor);

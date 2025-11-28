@@ -39,6 +39,9 @@ public class Novel extends PublicEntity {
     private Integer totalViewCount = 0;
 
     @Column(nullable = false)
+    private Integer periodViewCount = 0;
+
+    @Column(nullable = false)
     private Integer prologueDeleteCount = 0;
 
     @Column(nullable = false)

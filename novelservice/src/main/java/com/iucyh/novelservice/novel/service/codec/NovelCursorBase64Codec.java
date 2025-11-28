@@ -2,7 +2,7 @@ package com.iucyh.novelservice.novel.service.codec;
 
 import com.iucyh.novelservice.novel.exception.InvalidNovelCursor;
 import com.iucyh.novelservice.common.util.Base64Util;
-import com.iucyh.novelservice.novel.repository.query.cursor.NovelCursor;
+import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

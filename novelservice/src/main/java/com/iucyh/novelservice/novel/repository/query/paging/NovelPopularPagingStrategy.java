@@ -26,21 +26,21 @@ public class NovelPopularPagingStrategy extends AbstractNovelPagingStrategy {
 
     @Override
     protected BooleanExpression applyCursor(NovelCursor cursor) {
-        NovelPopularCursor novelPopularCursor = (NovelPopularCursor) cursor;
-        return novel.periodViewCount.lt(novelPopularCursor.lastPeriodViewCount())
+        NovelPopularCursor popularCursor = (NovelPopularCursor) cursor;
+        return novel.periodViewCount.lt(popularCursor.lastPeriodViewCount())
                 .or(
-                        novel.periodViewCount.eq(novelPopularCursor.lastPeriodViewCount())
+                        novel.periodViewCount.eq(popularCursor.lastPeriodViewCount())
                                 .and(
-                                        novel.totalViewCount.lt(novelPopularCursor.lastTotalViewCount())
+                                        novel.totalViewCount.lt(popularCursor.lastTotalViewCount())
                                 )
                 )
                 .or(
-                        novel.periodViewCount.eq(novelPopularCursor.lastPeriodViewCount())
+                        novel.periodViewCount.eq(popularCursor.lastPeriodViewCount())
                                 .and(
-                                        novel.totalViewCount.eq(novelPopularCursor.lastTotalViewCount())
+                                        novel.totalViewCount.eq(popularCursor.lastTotalViewCount())
                                 )
                                 .and(
-                                        novel.id.lt(novelPopularCursor.lastNovelId())
+                                        novel.id.lt(popularCursor.lastNovelId())
                                 )
                 );
     }

@@ -67,7 +67,7 @@ public class NovelQueryService {
     public List<NovelResponse> findNewNovelsInSummary() {
         NovelSearchCondition searchCondition = new NovelSearchCondition(null, 30);
         NovelPagingStrategy pagingQuery = getPagingQuery(NovelSortType.LAST_UPDATE);
-        List<? extends NovelQueryDto> novels = novelQueryRepository.findNewNovels(searchCondition, pagingQuery);
+        List<? extends NovelQueryDto> novels = novelQueryRepository.findNewNovels(searchCondition, pagingQuery, null);
 
         return mapToNovelResponseList(novels);
     }
@@ -89,7 +89,7 @@ public class NovelQueryService {
     public PagingResponse<NovelResponse> findNewNovels(NovelPagingRequest pagingRequest) {
         return executePagingQuery(pagingRequest,
                 (searchCondition, pagingQuery) ->
-                        novelQueryRepository.findNewNovels(searchCondition, pagingQuery)
+                        novelQueryRepository.findNewNovels(searchCondition, pagingQuery, null)
         );
     }
 

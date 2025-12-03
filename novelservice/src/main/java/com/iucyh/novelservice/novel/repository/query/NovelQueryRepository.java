@@ -14,6 +14,7 @@ public interface NovelQueryRepository {
 
     /**
      * 이번달 신작 소설 조회 메서드
+     * @param category 필터링 할 카테고리, 모든 카테고리 조회 시 null 전달
      */
-    List<? extends NovelQueryDto> findNewNovels(NovelSearchCondition condition, NovelPagingStrategy strategy);
+    List<? extends NovelQueryDto> findNewNovels(NovelSearchCondition condition, NovelPagingStrategy strategy, NovelCategory category);
 }

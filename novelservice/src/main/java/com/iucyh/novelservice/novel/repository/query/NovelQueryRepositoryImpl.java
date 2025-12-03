@@ -42,12 +42,13 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
     }
 
     @Override
-    public List<? extends NovelQueryDto> findNewNovels(NovelSearchCondition condition, NovelPagingStrategy strategy) {
+    public List<? extends NovelQueryDto> findNewNovels(NovelSearchCondition condition, NovelPagingStrategy strategy, NovelCategory category) {
         LocalDateTime thisMonth = getThisMonth();
         return strategy
                 .createQuery(queryFactory, condition.cursor())
                 .where(
                         getDefaultFilterCondition(),
+                        category == null ? null : novel.category.eq(category),
                         novel.createdAt.goe(thisMonth)
                 )
                 .limit(condition.limit())

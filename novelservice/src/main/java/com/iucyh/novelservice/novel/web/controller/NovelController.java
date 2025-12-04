@@ -45,8 +45,8 @@ public class NovelController {
     public SuccessResponse<PagingResponse<NovelResponse>> getNovels(
             @Valid @ModelAttribute NovelPagingRequest request
     ) {
-        PagingResponse<NovelResponse> results = novelQueryService.findNovels(request);
-        return ApiResponseMapper.success(results);
+        //PagingResponse<NovelResponse> results = novelQueryService.findNovels(request);
+        return ApiResponseMapper.success(null);
     }
 
     @GetMapping("/new")

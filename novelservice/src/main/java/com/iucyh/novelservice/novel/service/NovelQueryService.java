@@ -50,13 +50,10 @@ public class NovelQueryService {
                 );
     }
 
-    /**
-     * 카테고리 별 소설을 인기순 상위 10개만 조회하는 메서드
-     */
-    public List<NovelResponse> findNovelsByCategoryInSummary(NovelCategory category) {
+    public List<NovelResponse> findNovelsByCategoryForSection(NovelCategory category) {
         NovelSearchCondition searchCondition = new NovelSearchCondition(null, 10);
-        NovelPagingStrategy pagingQuery = getPagingQuery(NovelSortType.POPULAR);
-        List<? extends NovelQueryDto> novels = novelQueryRepository.findNovelsByCategory(searchCondition, pagingQuery, category);
+        NovelPagingStrategy strategy = getPagingQuery(NovelSortType.POPULAR);
+        List<? extends NovelQueryDto> novels = novelQueryRepository.findNovelsByCategory(searchCondition, strategy, category);
 
         return mapToNovelResponseList(novels);
     }

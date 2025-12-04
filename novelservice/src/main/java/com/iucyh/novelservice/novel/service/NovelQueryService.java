@@ -58,13 +58,10 @@ public class NovelQueryService {
         return mapToNovelResponseList(novels);
     }
 
-    /**
-     * 이번 달 신작 소설을 업데이트순 상위 30개만 조회하는 메서드
-     */
-    public List<NovelResponse> findNewNovelsInSummary() {
+    public List<NovelResponse> findNewNovelsForSection() {
         NovelSearchCondition searchCondition = new NovelSearchCondition(null, 30);
-        NovelPagingStrategy pagingQuery = getPagingQuery(NovelSortType.LAST_UPDATE);
-        List<? extends NovelQueryDto> novels = novelQueryRepository.findNewNovels(searchCondition, pagingQuery, null);
+        NovelPagingStrategy strategy = getPagingQuery(NovelSortType.LAST_UPDATE);
+        List<? extends NovelQueryDto> novels = novelQueryRepository.findNewNovels(searchCondition, strategy, null);
 
         return mapToNovelResponseList(novels);
     }

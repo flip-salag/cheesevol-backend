@@ -44,10 +44,11 @@ public class NovelController {
 
     @GetMapping
     public SuccessResponse<PagingResponse<NovelResponse>> getNovels(
-            @Valid @ModelAttribute NovelPagingRequest request
+            @Valid @ModelAttribute NovelPagingRequest request,
+            @RequestParam(required = false) NovelCategory category
     ) {
         GetNovelsQuery query = NovelRequestMapper.toGetNovelsQuery(request);
-        PagingResponse<NovelResponse> result = novelQueryService.getNovels(query, null);
+        PagingResponse<NovelResponse> result = novelQueryService.getNovels(query, category);
         return ApiResponseMapper.success(result);
     }
 
@@ -59,15 +60,6 @@ public class NovelController {
         GetNovelsQuery query = NovelRequestMapper.toGetNovelsQuery(request);
         PagingResponse<NovelResponse> result = novelQueryService.getNewNovels(query, category);
         return ApiResponseMapper.success(result);
-    }
-
-    @GetMapping("/category/{category}")
-    public SuccessResponse<PagingResponse<NovelResponse>> getNovelsByCategory(
-            @PathVariable NovelCategory category,
-            @Valid @ModelAttribute NovelPagingRequest request
-    ) {
-        //PagingResponse<NovelResponse> results = novelQueryService.getNovels(request, category);
-        return ApiResponseMapper.success(null);
     }
 
     @GetMapping("/{novelId}/episodes")

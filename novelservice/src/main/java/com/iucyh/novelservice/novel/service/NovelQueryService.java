@@ -82,12 +82,11 @@ public class NovelQueryService {
         return null;
     }
 
-    public PagingResponse<NovelResponse> findNewNovels(NovelPagingRequest pagingRequest) {
-//        return executePagingQuery(pagingRequest,
-//                (searchCondition, pagingQuery) ->
-//                        novelQueryRepository.findNewNovels(searchCondition, pagingQuery, null)
-//        );
-        return null;
+    public PagingResponse<NovelResponse> getNewNovels(GetNovelsQuery query, NovelCategory category) {
+        return executePagingQuery(query,
+                (searchCondition, strategy) ->
+                        novelQueryRepository.findNewNovels(searchCondition, strategy, category)
+        );
     }
 
     private PagingResponse<NovelResponse> executePagingQuery(

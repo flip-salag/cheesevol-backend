@@ -1,6 +1,5 @@
 package com.iucyh.novelservice.novel.web.dto.request;
 
-import com.iucyh.novelservice.common.validator.enumfield.EnumField;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -9,8 +8,7 @@ import org.hibernate.validator.constraints.Range;
 public record NovelPagingRequest(
 
         @NotNull
-        @EnumField(enumClass = NovelSortType.class)
-        String sort,
+        NovelSortType sort,
 
         @Size(max = 2048, message = "Cursor length is too long")
         String cursor,

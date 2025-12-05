@@ -13,16 +13,16 @@ public record NovelPagingRequest(
         @Size(max = 2048, message = "Cursor length is too long")
         String cursor,
 
-        @Range(min = 1, max = 100, message = "Limit must be between 1 and 100")
-        Integer limit
+        @Range(min = 5, max = 50, message = "Size must be between 5 and 50")
+        Integer size
 ) {
     public NovelPagingRequest {
         if (sort == null) {
             sort = NovelSortType.POPULAR.getValue();
         }
 
-        if (limit == null) {
-            limit = 50;
+        if (size == null) {
+            size = 50;
         }
     }
 }

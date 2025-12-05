@@ -12,6 +12,7 @@ import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeResponse;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.UpdateNovelCommand;
+import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelRequestMapper;
 import com.iucyh.novelservice.novel.web.dto.request.CreateNovelRequest;
 import com.iucyh.novelservice.novel.web.dto.request.NovelPagingRequest;
@@ -45,8 +46,9 @@ public class NovelController {
     public SuccessResponse<PagingResponse<NovelResponse>> getNovels(
             @Valid @ModelAttribute NovelPagingRequest request
     ) {
-        //PagingResponse<NovelResponse> results = novelQueryService.findNovels(request);
-        return ApiResponseMapper.success(null);
+        GetNovelsQuery query = NovelRequestMapper.toGetNovelsQuery(request);
+        PagingResponse<NovelResponse> result = novelQueryService.getNovels(query);
+        return ApiResponseMapper.success(result);
     }
 
     @GetMapping("/new")

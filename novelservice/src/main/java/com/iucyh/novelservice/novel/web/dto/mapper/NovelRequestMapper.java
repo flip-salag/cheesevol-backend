@@ -31,7 +31,7 @@ public class NovelRequestMapper {
 
     public static GetNovelsQuery toGetNovelsQuery(NovelPagingRequest request) {
         return new GetNovelsQuery(
-                NovelSortType.of(request.sort()),
+                request.sort(),
                 request.cursor(),
                 request.size()
         );

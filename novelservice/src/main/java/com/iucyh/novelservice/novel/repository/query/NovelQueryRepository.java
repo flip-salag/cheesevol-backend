@@ -9,8 +9,10 @@ import java.util.List;
 
 public interface NovelQueryRepository {
 
-    List<? extends NovelQueryDto> findNovels(NovelSearchCondition condition, NovelPagingStrategy strategy);
-    List<? extends NovelQueryDto> findNovelsByCategory(NovelSearchCondition condition, NovelPagingStrategy strategy, NovelCategory category);
+    /**
+     * @param category 필터링 할 카테고리, 모든 카테고리 조회 시 null 전달
+     */
+    List<? extends NovelQueryDto> findNovels(NovelSearchCondition condition, NovelPagingStrategy strategy, NovelCategory category);
 
     /**
      * 이번달 신작 소설 조회 메서드

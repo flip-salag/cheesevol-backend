@@ -21,10 +21,10 @@ public class HomeController {
     private final NovelQueryService novelQueryService;
 
     @GetMapping("/sections/novels")
-    public SuccessResponse<List<NovelResponse>> getNovelsByCategory(
+    public SuccessResponse<List<NovelResponse>> getNovels(
             @RequestParam NovelCategory category
     ) {
-        List<NovelResponse> result = novelQueryService.getNovelsByCategoryForSection(category);
+        List<NovelResponse> result = novelQueryService.getNovelsForSection(category);
         return ApiResponseMapper.success(result);
     }
 

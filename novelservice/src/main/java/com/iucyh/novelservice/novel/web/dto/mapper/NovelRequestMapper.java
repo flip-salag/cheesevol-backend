@@ -1,9 +1,12 @@
 package com.iucyh.novelservice.novel.web.dto.mapper;
 
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
+import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.UpdateNovelCommand;
+import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
 import com.iucyh.novelservice.novel.web.dto.request.CreateNovelRequest;
+import com.iucyh.novelservice.novel.web.dto.request.NovelPagingRequest;
 import com.iucyh.novelservice.novel.web.dto.request.UpdateNovelRequest;
 
 public class NovelRequestMapper {
@@ -23,6 +26,14 @@ public class NovelRequestMapper {
                 request.title(),
                 request.description(),
                 NovelCategory.of(request.category())
+        );
+    }
+
+    public static GetNovelsQuery toGetNovelsQuery(NovelPagingRequest request) {
+        return new GetNovelsQuery(
+                NovelSortType.of(request.sort()),
+                request.cursor(),
+                request.size()
         );
     }
 }

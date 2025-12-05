@@ -2,6 +2,7 @@ package com.iucyh.novelservice.novel.service;
 
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.common.dto.response.PagingResponse;
+import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelResponse;
 import com.iucyh.novelservice.novel.web.dto.request.NovelPagingRequest;
@@ -50,56 +51,52 @@ public class NovelQueryService {
                 );
     }
 
-    /**
-     * 카테고리 별 소설을 인기순 상위 10개만 조회하는 메서드
-     */
-    public List<NovelResponse> findNovelsByCategoryInSummary(NovelCategory category) {
+    public List<NovelResponse> getNovelsByCategoryForSection(NovelCategory category) {
         NovelSearchCondition searchCondition = new NovelSearchCondition(null, 10);
-        NovelPagingStrategy pagingQuery = getPagingQuery(NovelSortType.POPULAR);
-        List<? extends NovelQueryDto> novels = novelQueryRepository.findNovelsByCategory(searchCondition, pagingQuery, category);
+        NovelPagingStrategy strategy = getPagingQuery(NovelSortType.POPULAR);
+        List<? extends NovelQueryDto> novels = novelQueryRepository.findNovelsByCategory(searchCondition, strategy, category);
 
         return mapToNovelResponseList(novels);
     }
 
-    /**
-     * 이번 달 신작 소설을 업데이트순 상위 30개만 조회하는 메서드
-     */
-    public List<NovelResponse> findNewNovelsInSummary() {
+    public List<NovelResponse> getNewNovelsForSection() {
         NovelSearchCondition searchCondition = new NovelSearchCondition(null, 30);
-        NovelPagingStrategy pagingQuery = getPagingQuery(NovelSortType.LAST_UPDATE);
-        List<? extends NovelQueryDto> novels = novelQueryRepository.findNewNovels(searchCondition, pagingQuery, null);
+        NovelPagingStrategy strategy = getPagingQuery(NovelSortType.LAST_UPDATE);
+        List<? extends NovelQueryDto> novels = novelQueryRepository.findNewNovels(searchCondition, strategy, null);
 
         return mapToNovelResponseList(novels);
     }
 
-    public PagingResponse<NovelResponse> findNovels(NovelPagingRequest pagingRequest) {
-        return executePagingQuery(pagingRequest,
-                (searchCondition, pagingQuery) ->
-                        novelQueryRepository.findNovels(searchCondition, pagingQuery)
+    public PagingResponse<NovelResponse> getNovels(GetNovelsQuery query) {
+        return executePagingQuery(query,
+                (searchCondition, strategy) ->
+                        novelQueryRepository.findNovels(searchCondition, strategy)
         );
     }
 
     public PagingResponse<NovelResponse> findNovelsByCategory(NovelPagingRequest pagingRequest, NovelCategory category) {
-        return executePagingQuery(pagingRequest,
-                (searchCondition, pagingQuery) ->
-                        novelQueryRepository.findNovelsByCategory(searchCondition, pagingQuery, category)
-        );
+//        return executePagingQuery(pagingRequest,
+//                (searchCondition, pagingQuery) ->
+//                        novelQueryRepository.findNovelsByCategory(searchCondition, pagingQuery, category)
+//        );
+        return null;
     }
 
     public PagingResponse<NovelResponse> findNewNovels(NovelPagingRequest pagingRequest) {
-        return executePagingQuery(pagingRequest,
-                (searchCondition, pagingQuery) ->
-                        novelQueryRepository.findNewNovels(searchCondition, pagingQuery, null)
-        );
+//        return executePagingQuery(pagingRequest,
+//                (searchCondition, pagingQuery) ->
+//                        novelQueryRepository.findNewNovels(searchCondition, pagingQuery, null)
+//        );
+        return null;
     }
 
     private PagingResponse<NovelResponse> executePagingQuery(
-            NovelPagingRequest pagingRequest,
+            GetNovelsQuery query,
             BiFunction<NovelSearchCondition, NovelPagingStrategy, List<? extends NovelQueryDto>> queryFunc
     ) {
-        NovelSortType sortType = NovelSortType.of(pagingRequest.sort());
-        String cursor = pagingRequest.cursor();
-        Integer limit = pagingRequest.limit();
+        NovelSortType sortType = query.sortType();
+        String cursor = query.cursor();
+        int limit = query.limit();
 
         NovelPagingStrategy pagingQuery = getPagingQuery(sortType);
         NovelSearchCondition searchCondition = createSearchCondition(sortType, cursor, limit);

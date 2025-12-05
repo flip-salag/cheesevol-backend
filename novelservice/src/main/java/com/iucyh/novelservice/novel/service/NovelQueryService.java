@@ -2,7 +2,7 @@ package com.iucyh.novelservice.novel.service;
 
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.common.dto.response.PagingResponse;
-import com.iucyh.novelservice.novel.service.dto.query.FindNovelsQuery;
+import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelResponse;
 import com.iucyh.novelservice.novel.web.dto.request.NovelPagingRequest;
@@ -51,7 +51,7 @@ public class NovelQueryService {
                 );
     }
 
-    public List<NovelResponse> findNovelsByCategoryForSection(NovelCategory category) {
+    public List<NovelResponse> getNovelsByCategoryForSection(NovelCategory category) {
         NovelSearchCondition searchCondition = new NovelSearchCondition(null, 10);
         NovelPagingStrategy strategy = getPagingQuery(NovelSortType.POPULAR);
         List<? extends NovelQueryDto> novels = novelQueryRepository.findNovelsByCategory(searchCondition, strategy, category);
@@ -59,7 +59,7 @@ public class NovelQueryService {
         return mapToNovelResponseList(novels);
     }
 
-    public List<NovelResponse> findNewNovelsForSection() {
+    public List<NovelResponse> getNewNovelsForSection() {
         NovelSearchCondition searchCondition = new NovelSearchCondition(null, 30);
         NovelPagingStrategy strategy = getPagingQuery(NovelSortType.LAST_UPDATE);
         List<? extends NovelQueryDto> novels = novelQueryRepository.findNewNovels(searchCondition, strategy, null);
@@ -67,7 +67,7 @@ public class NovelQueryService {
         return mapToNovelResponseList(novels);
     }
 
-    public PagingResponse<NovelResponse> findNovels(FindNovelsQuery query) {
+    public PagingResponse<NovelResponse> getNovels(GetNovelsQuery query) {
         return executePagingQuery(query,
                 (searchCondition, strategy) ->
                         novelQueryRepository.findNovels(searchCondition, strategy)
@@ -91,7 +91,7 @@ public class NovelQueryService {
     }
 
     private PagingResponse<NovelResponse> executePagingQuery(
-            FindNovelsQuery query,
+            GetNovelsQuery query,
             BiFunction<NovelSearchCondition, NovelPagingStrategy, List<? extends NovelQueryDto>> queryFunc
     ) {
         NovelSortType sortType = query.sortType();

@@ -53,10 +53,12 @@ public class NovelController {
 
     @GetMapping("/new")
     public SuccessResponse<PagingResponse<NovelResponse>> getNewNovels(
-            @Valid @ModelAttribute NovelPagingRequest request
+            @Valid @ModelAttribute NovelPagingRequest request,
+            @RequestParam(required = false) NovelCategory category
     ) {
-        PagingResponse<NovelResponse> results = novelQueryService.findNewNovels(request);
-        return ApiResponseMapper.success(results);
+        GetNovelsQuery query = NovelRequestMapper.toGetNovelsQuery(request);
+        PagingResponse<NovelResponse> result = novelQueryService.getNewNovels(query, category);
+        return ApiResponseMapper.success(result);
     }
 
     @GetMapping("/category/{category}")

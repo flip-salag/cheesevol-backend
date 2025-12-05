@@ -67,20 +67,11 @@ public class NovelQueryService {
         return mapToNovelResponseList(novels);
     }
 
-    public PagingResponse<NovelResponse> getNovels(GetNovelsQuery query) {
-//        return executePagingQuery(query,
-//                (searchCondition, strategy) ->
-//                        novelQueryRepository.findNovels(searchCondition, strategy)
-//        );
-        return null;
-    }
-
-    public PagingResponse<NovelResponse> findNovelsByCategory(NovelPagingRequest pagingRequest, NovelCategory category) {
-//        return executePagingQuery(pagingRequest,
-//                (searchCondition, pagingQuery) ->
-//                        novelQueryRepository.findNovelsByCategory(searchCondition, pagingQuery, category)
-//        );
-        return null;
+    public PagingResponse<NovelResponse> getNovels(GetNovelsQuery query, NovelCategory category) {
+        return executePagingQuery(query,
+                (searchCondition, strategy) ->
+                        novelQueryRepository.findNovels(searchCondition, strategy, category)
+        );
     }
 
     public PagingResponse<NovelResponse> getNewNovels(GetNovelsQuery query, NovelCategory category) {

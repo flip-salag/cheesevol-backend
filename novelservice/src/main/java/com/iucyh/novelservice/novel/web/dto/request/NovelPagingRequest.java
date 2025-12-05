@@ -2,11 +2,13 @@ package com.iucyh.novelservice.novel.web.dto.request;
 
 import com.iucyh.novelservice.common.validator.enumfield.EnumField;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Range;
 
 public record NovelPagingRequest(
 
+        @NotNull
         @EnumField(enumClass = NovelSortType.class)
         String sort,
 
@@ -17,10 +19,6 @@ public record NovelPagingRequest(
         Integer size
 ) {
     public NovelPagingRequest {
-        if (sort == null) {
-            sort = NovelSortType.POPULAR.getValue();
-        }
-
         if (size == null) {
             size = 50;
         }

@@ -21,21 +21,12 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<? extends NovelQueryDto> findNovels(NovelSearchCondition condition, NovelPagingStrategy strategy) {
-        return strategy
-                .createQuery(queryFactory, condition.cursor())
-                .where(getDefaultFilterCondition())
-                .limit(condition.limit())
-                .fetch();
-    }
-
-    @Override
-    public List<? extends NovelQueryDto> findNovelsByCategory(NovelSearchCondition condition, NovelPagingStrategy strategy, NovelCategory category) {
+    public List<? extends NovelQueryDto> findNovels(NovelSearchCondition condition, NovelPagingStrategy strategy, NovelCategory category) {
         return strategy
                 .createQuery(queryFactory, condition.cursor())
                 .where(
-                        getDefaultFilterCondition(),
-                        novel.category.eq(category)
+                        applyDefaultFilter(),
+                        applyCategoryFilter(category)
                 )
                 .limit(condition.limit())
                 .fetch();
@@ -47,17 +38,21 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
         return strategy
                 .createQuery(queryFactory, condition.cursor())
                 .where(
-                        getDefaultFilterCondition(),
-                        category == null ? null : novel.category.eq(category),
+                        applyDefaultFilter(),
+                        applyCategoryFilter(category),
                         novel.createdAt.goe(thisMonth)
                 )
                 .limit(condition.limit())
                 .fetch();
     }
 
-    private BooleanExpression getDefaultFilterCondition() {
+    private BooleanExpression applyDefaultFilter() {
         return novel.deletedAt.isNull() // 삭제되지 않은 소설
                 .and(novel.lastEpisodeAt.isNotNull()); // 회차가 하나라도 존재하는 소설
+    }
+
+    private BooleanExpression applyCategoryFilter(NovelCategory category) {
+        return category == null ? null : novel.category.eq(category);
     }
 
     private LocalDateTime getThisMonth() {

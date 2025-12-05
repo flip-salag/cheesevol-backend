@@ -54,7 +54,7 @@ public class NovelQueryService {
     public List<NovelResponse> getNovelsByCategoryForSection(NovelCategory category) {
         NovelSearchCondition searchCondition = new NovelSearchCondition(null, 10);
         NovelPagingStrategy strategy = getPagingQuery(NovelSortType.POPULAR);
-        List<? extends NovelQueryDto> novels = novelQueryRepository.findNovelsByCategory(searchCondition, strategy, category);
+        List<? extends NovelQueryDto> novels = novelQueryRepository.findNovels(searchCondition, strategy, category);
 
         return mapToNovelResponseList(novels);
     }
@@ -68,10 +68,11 @@ public class NovelQueryService {
     }
 
     public PagingResponse<NovelResponse> getNovels(GetNovelsQuery query) {
-        return executePagingQuery(query,
-                (searchCondition, strategy) ->
-                        novelQueryRepository.findNovels(searchCondition, strategy)
-        );
+//        return executePagingQuery(query,
+//                (searchCondition, strategy) ->
+//                        novelQueryRepository.findNovels(searchCondition, strategy)
+//        );
+        return null;
     }
 
     public PagingResponse<NovelResponse> findNovelsByCategory(NovelPagingRequest pagingRequest, NovelCategory category) {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class NovelCursorBase64Codec implements NovelCursorCodec {
+public class NovelBase64CursorCodec implements NovelCursorCodec {
 
     private final Base64Util base64Util;
 

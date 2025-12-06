@@ -2,13 +2,12 @@ package com.iucyh.novelservice.novel.service;
 
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.common.dto.response.PagingResponse;
+import com.iucyh.novelservice.novel.service.codec.NovelCursorCodec;
 import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelResponse;
-import com.iucyh.novelservice.novel.web.dto.request.NovelPagingRequest;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import com.iucyh.novelservice.novel.repository.query.dto.NovelQueryDto;
-import com.iucyh.novelservice.novel.service.codec.NovelCursorBase64Codec;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
 import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
 import com.iucyh.novelservice.novel.repository.query.condition.NovelSearchCondition;
@@ -27,18 +26,18 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class NovelQueryService {
 
-    private final NovelCursorBase64Codec base64Codec;
+    private final NovelCursorCodec cursorCodec;
     private final NovelRepository novelRepository;
     private final NovelQueryRepository novelQueryRepository;
     private final Map<NovelSortType, NovelPagingStrategy> pagingQueryMap;
 
     public NovelQueryService(
-            NovelCursorBase64Codec base64Codec,
+            NovelCursorCodec cursorCodec,
             NovelRepository novelRepository,
             NovelQueryRepository novelQueryRepository,
             List<NovelPagingStrategy> pagingQueries
     ) {
-        this.base64Codec = base64Codec;
+        this.cursorCodec = cursorCodec;
         this.novelRepository = novelRepository;
         this.novelQueryRepository = novelQueryRepository;
         this.pagingQueryMap = pagingQueries
@@ -114,7 +113,7 @@ public class NovelQueryService {
     }
 
     private NovelSearchCondition createSearchCondition(NovelSortType sortType, String encodedCursor, int limit) {
-        NovelCursor decodedCursor = base64Codec.decode(encodedCursor, sortType.getSupportedCursorClass());
+        NovelCursor decodedCursor = cursorCodec.decode(encodedCursor, sortType.getSupportedCursorClass());
         return new NovelSearchCondition(decodedCursor, limit);
     }
 
@@ -127,6 +126,6 @@ public class NovelQueryService {
     private String createNewEncodedCursor(NovelPagingStrategy pagingQuery, List<? extends NovelQueryDto> novels) {
         NovelQueryDto lastResult = novels.get(novels.size() - 1);
         NovelCursor newCursor = pagingQuery.createCursor(lastResult);
-        return base64Codec.encode(newCursor);
+        return cursorCodec.encode(newCursor);
     }
 }

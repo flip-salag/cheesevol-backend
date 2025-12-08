@@ -4,6 +4,7 @@ import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 
 public record CreateNovelCommand(
 
+        long userId,
         String title,
         String description,
         NovelCategory category

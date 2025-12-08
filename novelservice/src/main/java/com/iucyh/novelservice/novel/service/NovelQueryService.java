@@ -86,7 +86,7 @@ public class NovelQueryService {
      * @param finder 각 조회 종류별로 필요한 메서드 호출 로직을 담는 람다식
      *               <br>
      *               e.g) 조회 종류별 리포지토리 메서드 호출, 특정 비즈니스 로직을 위한 메서드 호출 및 조건 검사 등
-     * @return 최종 결과를 담은 PageResponse&lt;NovelResponse&gt;
+     * @return 최종 결과를 담은 {@code PageResponse<NovelResponse>}
      */
     private PageResponse<NovelResponse> findNovels(
             NovelSortType sortType, String cursor, int limit,

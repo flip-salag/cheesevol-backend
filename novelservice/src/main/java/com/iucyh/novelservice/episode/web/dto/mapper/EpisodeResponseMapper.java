@@ -1,7 +1,7 @@
 package com.iucyh.novelservice.episode.web.dto.mapper;
 
 import com.iucyh.novelservice.episode.domain.Episode;
-import com.iucyh.novelservice.common.dto.response.PagingResponse;
+import com.iucyh.novelservice.common.dto.response.PageResponse;
 import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeResponse;
@@ -45,7 +45,7 @@ public class EpisodeResponseMapper {
         return new EpisodeDetailResponse(episodeDetail.getContent());
     }
 
-    public static PagingResponse<EpisodeResponse> toPagingResponse(List<EpisodeResponse> episodes, long totalCount, Integer lastEpisodeNumber) {
-        return new PagingResponse<>(totalCount, lastEpisodeNumber, episodes);
+    public static PageResponse<EpisodeResponse> toPagingResponse(List<EpisodeResponse> episodes, long totalCount, Integer lastEpisodeNumber) {
+        return new PageResponse<>(totalCount, lastEpisodeNumber, episodes);
     }
 }

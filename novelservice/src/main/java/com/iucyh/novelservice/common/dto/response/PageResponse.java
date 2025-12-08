@@ -2,7 +2,7 @@ package com.iucyh.novelservice.common.dto.response;
 
 import java.util.List;
 
-public record PagingResponse<T>(
+public record PageResponse<T>(
 
         long total,
         Object next,

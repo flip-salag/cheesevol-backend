@@ -2,7 +2,7 @@ package com.iucyh.novelservice.novel.web.controller;
 
 import com.iucyh.novelservice.common.dto.apiresponse.ApiResponseMapper;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
-import com.iucyh.novelservice.common.dto.response.PagingResponse;
+import com.iucyh.novelservice.common.dto.response.PageResponse;
 import com.iucyh.novelservice.common.dto.apiresponse.SuccessResponse;
 import com.iucyh.novelservice.episode.web.dto.request.CreateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.request.EpisodePagingRequest;
@@ -11,11 +11,14 @@ import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeResponse;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
+import com.iucyh.novelservice.novel.service.dto.command.DeleteNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.UpdateNovelCommand;
+import com.iucyh.novelservice.novel.service.dto.command.UpdateNovelCompletionCommand;
+import com.iucyh.novelservice.novel.service.dto.query.GetNewNovelsQuery;
 import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelRequestMapper;
 import com.iucyh.novelservice.novel.web.dto.request.CreateNovelRequest;
-import com.iucyh.novelservice.novel.web.dto.request.NovelPagingRequest;
+import com.iucyh.novelservice.novel.web.dto.request.NovelPageRequest;
 import com.iucyh.novelservice.novel.web.dto.request.UpdateNovelCompletionRequest;
 import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
@@ -43,31 +46,31 @@ public class NovelController {
     private final EpisodeQueryService episodeQueryService;
 
     @GetMapping
-    public SuccessResponse<PagingResponse<NovelResponse>> getNovels(
-            @Valid @ModelAttribute NovelPagingRequest request,
+    public SuccessResponse<PageResponse<NovelResponse>> getNovels(
+            @Valid @ModelAttribute NovelPageRequest request,
             @RequestParam(required = false) NovelCategory category
     ) {
-        GetNovelsQuery query = NovelRequestMapper.toGetNovelsQuery(request);
-        PagingResponse<NovelResponse> result = novelQueryService.getNovels(query, category);
+        GetNovelsQuery query = NovelRequestMapper.toGetNovelsQuery(request, category);
+        PageResponse<NovelResponse> result = novelQueryService.getNovels(query);
         return ApiResponseMapper.success(result);
     }
 
     @GetMapping("/new")
-    public SuccessResponse<PagingResponse<NovelResponse>> getNewNovels(
-            @Valid @ModelAttribute NovelPagingRequest request,
+    public SuccessResponse<PageResponse<NovelResponse>> getNewNovels(
+            @Valid @ModelAttribute NovelPageRequest request,
             @RequestParam(required = false) NovelCategory category
     ) {
-        GetNovelsQuery query = NovelRequestMapper.toGetNovelsQuery(request);
-        PagingResponse<NovelResponse> result = novelQueryService.getNewNovels(query, category);
+        GetNewNovelsQuery query = NovelRequestMapper.toGetNewNovelsQuery(request, category);
+        PageResponse<NovelResponse> result = novelQueryService.getNewNovels(query);
         return ApiResponseMapper.success(result);
     }
 
     @GetMapping("/{novelId}/episodes")
-    public SuccessResponse<PagingResponse<EpisodeResponse>> getEpisodes(
+    public SuccessResponse<PageResponse<EpisodeResponse>> getEpisodes(
             @PathVariable long novelId,
             @Valid @ModelAttribute EpisodePagingRequest request
     ) {
-        PagingResponse<EpisodeResponse> result = episodeQueryService.findEpisodesByNovel(novelId, request);
+        PageResponse<EpisodeResponse> result = episodeQueryService.findEpisodesByNovel(novelId, request);
         return ApiResponseMapper.success(result);
     }
 
@@ -86,8 +89,8 @@ public class NovelController {
             @Valid @RequestBody CreateNovelRequest request,
             @RequestHeader(TEMP_USER_ID_HEADER) long userId
     ) {
-        CreateNovelCommand command = NovelRequestMapper.toCreateNovelCommand(request);
-        NovelResponse createdNovel = novelService.createNovel(command, userId);
+        CreateNovelCommand command = NovelRequestMapper.toCreateNovelCommand(request, userId);
+        NovelResponse createdNovel = novelService.createNovel(command);
         return ApiResponseMapper.success(createdNovel);
     }
 
@@ -107,8 +110,8 @@ public class NovelController {
             @Valid @RequestBody UpdateNovelRequest request,
             @RequestHeader(TEMP_USER_ID_HEADER) long userId
     ) {
-        UpdateNovelCommand command = NovelRequestMapper.toUpdateNovelCommand(request);
-        NovelResponse updatedNovel = novelService.updateNovel(command, userId, novelPublicId);
+        UpdateNovelCommand command = NovelRequestMapper.toUpdateNovelCommand(request, userId, novelPublicId);
+        NovelResponse updatedNovel = novelService.updateNovel(command);
         return ApiResponseMapper.success(updatedNovel);
     }
 
@@ -118,7 +121,8 @@ public class NovelController {
             @Valid @RequestBody UpdateNovelCompletionRequest request,
             @RequestHeader(TEMP_USER_ID_HEADER) long userId
     ) {
-        NovelCompletionResponse completionResponse = novelService.updateNovelCompletion(request.isCompleted(), userId, novelPublicId);
+        UpdateNovelCompletionCommand command = NovelRequestMapper.toUpdateNovelCompletionCommand(request, userId, novelPublicId);
+        NovelCompletionResponse completionResponse = novelService.updateNovelCompletion(command);
         return ApiResponseMapper.success(completionResponse);
     }
 
@@ -163,7 +167,8 @@ public class NovelController {
             @PathVariable String novelPublicId,
             @RequestHeader(TEMP_USER_ID_HEADER) long userId
     ) {
-        novelService.deleteNovel(userId, novelPublicId);
+        DeleteNovelCommand command = NovelRequestMapper.toDeleteNovelCommand(userId, novelPublicId);
+        novelService.deleteNovel(command);
         return ApiResponseMapper.success();
     }
 

@@ -6,7 +6,9 @@ import com.iucyh.novelservice.novel.exception.NovelHasNoEpisodes;
 import com.iucyh.novelservice.novel.exception.NovelNotFound;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
+import com.iucyh.novelservice.novel.service.dto.command.DeleteNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.UpdateNovelCommand;
+import com.iucyh.novelservice.novel.service.dto.command.UpdateNovelCompletionCommand;
 import com.iucyh.novelservice.novel.service.dto.mapper.NovelCommandMapper;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
@@ -29,10 +31,11 @@ public class NovelService {
     private final NovelRepository novelRepository;
     private final EpisodeRepository episodeRepository;
 
-    public NovelResponse createNovel(CreateNovelCommand command, long userId) {
+    public NovelResponse createNovel(CreateNovelCommand command) {
+        long userId = command.userId();
         User user = findUserById(userId);
-        String title = command.title();
 
+        String title = command.title();
         boolean isDuplicateTitle = novelRepository.existsByTitleAndUserId(title, userId);
         if (isDuplicateTitle) {
             throw new DuplicateNovelTitle(title);
@@ -44,7 +47,9 @@ public class NovelService {
         return NovelResponseMapper.toNovelResponse(savedNovel);
     }
 
-    public NovelResponse updateNovel(UpdateNovelCommand command, long userId, String novelPublicId) {
+    public NovelResponse updateNovel(UpdateNovelCommand command) {
+        long userId = command.userId();
+        String novelPublicId = command.novelPublicId();
         Novel novel = findNovelWithUserId(userId, novelPublicId);
 
         if (command.title() != null) {
@@ -61,9 +66,12 @@ public class NovelService {
         return NovelResponseMapper.toNovelResponse(novel);
     }
 
-    public NovelCompletionResponse updateNovelCompletion(boolean isCompleted, long userId, String novelPublicId) {
+    public NovelCompletionResponse updateNovelCompletion(UpdateNovelCompletionCommand command) {
+        long userId = command.userId();
+        String novelPublicId = command.novelPublicId();
         Novel novel = findNovelWithUserId(userId, novelPublicId);
 
+        boolean isCompleted = command.isCompleted();
         if (isCompleted) {
             boolean hasEpisodes = episodeRepository.existsByNovelIdAndDeletedAtIsNull(novel.getId());
             if (!hasEpisodes) {
@@ -89,8 +97,8 @@ public class NovelService {
         return null;
     }
 
-    public void deleteNovel(long userId, String novelPublicId) {
-        Novel novel = findNovelWithUserId(userId, novelPublicId);
+    public void deleteNovel(DeleteNovelCommand command) {
+        Novel novel = findNovelWithUserId(command.userId(), command.novelPublicId());
         novel.softDelete();
     }
 

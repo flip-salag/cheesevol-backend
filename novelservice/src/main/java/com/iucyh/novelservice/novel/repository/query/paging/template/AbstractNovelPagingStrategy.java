@@ -1,8 +1,7 @@
 package com.iucyh.novelservice.novel.repository.query.paging.template;
 
-import com.iucyh.novelservice.novel.domain.QNovel;
-import com.iucyh.novelservice.novel.repository.query.dto.NovelQueryDto;
-import com.iucyh.novelservice.novel.repository.query.dto.QNovelSimpleQueryDto;
+import com.iucyh.novelservice.novel.repository.query.projection.NovelQueryProjection;
+import com.iucyh.novelservice.novel.repository.query.projection.QNovelSimpleQueryProjection;
 import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
 import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
 import com.querydsl.core.types.OrderSpecifier;
@@ -33,15 +32,15 @@ public abstract class AbstractNovelPagingStrategy implements NovelPagingStrategy
      * <b>정렬 기준과 커서 적용은 제외</b>
      * <p>* 전략이 NovelSimpleQueryDto 를 사용하지 않는 경우 오버라이딩 필요</p>
      */
-    protected JPAQuery<? extends NovelQueryDto> createBaseQuery(JPAQueryFactory queryFactory) {
+    protected JPAQuery<? extends NovelQueryProjection> createBaseQuery(JPAQueryFactory queryFactory) {
         return queryFactory
-                .select(new QNovelSimpleQueryDto(novel))
+                .select(new QNovelSimpleQueryProjection(novel))
                 .from(novel);
     }
 
     @Override
-    public JPAQuery<? extends NovelQueryDto> createQuery(JPAQueryFactory queryFactory, NovelCursor cursor) {
-        JPAQuery<? extends NovelQueryDto> query = createBaseQuery(queryFactory)
+    public JPAQuery<? extends NovelQueryProjection> createQuery(JPAQueryFactory queryFactory, NovelCursor cursor) {
+        JPAQuery<? extends NovelQueryProjection> query = createBaseQuery(queryFactory)
                 .orderBy(
                         applyOrder()
                 );

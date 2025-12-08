@@ -30,7 +30,7 @@ public abstract class AbstractNovelPagingStrategy implements NovelPagingStrategy
     /**
      * <p>기본적인 조회 쿼리 생성 메서드</p>
      * <b>정렬 기준과 커서 적용은 제외</b>
-     * <p>* 전략이 NovelSimpleQueryProjection 를 사용하지 않는 경우 오버라이딩 필요</p>
+     * <p>* 전략이 NovelSimpleQueryProjection 을 사용하지 않는 경우 오버라이딩 필요</p>
      */
     protected JPAQuery<? extends NovelQueryProjection> createBaseQuery(JPAQueryFactory queryFactory) {
         return queryFactory

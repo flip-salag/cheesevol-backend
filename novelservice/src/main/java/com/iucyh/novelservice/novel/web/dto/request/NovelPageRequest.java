@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Range;
 
-public record NovelPagingRequest(
+public record NovelPageRequest(
 
         @NotNull
         NovelSortType sort,
@@ -16,7 +16,7 @@ public record NovelPagingRequest(
         @Range(min = 5, max = 50, message = "Size must be between 5 and 50")
         Integer size
 ) {
-    public NovelPagingRequest {
+    public NovelPageRequest {
         if (size == null) {
             size = 50;
         }

@@ -1,6 +1,6 @@
 package com.iucyh.novelservice.common.repository;
 
-import com.iucyh.novelservice.common.repository.projection.IdResult;
+import com.iucyh.novelservice.common.repository.projection.IdProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface PublicEntityRepository<T, ID> extends JpaRepository<T, ID> {
 
     Optional<T> findByPublicId(String publicId);
-    Optional<IdResult> findIdByPublicId(String publicId);
+    Optional<IdProjection> findIdByPublicId(String publicId);
 }

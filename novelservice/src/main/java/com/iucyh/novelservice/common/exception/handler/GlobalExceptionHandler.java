@@ -1,7 +1,8 @@
-package com.iucyh.novelservice.common.exception;
+package com.iucyh.novelservice.common.exception.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iucyh.novelservice.common.exception.ServiceException;
 import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
 import com.iucyh.novelservice.common.response.api.information.FailInformation;
 import com.iucyh.novelservice.common.exception.errorcode.CommonErrorCode;

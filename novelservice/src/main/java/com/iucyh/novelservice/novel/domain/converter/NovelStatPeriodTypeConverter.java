@@ -9,7 +9,7 @@ public class NovelStatPeriodTypeConverter implements AttributeConverter<NovelSta
 
     @Override
     public String convertToDatabaseColumn(NovelStatPeriodType attribute) {
-        return attribute.getValue();
+        return attribute == null ? null : attribute.getValue();
     }
 
     @Override

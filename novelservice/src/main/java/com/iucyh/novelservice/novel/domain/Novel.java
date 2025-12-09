@@ -1,6 +1,6 @@
 package com.iucyh.novelservice.novel.domain;
 
-import com.iucyh.novelservice.common.domain.PublicEntity;
+import com.iucyh.novelservice.common.entity.PublicEntity;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.user.domain.User;
 import jakarta.persistence.*;

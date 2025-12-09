@@ -23,6 +23,6 @@ public class FailResponse {
         this.code = errorCode.getCode();
         this.message = message;
         this.path = path;
-        this.causes = causes == null ? Map.of() : causes;
+        this.causes = causes;
     }
 }

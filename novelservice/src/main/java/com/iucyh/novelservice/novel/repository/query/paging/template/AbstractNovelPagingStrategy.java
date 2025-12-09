@@ -12,8 +12,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import static com.iucyh.novelservice.novel.domain.QNovel.*;
 
 /**
- * <p>가장 일반적인 패턴의 페이징 쿼리 생성을 돕는 템플릿 클래스</p>
- * <p>{기본 쿼리}.{커서 적용}.{정렬} 패턴이라면 해당 클래스 상속 권장</p>
+ * <p>가장 일반적인 패턴의 페이징 쿼리 생성을 돕는 Novel의 페이징 전략들을 위한 템플릿 클래스</p>
+ * <p>{기본 쿼리}.{커서 적용}.{정렬} 패턴이라면 이 클래스 상속 권장</p>
  */
 public abstract class AbstractNovelPagingStrategy implements NovelPagingStrategy {
 

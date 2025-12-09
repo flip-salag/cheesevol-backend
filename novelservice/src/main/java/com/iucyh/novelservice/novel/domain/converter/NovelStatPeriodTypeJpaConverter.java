@@ -5,7 +5,7 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 @Converter
-public class NovelStatPeriodTypeConverter implements AttributeConverter<NovelStatPeriodType, String> {
+public class NovelStatPeriodTypeJpaConverter implements AttributeConverter<NovelStatPeriodType, String> {
 
     @Override
     public String convertToDatabaseColumn(NovelStatPeriodType attribute) {

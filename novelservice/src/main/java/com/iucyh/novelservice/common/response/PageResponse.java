@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.dto.response;
+package com.iucyh.novelservice.common.response;
 
 import java.util.List;
 

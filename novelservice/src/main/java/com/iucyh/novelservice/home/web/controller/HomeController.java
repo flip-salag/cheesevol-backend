@@ -1,7 +1,7 @@
 package com.iucyh.novelservice.home.web.controller;
 
-import com.iucyh.novelservice.common.dto.apiresponse.ApiResponseMapper;
-import com.iucyh.novelservice.common.dto.apiresponse.SuccessResponse;
+import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
+import com.iucyh.novelservice.common.response.api.SuccessResponse;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.novel.service.NovelQueryService;
 import com.iucyh.novelservice.novel.web.dto.response.NovelResponse;

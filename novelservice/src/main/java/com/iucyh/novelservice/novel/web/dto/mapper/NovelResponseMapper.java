@@ -1,6 +1,6 @@
 package com.iucyh.novelservice.novel.web.dto.mapper;
 
-import com.iucyh.novelservice.common.dto.response.PageResponse;
+import com.iucyh.novelservice.common.response.PageResponse;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;

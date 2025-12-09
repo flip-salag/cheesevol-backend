@@ -1,7 +1,7 @@
 package com.iucyh.novelservice.episode.web.dto.mapper;
 
 import com.iucyh.novelservice.episode.domain.Episode;
-import com.iucyh.novelservice.common.dto.response.PageResponse;
+import com.iucyh.novelservice.common.response.PageResponse;
 import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeResponse;

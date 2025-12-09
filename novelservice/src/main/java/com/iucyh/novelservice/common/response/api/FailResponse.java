@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.dto.apiresponse;
+package com.iucyh.novelservice.common.response.api;
 
 import com.iucyh.novelservice.common.exception.errorcode.ErrorCode;
 import lombok.Getter;

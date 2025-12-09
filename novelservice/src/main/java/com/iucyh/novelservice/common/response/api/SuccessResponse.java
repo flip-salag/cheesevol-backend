@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.dto.apiresponse;
+package com.iucyh.novelservice.common.response.api;
 
 import lombok.Getter;
 

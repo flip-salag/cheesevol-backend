@@ -1,5 +1,6 @@
 package com.iucyh.novelservice.novel.domain;
 
+import com.iucyh.novelservice.novel.domain.converter.NovelStatPeriodTypeJpaConverter;
 import com.iucyh.novelservice.novel.enumtype.NovelStatPeriodType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -23,7 +24,7 @@ public class NovelPeriodStat {
     private Long id;
 
     @Column(length = 50, nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = NovelStatPeriodTypeJpaConverter.class)
     private NovelStatPeriodType periodType;
 
     @Column(nullable = false, updatable = false)

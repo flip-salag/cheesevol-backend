@@ -14,6 +14,10 @@ public class EnumFieldValidator implements ConstraintValidator<EnumField, String
 
     @Override
     public void initialize(EnumField constraintAnnotation) {
+        if (!constraintAnnotation.enumClass().isEnum()) {
+            throw new IllegalArgumentException("Target type must be an enum");
+        }
+
         ValuedEnum[] enumConstants = constraintAnnotation.enumClass().getEnumConstants();
         enumValues = Arrays.stream(enumConstants)
                 .map(ValuedEnum::getValue)

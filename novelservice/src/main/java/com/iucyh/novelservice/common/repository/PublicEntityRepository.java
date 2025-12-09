@@ -1,5 +1,6 @@
 package com.iucyh.novelservice.common.repository;
 
+import com.iucyh.novelservice.common.repository.projection.IdResult;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 

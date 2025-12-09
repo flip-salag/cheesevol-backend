@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.domain;
+package com.iucyh.novelservice.common.entity;
 
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;

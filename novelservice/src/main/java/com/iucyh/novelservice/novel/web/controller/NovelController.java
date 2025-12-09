@@ -1,9 +1,9 @@
 package com.iucyh.novelservice.novel.web.controller;
 
-import com.iucyh.novelservice.common.dto.apiresponse.ApiResponseMapper;
+import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
-import com.iucyh.novelservice.common.dto.response.PageResponse;
-import com.iucyh.novelservice.common.dto.apiresponse.SuccessResponse;
+import com.iucyh.novelservice.common.response.PageResponse;
+import com.iucyh.novelservice.common.response.api.SuccessResponse;
 import com.iucyh.novelservice.episode.web.dto.request.CreateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.request.EpisodePagingRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeDetailRequest;

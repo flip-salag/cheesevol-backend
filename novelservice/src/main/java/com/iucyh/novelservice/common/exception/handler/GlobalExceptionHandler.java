@@ -1,13 +1,14 @@
-package com.iucyh.novelservice.common.exception;
+package com.iucyh.novelservice.common.exception.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iucyh.novelservice.common.dto.apiresponse.ApiResponseMapper;
-import com.iucyh.novelservice.common.dto.apiresponse.information.FailInformation;
+import com.iucyh.novelservice.common.exception.ServiceException;
+import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
+import com.iucyh.novelservice.common.response.api.information.FailInformation;
 import com.iucyh.novelservice.common.exception.errorcode.CommonErrorCode;
 import com.iucyh.novelservice.common.exception.errorcode.ErrorCode;
 import com.iucyh.novelservice.common.util.IpUtil;
-import com.iucyh.novelservice.common.dto.apiresponse.FailResponse;
+import com.iucyh.novelservice.common.response.api.FailResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

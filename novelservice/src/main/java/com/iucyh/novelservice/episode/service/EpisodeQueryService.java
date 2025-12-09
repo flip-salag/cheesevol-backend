@@ -2,7 +2,7 @@ package com.iucyh.novelservice.episode.service;
 
 import com.iucyh.novelservice.episode.exception.EpisodeNotFound;
 import com.iucyh.novelservice.episode.repository.query.condition.EpisodeSearchCondition;
-import com.iucyh.novelservice.common.dto.response.PageResponse;
+import com.iucyh.novelservice.common.response.PageResponse;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeResponseMapper;
 import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
 import com.iucyh.novelservice.episode.web.dto.request.EpisodePagingRequest;

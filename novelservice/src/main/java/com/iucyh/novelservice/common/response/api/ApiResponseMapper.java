@@ -1,6 +1,6 @@
-package com.iucyh.novelservice.common.dto.apiresponse;
+package com.iucyh.novelservice.common.response.api;
 
-import com.iucyh.novelservice.common.dto.apiresponse.information.FailInformation;
+import com.iucyh.novelservice.common.response.api.information.FailInformation;
 import com.iucyh.novelservice.common.exception.ServiceException;
 
 import java.util.Map;

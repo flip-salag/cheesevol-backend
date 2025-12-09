@@ -1,7 +1,7 @@
 package com.iucyh.novelservice.novel.service;
 
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
-import com.iucyh.novelservice.common.dto.response.PageResponse;
+import com.iucyh.novelservice.common.response.PageResponse;
 import com.iucyh.novelservice.novel.service.codec.NovelCursorCodec;
 import com.iucyh.novelservice.novel.service.dto.query.GetNewNovelsQuery;
 import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;

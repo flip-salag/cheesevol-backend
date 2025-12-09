@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.dto.apiresponse;
+package com.iucyh.novelservice.common.response.api;
 
 import com.iucyh.novelservice.common.exception.errorcode.ErrorCode;
 import lombok.Getter;
@@ -18,15 +18,11 @@ public class FailResponse {
     private final Map<String, Object> causes;
 
     protected FailResponse(ErrorCode errorCode, String message, String path, Map<String, Object> causes) {
-        this.timestamp = getCurrentTimeStamp();
+        this.timestamp = Instant.now();
         this.status = errorCode.getStatus().value();
         this.code = errorCode.getCode();
         this.message = message;
         this.path = path;
         this.causes = causes == null ? Map.of() : causes;
-    }
-
-    private Instant getCurrentTimeStamp() {
-        return Instant.now();
     }
 }

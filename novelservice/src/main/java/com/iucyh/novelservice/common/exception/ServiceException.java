@@ -22,6 +22,6 @@ public abstract class ServiceException extends RuntimeException {
     }
 
     protected ServiceException(ErrorCode errorCode) {
-        this(errorCode, errorCode.getDefaultMessage(), Map.of());
+        this(errorCode, errorCode.getDefaultMessage(), null);
     }
 }

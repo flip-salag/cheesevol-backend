@@ -51,7 +51,7 @@ public class NovelQueryService {
                 );
     }
 
-    public List<NovelResponse> getNovelsForSection(NovelCategory category) {
+    public List<NovelResponse> getPopularNovelsForSection(NovelCategory category) {
         NovelPagingCondition pagingCondition = new NovelPagingCondition(null, 10);
         NovelPagingStrategy strategy = getPagingStrategy(NovelSortType.POPULAR);
         List<? extends NovelQueryProjection> novels = novelQueryRepository.findNovels(pagingCondition, strategy, category);

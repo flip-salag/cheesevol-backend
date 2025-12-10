@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.home.web.controller;
+package com.iucyh.novelservice.section.web.controller;
 
 import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
 import com.iucyh.novelservice.common.response.api.SuccessResponse;
@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/home")
+@RequestMapping("/api/v1/sections")
 @RequiredArgsConstructor
-public class HomeController {
+public class SectionController {
 
     private final NovelQueryService novelQueryService;
 
-    @GetMapping("/sections/novels")
-    public SuccessResponse<List<NovelResponse>> getNovels(
-            @RequestParam NovelCategory category
+    @GetMapping("/popular")
+    public SuccessResponse<List<NovelResponse>> getPopularNovelsForSection(
+            @RequestParam(required = false) NovelCategory category
     ) {
-        List<NovelResponse> result = novelQueryService.getNovelsForSection(category);
+        List<NovelResponse> result = novelQueryService.getPopularNovelsForSection(category);
         return ApiResponseMapper.success(result);
     }
 
-    @GetMapping("/sections/new-novels")
-    public SuccessResponse<List<NovelResponse>> getNewNovels() {
+    @GetMapping("/new")
+    public SuccessResponse<List<NovelResponse>> getNewNovelsForSection() {
         List<NovelResponse> result = novelQueryService.getNewNovelsForSection();
         return ApiResponseMapper.success(result);
     }

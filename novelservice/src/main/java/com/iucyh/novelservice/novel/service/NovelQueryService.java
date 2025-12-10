@@ -17,6 +17,7 @@ import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -92,7 +93,7 @@ public class NovelQueryService {
             NovelSortType sortType, String cursor, int limit,
             BiFunction<NovelPagingCondition, NovelPagingStrategy, List<? extends NovelQueryProjection>> finder
     ) {
-        NovelPagingCondition pagingCondition = createPagingCondition(sortType, cursor, limit);
+        NovelPagingCondition pagingCondition = createPagingCondition(sortType, cursor, limit + 1);
         NovelPagingStrategy pagingStrategy = getPagingStrategy(sortType);
 
         List<? extends NovelQueryProjection> result = finder.apply(pagingCondition, pagingStrategy);
@@ -103,8 +104,15 @@ public class NovelQueryService {
             return NovelResponseMapper.toPageResponse(List.of(), totalCount, null);
         }
 
-        List<NovelResponse> novelResponses = mapToNovelResponseList(result);
-        String newCursor = createNewEncodedCursor(pagingStrategy, result);
+        List<? extends NovelQueryProjection> pageResult = result.stream().limit(limit).toList();
+        String newCursor = null;
+
+        boolean hasNext = result.size() > limit;
+        if (hasNext) {
+            newCursor = createNewEncodedCursor(pagingStrategy, pageResult);
+        }
+
+        List<NovelResponse> novelResponses = mapToNovelResponseList(pageResult);
         return NovelResponseMapper.toPageResponse(novelResponses, totalCount, newCursor);
     }
 

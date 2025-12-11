@@ -2,6 +2,7 @@ package com.iucyh.novelservice.novel.web.dto.mapper;
 
 import com.iucyh.novelservice.common.response.PageResponse;
 import com.iucyh.novelservice.novel.domain.Novel;
+import com.iucyh.novelservice.novel.repository.query.projection.NovelSimpleQueryProjection;
 import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelResponse;
@@ -29,6 +30,22 @@ public class NovelResponseMapper {
                 novel.getIsCompleted(),
                 novel.getUpdatedAt(),
                 novel.getCreatedAt()
+        );
+    }
+
+    public static NovelResponse toNovelResponse(NovelSimpleQueryProjection projection) {
+        UserSummaryResponse author = new UserSummaryResponse(projection.getUserPublicId(), projection.getUserNickname());
+        return new NovelResponse(
+                projection.getPublicId(),
+                author,
+                projection.getTitle(),
+                projection.getDescription(),
+                projection.getCategory(),
+                projection.getLikeCount(),
+                projection.getTotalViewCount(),
+                projection.getIsCompleted(),
+                projection.getUpdatedAt(),
+                projection.getCreatedAt()
         );
     }
 

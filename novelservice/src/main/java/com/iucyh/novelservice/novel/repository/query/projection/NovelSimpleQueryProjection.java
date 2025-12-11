@@ -4,11 +4,13 @@ import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 public class NovelSimpleQueryProjection {
 
     private final String publicId;
-    private final Long userId;
+    private final String userPublicId;
     private final String userNickname;
     private final String title;
     private final String description;
@@ -16,21 +18,21 @@ public class NovelSimpleQueryProjection {
     private final Integer likeCount;
     private final Integer totalViewCount;
     private final Boolean isCompleted;
-    private final Long updatedAt;
-    private final Long createdAt;
+    private final LocalDateTime updatedAt;
+    private final LocalDateTime createdAt;
 
     @QueryProjection
     public NovelSimpleQueryProjection(
             String publicId,
-            Long userId, String userNickname,
+            String userPublicId, String userNickname,
             String title, String description,
             NovelCategory category,
             Integer likeCount, Integer totalViewCount,
             Boolean isCompleted,
-            Long updatedAt, Long createdAt
+            LocalDateTime updatedAt, LocalDateTime createdAt
     ) {
         this.publicId = publicId;
-        this.userId = userId;
+        this.userPublicId = userPublicId;
         this.userNickname = userNickname;
         this.title = title;
         this.description = description;

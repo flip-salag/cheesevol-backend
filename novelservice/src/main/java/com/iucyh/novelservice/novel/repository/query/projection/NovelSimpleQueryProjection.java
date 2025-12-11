@@ -5,7 +5,7 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
 @Getter
-public class NovelSimpleQueryProjection implements NovelQueryProjection {
+public class NovelSimpleQueryProjection {
 
     private final Novel novel;
 

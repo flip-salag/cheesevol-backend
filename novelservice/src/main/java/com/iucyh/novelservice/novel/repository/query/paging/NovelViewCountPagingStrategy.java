@@ -1,7 +1,6 @@
 package com.iucyh.novelservice.novel.repository.query.paging;
 
 import com.iucyh.novelservice.novel.domain.Novel;
-import com.iucyh.novelservice.novel.repository.query.projection.NovelQueryProjection;
 import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
 import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelViewCountCursor;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
@@ -46,9 +45,8 @@ public class NovelViewCountPagingStrategy extends AbstractNovelPagingStrategy {
     }
 
     @Override
-    public NovelCursor createCursor(NovelQueryProjection lastResult) {
-        Novel lastNovel = lastResult.getNovel();
-        return new NovelViewCountCursor(lastNovel.getId(), lastNovel.getTotalViewCount(), lastNovel.getLastEpisodeAt());
+    public NovelCursor createCursor(Novel lastResult) {
+        return new NovelViewCountCursor(lastResult.getId(), lastResult.getTotalViewCount(), lastResult.getLastEpisodeAt());
     }
 
     @Override

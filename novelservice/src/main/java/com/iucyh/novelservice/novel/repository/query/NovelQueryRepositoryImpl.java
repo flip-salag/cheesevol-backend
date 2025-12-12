@@ -1,10 +1,11 @@
 package com.iucyh.novelservice.novel.repository.query;
 
+import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
-import com.iucyh.novelservice.novel.repository.query.projection.NovelQueryProjection;
 import com.iucyh.novelservice.novel.repository.query.condition.NovelPagingCondition;
 import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.iucyh.novelservice.novel.domain.QNovel.novel;
+import static com.iucyh.novelservice.user.domain.QUser.user;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,28 +23,36 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<? extends NovelQueryProjection> findNovels(NovelPagingCondition condition, NovelPagingStrategy strategy, NovelCategory category) {
-        return strategy
-                .createQuery(queryFactory, condition.cursor())
+    public List<Novel> findNovels(NovelPagingCondition condition, NovelPagingStrategy strategy, NovelCategory category) {
+        JPAQuery<Novel> query = queryFactory
+                .selectFrom(novel)
+                .join(novel.user, user).fetchJoin()
                 .where(
                         applyDefaultFilter(),
                         applyCategoryFilter(category)
                 )
-                .limit(condition.limit())
+                .limit(condition.limit());
+
+        return strategy
+                .applyPaging(query, condition.cursor())
                 .fetch();
     }
 
     @Override
-    public List<? extends NovelQueryProjection> findNewNovels(NovelPagingCondition condition, NovelPagingStrategy strategy, NovelCategory category) {
+    public List<Novel> findNewNovels(NovelPagingCondition condition, NovelPagingStrategy strategy, NovelCategory category) {
         LocalDateTime thisMonth = getThisMonth();
-        return strategy
-                .createQuery(queryFactory, condition.cursor())
+        JPAQuery<Novel> query = queryFactory
+                .selectFrom(novel)
+                .join(novel.user, user).fetchJoin()
                 .where(
                         applyDefaultFilter(),
                         applyCategoryFilter(category),
                         novel.createdAt.goe(thisMonth)
                 )
-                .limit(condition.limit())
+                .limit(condition.limit());
+
+        return strategy
+                .applyPaging(query, condition.cursor())
                 .fetch();
     }
 

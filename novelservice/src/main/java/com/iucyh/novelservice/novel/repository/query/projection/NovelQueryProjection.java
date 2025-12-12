@@ -4,5 +4,5 @@ import com.iucyh.novelservice.novel.domain.Novel;
 
 public interface NovelQueryProjection {
 
-    Novel getNovel();
+    public Novel getNovel();
 }

@@ -2,13 +2,13 @@ package com.iucyh.novelservice.novel.service;
 
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.common.response.PageResponse;
-import com.iucyh.novelservice.novel.repository.query.projection.NovelSimpleQueryProjection;
 import com.iucyh.novelservice.novel.service.codec.NovelCursorCodec;
 import com.iucyh.novelservice.novel.service.dto.query.GetNewNovelsQuery;
 import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelResponse;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
+import com.iucyh.novelservice.novel.repository.query.projection.NovelQueryProjection;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
 import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
 import com.iucyh.novelservice.novel.repository.query.condition.NovelPagingCondition;
@@ -55,7 +55,7 @@ public class NovelQueryService {
     public List<NovelResponse> getPopularNovelsForSection(NovelCategory category) {
         NovelPagingCondition pagingCondition = new NovelPagingCondition(null, 10);
         NovelPagingStrategy strategy = getPagingStrategy(NovelSortType.POPULAR);
-        List<? extends NovelSimpleQueryProjection> novels = novelQueryRepository.findNovels(pagingCondition, strategy, category);
+        List<? extends NovelQueryProjection> novels = novelQueryRepository.findNovels(pagingCondition, strategy, category);
 
         return mapToNovelResponseList(novels);
     }
@@ -63,7 +63,7 @@ public class NovelQueryService {
     public List<NovelResponse> getNewNovelsForSection() {
         NovelPagingCondition pagingCondition = new NovelPagingCondition(null, 30);
         NovelPagingStrategy strategy = getPagingStrategy(NovelSortType.LAST_UPDATE);
-        List<? extends NovelSimpleQueryProjection> novels = novelQueryRepository.findNewNovels(pagingCondition, strategy, null);
+        List<? extends NovelQueryProjection> novels = novelQueryRepository.findNewNovels(pagingCondition, strategy, null);
 
         return mapToNovelResponseList(novels);
     }
@@ -91,12 +91,12 @@ public class NovelQueryService {
      */
     private PageResponse<NovelResponse> findNovels(
             NovelSortType sortType, String cursor, int limit,
-            BiFunction<NovelPagingCondition, NovelPagingStrategy, List<? extends NovelSimpleQueryProjection>> finder
+            BiFunction<NovelPagingCondition, NovelPagingStrategy, List<? extends NovelQueryProjection>> finder
     ) {
         NovelPagingCondition pagingCondition = createPagingCondition(sortType, cursor, limit + 1);
         NovelPagingStrategy pagingStrategy = getPagingStrategy(sortType);
 
-        List<? extends NovelSimpleQueryProjection> result = finder.apply(pagingCondition, pagingStrategy);
+        List<? extends NovelQueryProjection> result = finder.apply(pagingCondition, pagingStrategy);
         // TODO: 각 조회 조건별 쿼리 세분화 필요, 쿼리 호출 최소화 필요
         long totalCount = novelRepository.countByDeletedAtIsNull();
 
@@ -104,7 +104,7 @@ public class NovelQueryService {
             return NovelResponseMapper.toPageResponse(List.of(), totalCount, null);
         }
 
-        List<? extends NovelSimpleQueryProjection> pageResult = result.stream().limit(limit).toList();
+        List<? extends NovelQueryProjection> pageResult = result.stream().limit(limit).toList();
         String newCursor = null;
 
         boolean hasNext = result.size() > limit;
@@ -129,14 +129,14 @@ public class NovelQueryService {
         return new NovelPagingCondition(decodedCursor, limit);
     }
 
-    private List<NovelResponse> mapToNovelResponseList(List<? extends NovelSimpleQueryProjection> novels) {
+    private List<NovelResponse> mapToNovelResponseList(List<? extends NovelQueryProjection> novels) {
         return novels.stream()
-                .map(NovelResponseMapper::toNovelResponse)
+                .map(n -> NovelResponseMapper.toNovelResponse(n.getNovel()))
                 .toList();
     }
 
-    private String createNewEncodedCursor(NovelPagingStrategy pagingStrategy, List<? extends NovelSimpleQueryProjection> novels) {
-        NovelSimpleQueryProjection lastResult = novels.get(novels.size() - 1);
+    private String createNewEncodedCursor(NovelPagingStrategy pagingStrategy, List<? extends NovelQueryProjection> novels) {
+        NovelQueryProjection lastResult = novels.get(novels.size() - 1);
         NovelCursor newCursor = pagingStrategy.createCursor(lastResult);
         return cursorCodec.encode(newCursor);
     }

@@ -5,7 +5,7 @@ import com.iucyh.novelservice.user.web.dto.response.info.UserBasicInfo;
 
 import java.time.LocalDateTime;
 
-public record NovelResponse(
+public record NovelSummaryResponse(
 
         String novelId,
         UserBasicInfo author,

@@ -23,7 +23,7 @@ import com.iucyh.novelservice.novel.web.dto.request.UpdateNovelCompletionRequest
 import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
 import com.iucyh.novelservice.novel.web.dto.request.UpdateNovelRequest;
-import com.iucyh.novelservice.novel.web.dto.response.NovelResponse;
+import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
 import com.iucyh.novelservice.episode.service.EpisodeQueryService;
 import com.iucyh.novelservice.episode.service.EpisodeService;
 import com.iucyh.novelservice.novel.service.NovelQueryService;
@@ -46,22 +46,22 @@ public class NovelController {
     private final EpisodeQueryService episodeQueryService;
 
     @GetMapping
-    public SuccessResponse<PageResponse<NovelResponse>> getNovels(
+    public SuccessResponse<PageResponse<NovelSummaryResponse>> getNovels(
             @Valid @ModelAttribute NovelPageRequest request,
             @RequestParam(required = false) NovelCategory category
     ) {
         GetNovelsQuery query = NovelRequestMapper.toGetNovelsQuery(request, category);
-        PageResponse<NovelResponse> result = novelQueryService.getNovels(query);
+        PageResponse<NovelSummaryResponse> result = novelQueryService.getNovels(query);
         return ApiResponseMapper.success(result);
     }
 
     @GetMapping("/new")
-    public SuccessResponse<PageResponse<NovelResponse>> getNewNovels(
+    public SuccessResponse<PageResponse<NovelSummaryResponse>> getNewNovels(
             @Valid @ModelAttribute NovelPageRequest request,
             @RequestParam(required = false) NovelCategory category
     ) {
         GetNewNovelsQuery query = NovelRequestMapper.toGetNewNovelsQuery(request, category);
-        PageResponse<NovelResponse> result = novelQueryService.getNewNovels(query);
+        PageResponse<NovelSummaryResponse> result = novelQueryService.getNewNovels(query);
         return ApiResponseMapper.success(result);
     }
 
@@ -85,12 +85,12 @@ public class NovelController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SuccessResponse<NovelResponse> createNovel(
+    public SuccessResponse<NovelSummaryResponse> createNovel(
             @Valid @RequestBody CreateNovelRequest request,
             @RequestHeader(TEMP_USER_ID_HEADER) long userId
     ) {
         CreateNovelCommand command = NovelRequestMapper.toCreateNovelCommand(request, userId);
-        NovelResponse createdNovel = novelService.createNovel(command);
+        NovelSummaryResponse createdNovel = novelService.createNovel(command);
         return ApiResponseMapper.success(createdNovel);
     }
 
@@ -105,13 +105,13 @@ public class NovelController {
     }
 
     @PatchMapping("/{novelPublicId}")
-    public SuccessResponse<NovelResponse> updateNovel(
+    public SuccessResponse<NovelSummaryResponse> updateNovel(
             @PathVariable String novelPublicId,
             @Valid @RequestBody UpdateNovelRequest request,
             @RequestHeader(TEMP_USER_ID_HEADER) long userId
     ) {
         UpdateNovelCommand command = NovelRequestMapper.toUpdateNovelCommand(request, userId, novelPublicId);
-        NovelResponse updatedNovel = novelService.updateNovel(command);
+        NovelSummaryResponse updatedNovel = novelService.updateNovel(command);
         return ApiResponseMapper.success(updatedNovel);
     }
 

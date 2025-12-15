@@ -4,7 +4,7 @@ import com.iucyh.novelservice.common.response.PageResponse;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
-import com.iucyh.novelservice.novel.web.dto.response.NovelResponse;
+import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
 import com.iucyh.novelservice.user.domain.User;
 import com.iucyh.novelservice.user.web.dto.response.info.UserBasicInfo;
 
@@ -14,11 +14,11 @@ public class NovelResponseMapper {
 
     private NovelResponseMapper() {}
 
-    public static NovelResponse toNovelResponse(Novel novel) {
+    public static NovelSummaryResponse toNovelSummaryResponse(Novel novel) {
         User user = novel.getUser();
         UserBasicInfo author = new UserBasicInfo(user.getPublicId(), user.getNickname());
 
-        return new NovelResponse(
+        return new NovelSummaryResponse(
                 novel.getPublicId(),
                 author,
                 novel.getTitle(),
@@ -43,7 +43,7 @@ public class NovelResponseMapper {
         return new NovelLikeCountResponse(likeCount);
     }
 
-    public static PageResponse<NovelResponse> toPageResponse(List<NovelResponse> novels, long totalCount, String encodedCursor) {
+    public static PageResponse<NovelSummaryResponse> toPageResponse(List<NovelSummaryResponse> novels, long totalCount, String encodedCursor) {
         return new PageResponse<>(totalCount, encodedCursor, novels);
     }
 }

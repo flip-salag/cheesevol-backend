@@ -5,5 +5,5 @@ import jakarta.validation.constraints.NotNull;
 public record UpdateNovelCompletionRequest(
 
         @NotNull
-        boolean isCompleted
+        Boolean isCompleted
 ) {}

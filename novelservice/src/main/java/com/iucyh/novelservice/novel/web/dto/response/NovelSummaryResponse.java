@@ -14,7 +14,7 @@ public record NovelSummaryResponse(
         NovelCategory category,
         int likeCount,
         int totalViewCount,
-        Boolean isCompleted,
+        boolean isCompleted,
         LocalDateTime updatedAt,
         LocalDateTime createdAt
 ) {}

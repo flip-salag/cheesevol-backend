@@ -7,7 +7,7 @@ import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeResponseMapper;
 import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
 import com.iucyh.novelservice.episode.web.dto.request.EpisodePagingRequest;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
-import com.iucyh.novelservice.episode.web.dto.response.EpisodeResponse;
+import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.episode.repository.EpisodeRepository;
 import com.iucyh.novelservice.episode.repository.projection.EpisodeDetail;
 import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
@@ -32,7 +32,7 @@ public class EpisodeQueryService {
     private final EpisodeRepository episodeRepository;
     private final EpisodeQueryRepository episodeQueryRepository;
 
-    public PageResponse<EpisodeResponse> findEpisodesByNovel(long novelId, EpisodePagingRequest request) {
+    public PageResponse<EpisodeSummaryResponse> findEpisodesByNovel(long novelId, EpisodePagingRequest request) {
         boolean novelExists = novelRepository.existsById(novelId);
         if (!novelExists) {
             //throw new NovelNotFound(novelId);
@@ -46,7 +46,7 @@ public class EpisodeQueryService {
             return EpisodeResponseMapper.toPagingResponse(List.of(), episodeCount, null);
         }
 
-        List<EpisodeResponse> episodeResponses = mapToEpisodeResponseList(result);
+        List<EpisodeSummaryResponse> episodeResponses = mapToEpisodeResponseList(result);
         int lastEpisodeNumber = result.get(result.size() - 1).getEpisodeNumber();
         return EpisodeResponseMapper.toPagingResponse(episodeResponses, episodeCount, lastEpisodeNumber);
     }
@@ -64,9 +64,9 @@ public class EpisodeQueryService {
         return EpisodeResponseMapper.toEpisodeDetailResponse(detail);
     }
 
-    private List<EpisodeResponse> mapToEpisodeResponseList(List<EpisodeSimpleQueryDto> episodes) {
+    private List<EpisodeSummaryResponse> mapToEpisodeResponseList(List<EpisodeSimpleQueryDto> episodes) {
         return episodes.stream()
-                .map(EpisodeResponseMapper::toEpisodeResponse)
+                .map(EpisodeResponseMapper::toEpisodeSummaryResponse)
                 .toList();
     }
 }

@@ -10,7 +10,7 @@ import com.iucyh.novelservice.episode.web.dto.request.CreateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeDetailRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
-import com.iucyh.novelservice.episode.web.dto.response.EpisodeResponse;
+import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.episode.repository.EpisodeRepository;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class EpisodeService {
     private final NovelRepository novelRepository;
     private final EpisodeRepository episodeRepository;
 
-    public EpisodeResponse createEpisode(long novelId, CreateEpisodeRequest request) {
+    public EpisodeSummaryResponse createEpisode(long novelId, CreateEpisodeRequest request) {
         Novel novel = findNovel(novelId);
         Integer lastEpisodeNumber = episodeRepository.findLastEpisodeNumber(novelId)
                 .orElse(0);
@@ -36,14 +36,14 @@ public class EpisodeService {
         Episode savedEpisode = episodeRepository.save(episode);
         novel.updateLastEpisode(savedEpisode.getEpisodeNumber(), savedEpisode.getCreatedAt());
 
-        return EpisodeResponseMapper.toEpisodeResponse(savedEpisode);
+        return EpisodeResponseMapper.toEpisodeSummaryResponse(savedEpisode);
     }
 
-    public EpisodeResponse updateEpisode(long novelId, long episodeId, UpdateEpisodeRequest request) {
+    public EpisodeSummaryResponse updateEpisode(long novelId, long episodeId, UpdateEpisodeRequest request) {
         Episode episode = findEpisodeWithNovelId(novelId, episodeId);
         episode.updateTextMetaData(request.title(), request.description());
 
-        return EpisodeResponseMapper.toEpisodeResponse(episode);
+        return EpisodeResponseMapper.toEpisodeSummaryResponse(episode);
     }
 
     public EpisodeDetailResponse updateEpisodeDetail(long novelId, long episodeId, UpdateEpisodeDetailRequest request) {

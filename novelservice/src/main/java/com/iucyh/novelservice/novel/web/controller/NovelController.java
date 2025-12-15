@@ -9,7 +9,7 @@ import com.iucyh.novelservice.episode.web.dto.request.EpisodePagingRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeDetailRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
-import com.iucyh.novelservice.episode.web.dto.response.EpisodeResponse;
+import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.DeleteNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.UpdateNovelCommand;
@@ -23,7 +23,7 @@ import com.iucyh.novelservice.novel.web.dto.request.UpdateNovelCompletionRequest
 import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
 import com.iucyh.novelservice.novel.web.dto.request.UpdateNovelRequest;
-import com.iucyh.novelservice.novel.web.dto.response.NovelResponse;
+import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
 import com.iucyh.novelservice.episode.service.EpisodeQueryService;
 import com.iucyh.novelservice.episode.service.EpisodeService;
 import com.iucyh.novelservice.novel.service.NovelQueryService;
@@ -46,31 +46,31 @@ public class NovelController {
     private final EpisodeQueryService episodeQueryService;
 
     @GetMapping
-    public SuccessResponse<PageResponse<NovelResponse>> getNovels(
+    public SuccessResponse<PageResponse<NovelSummaryResponse>> getNovels(
             @Valid @ModelAttribute NovelPageRequest request,
             @RequestParam(required = false) NovelCategory category
     ) {
         GetNovelsQuery query = NovelRequestMapper.toGetNovelsQuery(request, category);
-        PageResponse<NovelResponse> result = novelQueryService.getNovels(query);
+        PageResponse<NovelSummaryResponse> result = novelQueryService.getNovels(query);
         return ApiResponseMapper.success(result);
     }
 
     @GetMapping("/new")
-    public SuccessResponse<PageResponse<NovelResponse>> getNewNovels(
+    public SuccessResponse<PageResponse<NovelSummaryResponse>> getNewNovels(
             @Valid @ModelAttribute NovelPageRequest request,
             @RequestParam(required = false) NovelCategory category
     ) {
         GetNewNovelsQuery query = NovelRequestMapper.toGetNewNovelsQuery(request, category);
-        PageResponse<NovelResponse> result = novelQueryService.getNewNovels(query);
+        PageResponse<NovelSummaryResponse> result = novelQueryService.getNewNovels(query);
         return ApiResponseMapper.success(result);
     }
 
     @GetMapping("/{novelId}/episodes")
-    public SuccessResponse<PageResponse<EpisodeResponse>> getEpisodes(
+    public SuccessResponse<PageResponse<EpisodeSummaryResponse>> getEpisodes(
             @PathVariable long novelId,
             @Valid @ModelAttribute EpisodePagingRequest request
     ) {
-        PageResponse<EpisodeResponse> result = episodeQueryService.findEpisodesByNovel(novelId, request);
+        PageResponse<EpisodeSummaryResponse> result = episodeQueryService.findEpisodesByNovel(novelId, request);
         return ApiResponseMapper.success(result);
     }
 
@@ -85,33 +85,33 @@ public class NovelController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SuccessResponse<NovelResponse> createNovel(
+    public SuccessResponse<NovelSummaryResponse> createNovel(
             @Valid @RequestBody CreateNovelRequest request,
             @RequestHeader(TEMP_USER_ID_HEADER) long userId
     ) {
         CreateNovelCommand command = NovelRequestMapper.toCreateNovelCommand(request, userId);
-        NovelResponse createdNovel = novelService.createNovel(command);
+        NovelSummaryResponse createdNovel = novelService.createNovel(command);
         return ApiResponseMapper.success(createdNovel);
     }
 
     @PostMapping("/{novelId}/episodes")
     @ResponseStatus(HttpStatus.CREATED)
-    public SuccessResponse<EpisodeResponse> createEpisode(
+    public SuccessResponse<EpisodeSummaryResponse> createEpisode(
             @PathVariable long novelId,
             @Valid @RequestBody CreateEpisodeRequest request
     ) {
-        EpisodeResponse result = episodeService.createEpisode(novelId, request);
+        EpisodeSummaryResponse result = episodeService.createEpisode(novelId, request);
         return ApiResponseMapper.success(result);
     }
 
     @PatchMapping("/{novelPublicId}")
-    public SuccessResponse<NovelResponse> updateNovel(
+    public SuccessResponse<NovelSummaryResponse> updateNovel(
             @PathVariable String novelPublicId,
             @Valid @RequestBody UpdateNovelRequest request,
             @RequestHeader(TEMP_USER_ID_HEADER) long userId
     ) {
         UpdateNovelCommand command = NovelRequestMapper.toUpdateNovelCommand(request, userId, novelPublicId);
-        NovelResponse updatedNovel = novelService.updateNovel(command);
+        NovelSummaryResponse updatedNovel = novelService.updateNovel(command);
         return ApiResponseMapper.success(updatedNovel);
     }
 
@@ -127,12 +127,12 @@ public class NovelController {
     }
 
     @PatchMapping("/{novelId}/episodes/{episodeId}")
-    public SuccessResponse<EpisodeResponse> updateEpisode(
+    public SuccessResponse<EpisodeSummaryResponse> updateEpisode(
             @PathVariable long novelId,
             @PathVariable long episodeId,
             @Valid @RequestBody UpdateEpisodeRequest request
     ) {
-        EpisodeResponse result = episodeService.updateEpisode(novelId, episodeId, request);
+        EpisodeSummaryResponse result = episodeService.updateEpisode(novelId, episodeId, request);
         return ApiResponseMapper.success(result);
     }
 

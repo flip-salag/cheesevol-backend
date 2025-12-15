@@ -7,7 +7,7 @@ import com.iucyh.novelservice.novel.service.codec.NovelCursorCodec;
 import com.iucyh.novelservice.novel.service.dto.query.GetNewNovelsQuery;
 import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
-import com.iucyh.novelservice.novel.web.dto.response.NovelResponse;
+import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
 import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
@@ -51,7 +51,7 @@ public class NovelQueryService {
                 );
     }
 
-    public List<NovelResponse> getPopularNovelsForSection(NovelCategory category) {
+    public List<NovelSummaryResponse> getPopularNovelsForSection(NovelCategory category) {
         NovelPagingCondition pagingCondition = new NovelPagingCondition(null, 10);
         NovelPagingStrategy strategy = getPagingStrategy(NovelSortType.POPULAR);
         List<Novel> novels = novelQueryRepository.findNovels(pagingCondition, strategy, category);
@@ -59,7 +59,7 @@ public class NovelQueryService {
         return mapToNovelResponseList(novels);
     }
 
-    public List<NovelResponse> getNewNovelsForSection() {
+    public List<NovelSummaryResponse> getNewNovelsForSection() {
         NovelPagingCondition pagingCondition = new NovelPagingCondition(null, 30);
         NovelPagingStrategy strategy = getPagingStrategy(NovelSortType.LAST_UPDATE);
         List<Novel> novels = novelQueryRepository.findNewNovels(pagingCondition, strategy, null);
@@ -67,14 +67,14 @@ public class NovelQueryService {
         return mapToNovelResponseList(novels);
     }
 
-    public PageResponse<NovelResponse> getNovels(GetNovelsQuery query) {
+    public PageResponse<NovelSummaryResponse> getNovels(GetNovelsQuery query) {
         return findNovels(query.sortType(), query.cursor(), query.limit(),
                 (pagingCondition, strategy) ->
                         novelQueryRepository.findNovels(pagingCondition, strategy, query.category())
         );
     }
 
-    public PageResponse<NovelResponse> getNewNovels(GetNewNovelsQuery query) {
+    public PageResponse<NovelSummaryResponse> getNewNovels(GetNewNovelsQuery query) {
         return findNovels(query.sortType(), query.cursor(), query.limit(),
                 (pagingCondition, strategy) ->
                         novelQueryRepository.findNewNovels(pagingCondition, strategy, query.category())
@@ -88,7 +88,7 @@ public class NovelQueryService {
      *               e.g) 조회 종류별 리포지토리 메서드 호출, 특정 비즈니스 로직을 위한 메서드 호출 및 조건 검사 등
      * @return 최종 결과를 담은 {@code PageResponse<NovelResponse>}
      */
-    private PageResponse<NovelResponse> findNovels(
+    private PageResponse<NovelSummaryResponse> findNovels(
             NovelSortType sortType, String cursor, int limit,
             BiFunction<NovelPagingCondition, NovelPagingStrategy, List<Novel>> finder
     ) {
@@ -111,8 +111,8 @@ public class NovelQueryService {
             newCursor = createNewEncodedCursor(pagingStrategy, pageResult);
         }
 
-        List<NovelResponse> novelResponses = mapToNovelResponseList(pageResult);
-        return NovelResponseMapper.toPageResponse(novelResponses, totalCount, newCursor);
+        List<NovelSummaryResponse> novels = mapToNovelResponseList(pageResult);
+        return NovelResponseMapper.toPageResponse(novels, totalCount, newCursor);
     }
 
     private NovelPagingStrategy getPagingStrategy(NovelSortType sortType) {
@@ -128,9 +128,9 @@ public class NovelQueryService {
         return new NovelPagingCondition(decodedCursor, limit);
     }
 
-    private List<NovelResponse> mapToNovelResponseList(List<Novel> novels) {
+    private List<NovelSummaryResponse> mapToNovelResponseList(List<Novel> novels) {
         return novels.stream()
-                .map(NovelResponseMapper::toNovelResponse)
+                .map(NovelResponseMapper::toNovelSummaryResponse)
                 .toList();
     }
 

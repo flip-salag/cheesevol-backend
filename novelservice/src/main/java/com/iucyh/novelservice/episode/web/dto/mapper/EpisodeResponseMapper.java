@@ -4,7 +4,7 @@ import com.iucyh.novelservice.episode.domain.Episode;
 import com.iucyh.novelservice.common.response.PageResponse;
 import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
-import com.iucyh.novelservice.episode.web.dto.response.EpisodeResponse;
+import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.episode.repository.projection.EpisodeDetail;
 
 import java.util.List;
@@ -13,8 +13,8 @@ public class EpisodeResponseMapper {
 
     private EpisodeResponseMapper() {}
 
-    public static EpisodeResponse toEpisodeResponse(Episode episode) {
-        return new EpisodeResponse(
+    public static EpisodeSummaryResponse toEpisodeSummaryResponse(Episode episode) {
+        return new EpisodeSummaryResponse(
                 episode.getId(),
                 episode.getTitle(),
                 episode.getDescription(),
@@ -25,8 +25,8 @@ public class EpisodeResponseMapper {
         );
     }
 
-    public static EpisodeResponse toEpisodeResponse(EpisodeSimpleQueryDto episode) {
-        return new EpisodeResponse(
+    public static EpisodeSummaryResponse toEpisodeSummaryResponse(EpisodeSimpleQueryDto episode) {
+        return new EpisodeSummaryResponse(
                 episode.getId(),
                 episode.getTitle(),
                 episode.getDescription(),
@@ -45,7 +45,7 @@ public class EpisodeResponseMapper {
         return new EpisodeDetailResponse(episodeDetail.getContent());
     }
 
-    public static PageResponse<EpisodeResponse> toPagingResponse(List<EpisodeResponse> episodes, long totalCount, Integer lastEpisodeNumber) {
+    public static PageResponse<EpisodeSummaryResponse> toPagingResponse(List<EpisodeSummaryResponse> episodes, long totalCount, Integer lastEpisodeNumber) {
         return new PageResponse<>(totalCount, lastEpisodeNumber, episodes);
     }
 }

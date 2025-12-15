@@ -9,7 +9,7 @@ import com.iucyh.novelservice.episode.web.dto.request.EpisodePagingRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeDetailRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
-import com.iucyh.novelservice.episode.web.dto.response.EpisodeResponse;
+import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.DeleteNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.UpdateNovelCommand;
@@ -66,11 +66,11 @@ public class NovelController {
     }
 
     @GetMapping("/{novelId}/episodes")
-    public SuccessResponse<PageResponse<EpisodeResponse>> getEpisodes(
+    public SuccessResponse<PageResponse<EpisodeSummaryResponse>> getEpisodes(
             @PathVariable long novelId,
             @Valid @ModelAttribute EpisodePagingRequest request
     ) {
-        PageResponse<EpisodeResponse> result = episodeQueryService.findEpisodesByNovel(novelId, request);
+        PageResponse<EpisodeSummaryResponse> result = episodeQueryService.findEpisodesByNovel(novelId, request);
         return ApiResponseMapper.success(result);
     }
 
@@ -96,11 +96,11 @@ public class NovelController {
 
     @PostMapping("/{novelId}/episodes")
     @ResponseStatus(HttpStatus.CREATED)
-    public SuccessResponse<EpisodeResponse> createEpisode(
+    public SuccessResponse<EpisodeSummaryResponse> createEpisode(
             @PathVariable long novelId,
             @Valid @RequestBody CreateEpisodeRequest request
     ) {
-        EpisodeResponse result = episodeService.createEpisode(novelId, request);
+        EpisodeSummaryResponse result = episodeService.createEpisode(novelId, request);
         return ApiResponseMapper.success(result);
     }
 
@@ -127,12 +127,12 @@ public class NovelController {
     }
 
     @PatchMapping("/{novelId}/episodes/{episodeId}")
-    public SuccessResponse<EpisodeResponse> updateEpisode(
+    public SuccessResponse<EpisodeSummaryResponse> updateEpisode(
             @PathVariable long novelId,
             @PathVariable long episodeId,
             @Valid @RequestBody UpdateEpisodeRequest request
     ) {
-        EpisodeResponse result = episodeService.updateEpisode(novelId, episodeId, request);
+        EpisodeSummaryResponse result = episodeService.updateEpisode(novelId, episodeId, request);
         return ApiResponseMapper.success(result);
     }
 

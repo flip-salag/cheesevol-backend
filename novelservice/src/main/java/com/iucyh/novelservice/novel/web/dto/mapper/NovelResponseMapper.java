@@ -6,7 +6,7 @@ import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelResponse;
 import com.iucyh.novelservice.user.domain.User;
-import com.iucyh.novelservice.user.web.dto.response.UserSummaryResponse;
+import com.iucyh.novelservice.user.web.dto.response.info.UserBasicInfo;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class NovelResponseMapper {
 
     public static NovelResponse toNovelResponse(Novel novel) {
         User user = novel.getUser();
-        UserSummaryResponse author = new UserSummaryResponse(user.getPublicId(), user.getNickname());
+        UserBasicInfo author = new UserBasicInfo(user.getPublicId(), user.getNickname());
 
         return new NovelResponse(
                 novel.getPublicId(),

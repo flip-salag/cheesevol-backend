@@ -1,0 +1,35 @@
+package com.iucyh.novelservice.episode.web.controller;
+
+import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
+import com.iucyh.novelservice.common.response.api.SuccessResponse;
+import com.iucyh.novelservice.episode.service.EpisodeService;
+import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
+import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeRequestMapper;
+import com.iucyh.novelservice.episode.web.dto.request.CreateEpisodeRequest;
+import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/v1")
+@RequiredArgsConstructor
+public class EpisodeController {
+
+    private static final String TEMP_USER_ID_HEADER = "TEMP-USER-ID";
+
+    private final EpisodeService episodeService;
+
+    @PostMapping("/novels/{novelPublicId}/episodes")
+    @ResponseStatus(HttpStatus.CREATED)
+    public SuccessResponse<EpisodeSummaryResponse> createEpisode(
+            @PathVariable String novelPublicId,
+            @Valid @RequestBody CreateEpisodeRequest request,
+            @RequestHeader(TEMP_USER_ID_HEADER) long userId
+    ) {
+        CreateEpisodeCommand command = EpisodeRequestMapper.toCreateEpisodeCommand(request, userId, novelPublicId);
+        EpisodeSummaryResponse createdEpisode = episodeService.createEpisode(command);
+        return ApiResponseMapper.success(createdEpisode);
+    }
+}

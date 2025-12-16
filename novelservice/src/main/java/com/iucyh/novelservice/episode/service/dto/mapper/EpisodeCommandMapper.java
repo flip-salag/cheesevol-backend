@@ -9,6 +9,12 @@ public class EpisodeCommandMapper {
     private EpisodeCommandMapper() {}
 
     public static Episode toEpisode(CreateEpisodeCommand command, Novel novel, int episodeNumber) {
-        return Episode.of(command.title(), command.description(), command.content(), episodeNumber, novel);
+        return Episode.of(
+                command.title(),
+                command.description(),
+                command.content(),
+                episodeNumber,
+                novel
+        );
     }
 }

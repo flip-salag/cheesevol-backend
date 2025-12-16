@@ -63,6 +63,11 @@ public class EpisodeService {
                 .orElseThrow(() -> new NovelNotFound(""));
     }
 
+    private Novel findNovelWithUserId(long userId, String novelPublicId) {
+        return novelRepository.findByUserIdAndPublicIdAndDeletedAtIsNull(userId, novelPublicId)
+                .orElseThrow(() -> new NovelNotFound(novelPublicId));
+    }
+
     private Episode findEpisodeWithNovelId(long novelId, long episodeId) {
         return episodeRepository.findByIdAndNovelId(episodeId, novelId)
                 .orElseThrow(() -> new EpisodeNotFound(episodeId));

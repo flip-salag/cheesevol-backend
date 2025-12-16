@@ -19,10 +19,10 @@ public class Episode extends PublicEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = EPISODE_TITLE_LENGTH_MAX, nullable = false)
+    @Column(length = EPISODE_TITLE_LENGTH_MAX + 5, nullable = false)
     private String title;
 
-    @Column(length = EPISODE_DESC_LENGTH_MAX, nullable = false)
+    @Column(length = EPISODE_DESC_LENGTH_MAX + 5, nullable = false)
     private String description;
 
     @Column(columnDefinition = "TEXT", nullable = false)

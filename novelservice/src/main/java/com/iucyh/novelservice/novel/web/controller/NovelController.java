@@ -100,8 +100,8 @@ public class NovelController {
             @PathVariable long novelId,
             @Valid @RequestBody CreateEpisodeRequest request
     ) {
-        EpisodeSummaryResponse result = episodeService.createEpisode(novelId, request);
-        return ApiResponseMapper.success(result);
+        //EpisodeSummaryResponse result = episodeService.createEpisode(novelId, request);
+        return ApiResponseMapper.success(null);
     }
 
     @PatchMapping("/{novelPublicId}")

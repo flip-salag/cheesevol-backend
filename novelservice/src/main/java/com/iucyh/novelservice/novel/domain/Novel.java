@@ -65,6 +65,10 @@ public class Novel extends PublicEntity {
         return novel;
     }
 
+    public boolean isCompletedNovel() {
+        return isCompleted;
+    }
+
     public void updateTextMetaData(String title, String description) {
         if (title != null) {
             this.title = title.strip();

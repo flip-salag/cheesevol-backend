@@ -122,8 +122,8 @@ public class NovelController {
             @PathVariable long episodeId,
             @Valid @RequestBody UpdateEpisodeDetailRequest request
     ) {
-        EpisodeDetailResponse result = episodeService.updateEpisodeDetail(novelId, episodeId, request);
-        return ApiResponseMapper.success(result);
+        //EpisodeDetailResponse result = episodeService.updateEpisodeContent(novelId, episodeId, request);
+        return ApiResponseMapper.success(null);
     }
 
     @PostMapping("/{novelId}/likes")

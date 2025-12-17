@@ -55,11 +55,6 @@ public class EpisodeService {
         episode.softDelete();
     }
 
-    private Novel findNovel(long novelId) {
-        return novelRepository.findById(novelId)
-                .orElseThrow(() -> new NovelNotFound(""));
-    }
-
     private Novel findNovelWithUserId(long userId, String novelPublicId) {
         return novelRepository.findByUserIdAndPublicIdAndDeletedAtIsNull(userId, novelPublicId)
                 .orElseThrow(() -> new NovelNotFound(novelPublicId));

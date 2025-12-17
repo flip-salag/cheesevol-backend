@@ -8,6 +8,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.iucyh.novelservice.episode.domain.QEpisode.episode;
@@ -17,6 +18,22 @@ import static com.iucyh.novelservice.episode.domain.QEpisode.episode;
 public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
 
     private final JPAQueryFactory queryFactory;
+
+    @Override
+    public LocalDateTime findLastEpisodeAtExceptDeletedEpisode(Long novelId, String publicId) {
+        return queryFactory
+                .select(episode.createdAt)
+                .from(episode)
+                .where(
+                        episode.novel.id.eq(novelId),
+                        episode.publicId.ne(publicId),
+                        episode.deletedAt.isNull()
+                )
+                .orderBy(
+                        episode.episodeNumber.desc()
+                )
+                .fetchFirst();
+    }
 
     @Override
     public List<EpisodeSimpleQueryDto> findEpisodesByNovelId(long novelId, EpisodeSearchCondition condition) {

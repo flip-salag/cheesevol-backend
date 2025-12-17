@@ -144,7 +144,7 @@ public class NovelController {
             @PathVariable long novelId,
             @PathVariable long episodeId
     ) {
-        episodeService.deleteEpisode(novelId, episodeId);
+        //episodeService.deleteEpisode(novelId, episodeId);
         return ApiResponseMapper.success();
     }
 }

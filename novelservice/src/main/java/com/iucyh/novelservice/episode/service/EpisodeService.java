@@ -1,7 +1,9 @@
 package com.iucyh.novelservice.episode.service;
 
 import com.iucyh.novelservice.episode.exception.EpisodeNotFound;
+import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
+import com.iucyh.novelservice.episode.service.dto.command.DeleteEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeContentCommand;
 import com.iucyh.novelservice.episode.service.dto.mapper.EpisodeCommandMapper;
@@ -17,12 +19,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class EpisodeService {
 
     private final NovelRepository novelRepository;
+    private final EpisodeQueryRepository episodeQueryRepository;
     private final EpisodeRepository episodeRepository;
 
     public EpisodeSummaryResponse createEpisode(CreateEpisodeCommand command) {
@@ -51,9 +56,19 @@ public class EpisodeService {
         episode.updateContent(command.content());
     }
 
-    public void deleteEpisode(long novelId, long episodeId) {
-        Episode episode = findEpisodeWithNovelId(novelId, episodeId);
+    public void deleteEpisode(DeleteEpisodeCommand command) {
+        Episode episode = findEpisodeWithNovelUserFetch(command.episodePublicId(), command.userId());
+        Novel novel = episode.getNovel();
+
+        if (novel.isCompletedNovel()) {
+            throw new NovelAlreadyCompleted();
+        }
+
         episode.softDelete();
+        // 삭제될 회차를 제외하고 나머지 회차들 중 가장 최신회차의 등록일로 Novel의 lastEpisodeAt 업데이트
+        // 다음 최신 회차가 없다면 lastEpisodeAt을 null로 설정
+        LocalDateTime lastEpisodeAt = episodeQueryRepository.findLastEpisodeAtExceptDeletedEpisode(novel.getId(), episode.getPublicId());
+        novel.updateLastEpisodeAt(lastEpisodeAt);
     }
 
     private Novel findNovelWithUserId(long userId, String novelPublicId) {
@@ -66,8 +81,8 @@ public class EpisodeService {
                 .orElseThrow(() -> new EpisodeNotFound(episodePublicId));
     }
 
-    private Episode findEpisodeWithNovelId(long novelId, long episodeId) {
-        return episodeRepository.findByIdAndNovelId(episodeId, novelId)
-                .orElseThrow(() -> new EpisodeNotFound(String.valueOf(episodeId))); // 임시 캐스팅, 수정 혹은 삭제 예정
+    private Episode findEpisodeWithNovelUserFetch(String episodePublicId, long userId) {
+        return episodeRepository.findByPublicIdWithNovelUserFetch(episodePublicId, userId)
+                .orElseThrow(() -> new EpisodeNotFound(episodePublicId));
     }
 }

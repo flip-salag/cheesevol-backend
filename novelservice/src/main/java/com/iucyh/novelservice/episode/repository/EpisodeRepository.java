@@ -16,9 +16,6 @@ public interface EpisodeRepository extends JpaRepository<Episode, Long> {
      */
     boolean existsByNovelIdAndDeletedAtIsNull(Long novelId);
 
-    @Query("select max(e.episodeNumber) from Episode e where e.novel.id = :novelId")
-    Optional<Integer> findLastEpisodeNumber(@Param("novelId") Long novelId);
-
     @Query("select e from Episode e where e.id = :episodeId and e.novel.id = :novelId and e.deletedAt is null")
     Optional<Episode> findByIdAndNovelId(@Param("episodeId") Long id, @Param("novelId") Long novelId);
 

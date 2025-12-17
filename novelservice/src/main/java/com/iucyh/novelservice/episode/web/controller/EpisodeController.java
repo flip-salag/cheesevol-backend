@@ -5,8 +5,10 @@ import com.iucyh.novelservice.common.response.api.SuccessResponse;
 import com.iucyh.novelservice.episode.service.EpisodeService;
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
+import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeContentCommand;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeRequestMapper;
 import com.iucyh.novelservice.episode.web.dto.request.CreateEpisodeRequest;
+import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeContentRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import jakarta.validation.Valid;
@@ -44,5 +46,16 @@ public class EpisodeController {
         UpdateEpisodeCommand command = EpisodeRequestMapper.toUpdateEpisodeCommand(request, userId, episodePublicId);
         EpisodeSummaryResponse updatedEpisode = episodeService.updateEpisode(command);
         return ApiResponseMapper.success(updatedEpisode);
+    }
+
+    @PutMapping("/episodes/{episodePublicId}/content")
+    public SuccessResponse<Void> updateEpisodeContent(
+            @PathVariable String episodePublicId,
+            @Valid @RequestBody UpdateEpisodeContentRequest request,
+            @RequestHeader(TEMP_USER_ID_HEADER) long userId
+    ) {
+        UpdateEpisodeContentCommand command = EpisodeRequestMapper.toUpdateEpisodeContentCommand(request, userId, episodePublicId);
+        episodeService.updateEpisodeContent(command);
+        return ApiResponseMapper.success();
     }
 }

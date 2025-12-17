@@ -2,6 +2,7 @@ package com.iucyh.novelservice.episode.service;
 
 import com.iucyh.novelservice.episode.exception.EpisodeNotFound;
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
+import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.mapper.EpisodeCommandMapper;
 import com.iucyh.novelservice.novel.exception.NovelNotFound;
 import com.iucyh.novelservice.episode.domain.Episode;
@@ -36,9 +37,9 @@ public class EpisodeService {
         return EpisodeResponseMapper.toEpisodeSummaryResponse(savedEpisode);
     }
 
-    public EpisodeSummaryResponse updateEpisode(long novelId, long episodeId, UpdateEpisodeRequest request) {
-        Episode episode = findEpisodeWithNovelId(novelId, episodeId);
-        episode.updateTextMetaData(request.title(), request.description());
+    public EpisodeSummaryResponse updateEpisode(UpdateEpisodeCommand command) {
+        Episode episode = findEpisodeWithNovelUser(command.episodePublicId(), command.userId());
+        episode.updateTextMetaData(command.title(), command.description());
 
         return EpisodeResponseMapper.toEpisodeSummaryResponse(episode);
     }
@@ -55,18 +56,18 @@ public class EpisodeService {
         episode.softDelete();
     }
 
-    private Novel findNovel(long novelId) {
-        return novelRepository.findById(novelId)
-                .orElseThrow(() -> new NovelNotFound(""));
-    }
-
     private Novel findNovelWithUserId(long userId, String novelPublicId) {
         return novelRepository.findByUserIdAndPublicIdAndDeletedAtIsNull(userId, novelPublicId)
                 .orElseThrow(() -> new NovelNotFound(novelPublicId));
     }
 
+    private Episode findEpisodeWithNovelUser(String episodePublicId, long userId) {
+        return episodeRepository.findByPublicIdWithNovelUser(episodePublicId, userId)
+                .orElseThrow(() -> new EpisodeNotFound(episodePublicId));
+    }
+
     private Episode findEpisodeWithNovelId(long novelId, long episodeId) {
         return episodeRepository.findByIdAndNovelId(episodeId, novelId)
-                .orElseThrow(() -> new EpisodeNotFound(episodeId));
+                .orElseThrow(() -> new EpisodeNotFound(String.valueOf(episodeId))); // 임시 캐스팅, 수정 혹은 삭제 예정
     }
 }

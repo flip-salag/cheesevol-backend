@@ -116,16 +116,6 @@ public class NovelController {
         return ApiResponseMapper.success(completionResponse);
     }
 
-    @PatchMapping("/{novelId}/episodes/{episodeId}")
-    public SuccessResponse<EpisodeSummaryResponse> updateEpisode(
-            @PathVariable long novelId,
-            @PathVariable long episodeId,
-            @Valid @RequestBody UpdateEpisodeRequest request
-    ) {
-        EpisodeSummaryResponse result = episodeService.updateEpisode(novelId, episodeId, request);
-        return ApiResponseMapper.success(result);
-    }
-
     @PatchMapping("/{novelId}/episodes/{episodeId}/detail")
     public SuccessResponse<EpisodeDetailResponse> updateEpisodeDetail(
             @PathVariable long novelId,

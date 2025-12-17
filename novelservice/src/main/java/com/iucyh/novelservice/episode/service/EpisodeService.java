@@ -2,6 +2,7 @@ package com.iucyh.novelservice.episode.service;
 
 import com.iucyh.novelservice.episode.exception.EpisodeNotFound;
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
+import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.mapper.EpisodeCommandMapper;
 import com.iucyh.novelservice.novel.exception.NovelNotFound;
 import com.iucyh.novelservice.episode.domain.Episode;
@@ -36,9 +37,9 @@ public class EpisodeService {
         return EpisodeResponseMapper.toEpisodeSummaryResponse(savedEpisode);
     }
 
-    public EpisodeSummaryResponse updateEpisode(long novelId, long episodeId, UpdateEpisodeRequest request) {
-        Episode episode = findEpisodeWithNovelId(novelId, episodeId);
-        episode.updateTextMetaData(request.title(), request.description());
+    public EpisodeSummaryResponse updateEpisode(UpdateEpisodeCommand command) {
+        Episode episode = findEpisodeWithNovelUser(command.episodePublicId(), command.userId());
+        episode.updateTextMetaData(command.title(), command.description());
 
         return EpisodeResponseMapper.toEpisodeSummaryResponse(episode);
     }

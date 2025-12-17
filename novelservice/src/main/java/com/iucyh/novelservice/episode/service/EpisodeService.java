@@ -4,6 +4,7 @@ import com.iucyh.novelservice.episode.exception.EpisodeNotFound;
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.mapper.EpisodeCommandMapper;
+import com.iucyh.novelservice.novel.exception.NovelAlreadyCompleted;
 import com.iucyh.novelservice.novel.exception.NovelNotFound;
 import com.iucyh.novelservice.episode.domain.Episode;
 import com.iucyh.novelservice.novel.domain.Novel;
@@ -28,8 +29,11 @@ public class EpisodeService {
 
     public EpisodeSummaryResponse createEpisode(CreateEpisodeCommand command) {
         Novel novel = findNovelWithUserId(command.userId(), command.novelPublicId());
-        int newEpisodeNumber = novel.getLastEpisodeNumber() + 1;
+        if (novel.isCompletedNovel()) {
+            throw new NovelAlreadyCompleted();
+        }
 
+        int newEpisodeNumber = novel.getLastEpisodeNumber() + 1;
         Episode episode = EpisodeCommandMapper.toEpisode(command, novel, newEpisodeNumber);
         Episode savedEpisode = episodeRepository.save(episode); // TODO: GlobalExceptionHandler에 DuplicateKeyException 핸들링 메서드 구현 (409)
         novel.updateLastEpisode(savedEpisode.getEpisodeNumber(), savedEpisode.getCreatedAt());

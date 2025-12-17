@@ -4,10 +4,7 @@ import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.common.response.PageResponse;
 import com.iucyh.novelservice.common.response.api.SuccessResponse;
-import com.iucyh.novelservice.episode.web.dto.request.CreateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.request.EpisodePagingRequest;
-import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeDetailRequest;
-import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
@@ -114,16 +111,6 @@ public class NovelController {
         UpdateNovelCompletionCommand command = NovelRequestMapper.toUpdateNovelCompletionCommand(request, userId, novelPublicId);
         NovelCompletionResponse completionResponse = novelService.updateNovelCompletion(command);
         return ApiResponseMapper.success(completionResponse);
-    }
-
-    @PatchMapping("/{novelId}/episodes/{episodeId}/detail")
-    public SuccessResponse<EpisodeDetailResponse> updateEpisodeDetail(
-            @PathVariable long novelId,
-            @PathVariable long episodeId,
-            @Valid @RequestBody UpdateEpisodeDetailRequest request
-    ) {
-        EpisodeDetailResponse result = episodeService.updateEpisodeDetail(novelId, episodeId, request);
-        return ApiResponseMapper.success(result);
     }
 
     @PostMapping("/{novelId}/likes")

@@ -3,15 +3,13 @@ package com.iucyh.novelservice.episode.service;
 import com.iucyh.novelservice.episode.exception.EpisodeNotFound;
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
+import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeContentCommand;
 import com.iucyh.novelservice.episode.service.dto.mapper.EpisodeCommandMapper;
 import com.iucyh.novelservice.novel.exception.NovelAlreadyCompleted;
 import com.iucyh.novelservice.novel.exception.NovelNotFound;
 import com.iucyh.novelservice.episode.domain.Episode;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeResponseMapper;
-import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeDetailRequest;
-import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
-import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.episode.repository.EpisodeRepository;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
@@ -48,11 +46,9 @@ public class EpisodeService {
         return EpisodeResponseMapper.toEpisodeSummaryResponse(episode);
     }
 
-    public EpisodeDetailResponse updateEpisodeDetail(long novelId, long episodeId, UpdateEpisodeDetailRequest request) {
-        Episode episode = findEpisodeWithNovelId(novelId, episodeId);
-        episode.updateContent(request.content());
-
-        return EpisodeResponseMapper.toEpisodeDetailResponse(episode);
+    public void updateEpisodeContent(UpdateEpisodeContentCommand command) {
+        Episode episode = findEpisodeWithNovelUser(command.episodePublicId(), command.userId());
+        episode.updateContent(command.content());
     }
 
     public void deleteEpisode(long novelId, long episodeId) {

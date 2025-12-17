@@ -60,8 +60,13 @@ public class EpisodeService {
                 .orElseThrow(() -> new NovelNotFound(novelPublicId));
     }
 
+    private Episode findEpisodeWithNovelUser(String episodePublicId, long userId) {
+        return episodeRepository.findByPublicIdWithNovelUser(episodePublicId, userId)
+                .orElseThrow(() -> new EpisodeNotFound(episodePublicId));
+    }
+
     private Episode findEpisodeWithNovelId(long novelId, long episodeId) {
         return episodeRepository.findByIdAndNovelId(episodeId, novelId)
-                .orElseThrow(() -> new EpisodeNotFound(episodeId));
+                .orElseThrow(() -> new EpisodeNotFound(String.valueOf(episodeId))); // 임시 캐스팅, 수정 혹은 삭제 예정
     }
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class EpisodeNotFound extends ServiceException {
 
-    public EpisodeNotFound(long episodeId) {
+    public EpisodeNotFound(String episodeId) {
         super(
                 EpisodeErrorCode.EPISODE_NOT_FOUND,
                 Map.of("episodeId", episodeId)

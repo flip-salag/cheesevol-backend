@@ -94,16 +94,6 @@ public class NovelController {
         return ApiResponseMapper.success(createdNovel);
     }
 
-    @PostMapping("/{novelId}/episodes")
-    @ResponseStatus(HttpStatus.CREATED)
-    public SuccessResponse<EpisodeSummaryResponse> createEpisode(
-            @PathVariable long novelId,
-            @Valid @RequestBody CreateEpisodeRequest request
-    ) {
-        EpisodeSummaryResponse result = episodeService.createEpisode(novelId, request);
-        return ApiResponseMapper.success(result);
-    }
-
     @PatchMapping("/{novelPublicId}")
     public SuccessResponse<NovelSummaryResponse> updateNovel(
             @PathVariable String novelPublicId,

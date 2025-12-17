@@ -1,12 +1,12 @@
 package com.iucyh.novelservice.episode.service;
 
 import com.iucyh.novelservice.episode.exception.EpisodeNotFound;
+import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
+import com.iucyh.novelservice.episode.service.dto.mapper.EpisodeCommandMapper;
 import com.iucyh.novelservice.novel.exception.NovelNotFound;
 import com.iucyh.novelservice.episode.domain.Episode;
 import com.iucyh.novelservice.novel.domain.Novel;
-import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeRequestMapper;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeResponseMapper;
-import com.iucyh.novelservice.episode.web.dto.request.CreateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeDetailRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
@@ -25,15 +25,12 @@ public class EpisodeService {
     private final NovelRepository novelRepository;
     private final EpisodeRepository episodeRepository;
 
-    public EpisodeSummaryResponse createEpisode(long novelId, CreateEpisodeRequest request) {
-        Novel novel = findNovel(novelId);
-        Integer lastEpisodeNumber = episodeRepository.findLastEpisodeNumber(novelId)
-                .orElse(0);
+    public EpisodeSummaryResponse createEpisode(CreateEpisodeCommand command) {
+        Novel novel = findNovelWithUserId(command.userId(), command.novelPublicId());
+        int newEpisodeNumber = novel.getLastEpisodeNumber() + 1;
 
-        int nextEpisodeNumber = lastEpisodeNumber + 1;
-        Episode episode = EpisodeRequestMapper.toEpisode(request, novel, nextEpisodeNumber);
-
-        Episode savedEpisode = episodeRepository.save(episode);
+        Episode episode = EpisodeCommandMapper.toEpisode(command, novel, newEpisodeNumber);
+        Episode savedEpisode = episodeRepository.save(episode); // TODO: GlobalExceptionHandler에 DuplicateKeyException 핸들링 메서드 구현 (409)
         novel.updateLastEpisode(savedEpisode.getEpisodeNumber(), savedEpisode.getCreatedAt());
 
         return EpisodeResponseMapper.toEpisodeSummaryResponse(savedEpisode);
@@ -61,6 +58,11 @@ public class EpisodeService {
     private Novel findNovel(long novelId) {
         return novelRepository.findById(novelId)
                 .orElseThrow(() -> new NovelNotFound(""));
+    }
+
+    private Novel findNovelWithUserId(long userId, String novelPublicId) {
+        return novelRepository.findByUserIdAndPublicIdAndDeletedAtIsNull(userId, novelPublicId)
+                .orElseThrow(() -> new NovelNotFound(novelPublicId));
     }
 
     private Episode findEpisodeWithNovelId(long novelId, long episodeId) {

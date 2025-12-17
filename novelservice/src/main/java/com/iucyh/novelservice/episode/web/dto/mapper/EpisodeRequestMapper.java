@@ -2,7 +2,9 @@ package com.iucyh.novelservice.episode.web.dto.mapper;
 
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
+import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeContentCommand;
 import com.iucyh.novelservice.episode.web.dto.request.CreateEpisodeRequest;
+import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeContentRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
 
 public class EpisodeRequestMapper {
@@ -25,6 +27,14 @@ public class EpisodeRequestMapper {
                 episodePublicId,
                 request.title(),
                 request.description()
+        );
+    }
+
+    public static UpdateEpisodeContentCommand toUpdateEpisodeContentCommand(UpdateEpisodeContentRequest request, long userId, String episodePublicId) {
+        return new UpdateEpisodeContentCommand(
+                userId,
+                episodePublicId,
+                request.content()
         );
     }
 }

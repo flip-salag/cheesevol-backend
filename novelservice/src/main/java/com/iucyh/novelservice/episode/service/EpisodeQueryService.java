@@ -52,16 +52,17 @@ public class EpisodeQueryService {
     }
 
     public EpisodeDetailResponse findEpisodeDetail(long novelId, int episodeNumber) {
-        EpisodeDetail detail = episodeRepository.findEpisodeDetail(novelId, episodeNumber)
-                .orElseThrow(() -> EpisodeNotFound.withEpisodeNumber(episodeNumber));
-
-        try {
-            novelViewCountService.increaseViewCounts(novelId, detail.getId());
-        } catch (DataAccessException e) {
-            log.warn("Failed to increase view count for episode {} of novel {}", detail.getId(), novelId, e);
-        }
-
-        return EpisodeResponseMapper.toEpisodeDetailResponse(detail);
+        return null;
+//        EpisodeDetail detail = episodeRepository.findEpisodeDetail(novelId, episodeNumber)
+//                .orElseThrow(() -> EpisodeNotFound.withEpisodeNumber(episodeNumber));
+//
+//        try {
+//            novelViewCountService.increaseViewCounts(novelId, detail.getId());
+//        } catch (DataAccessException e) {
+//            log.warn("Failed to increase view count for episode {} of novel {}", detail.getId(), novelId, e);
+//        }
+//
+//        return EpisodeResponseMapper.toEpisodeDetailResponse(detail);
     }
 
     private List<EpisodeSummaryResponse> mapToEpisodeResponseList(List<EpisodeSimpleQueryDto> episodes) {

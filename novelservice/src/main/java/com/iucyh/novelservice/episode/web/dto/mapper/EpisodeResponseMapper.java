@@ -38,11 +38,11 @@ public class EpisodeResponseMapper {
     }
 
     public static EpisodeDetailResponse toEpisodeDetailResponse(Episode episode) {
-        return new EpisodeDetailResponse(episode.getContent());
+        return null; //new EpisodeDetailResponse(episode.getContent());
     }
 
     public static EpisodeDetailResponse toEpisodeDetailResponse(EpisodeDetail episodeDetail) {
-        return new EpisodeDetailResponse(episodeDetail.getContent());
+        return null; //new EpisodeDetailResponse(episodeDetail.getContent());
     }
 
     public static PageResponse<EpisodeSummaryResponse> toPagingResponse(List<EpisodeSummaryResponse> episodes, long totalCount, Integer lastEpisodeNumber) {

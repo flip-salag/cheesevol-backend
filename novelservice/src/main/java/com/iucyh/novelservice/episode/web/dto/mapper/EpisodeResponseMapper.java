@@ -17,27 +17,29 @@ public class EpisodeResponseMapper {
     private EpisodeResponseMapper() {}
 
     public static EpisodeSummaryResponse toEpisodeSummaryResponse(Episode episode) {
-        return new EpisodeSummaryResponse(
-                episode.getId(),
-                episode.getTitle(),
-                episode.getDescription(),
-                episode.getEpisodeNumber(),
-                episode.getViewCount(),
-                episode.getUpdatedAt(),
-                episode.getCreatedAt()
-        );
+//        return new EpisodeSummaryResponse(
+//                episode.getId(),
+//                episode.getTitle(),
+//                episode.getDescription(),
+//                episode.getEpisodeNumber(),
+//                episode.getViewCount(),
+//                episode.getUpdatedAt(),
+//                episode.getCreatedAt()
+//        );
+        return null;
     }
 
     public static EpisodeSummaryResponse toEpisodeSummaryResponse(EpisodeSimpleQueryDto episode) {
-        return new EpisodeSummaryResponse(
-                episode.getId(),
-                episode.getTitle(),
-                episode.getDescription(),
-                episode.getEpisodeNumber(),
-                episode.getViewCount(),
-                episode.getUpdatedAt(),
-                episode.getCreatedAt()
-        );
+//        return new EpisodeSummaryResponse(
+//                episode.getId(),
+//                episode.getTitle(),
+//                episode.getDescription(),
+//                episode.getEpisodeNumber(),
+//                episode.getViewCount(),
+//                episode.getUpdatedAt(),
+//                episode.getCreatedAt()
+//        );
+        return null;
     }
 
     public static EpisodeDetailResponse toEpisodeDetailResponse(EpisodeDetailQueryProjection episodeDetail, EpisodePrevNextQueryProjection prev, EpisodePrevNextQueryProjection next) {

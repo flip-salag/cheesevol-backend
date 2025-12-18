@@ -4,11 +4,10 @@ import java.time.LocalDateTime;
 
 public record EpisodeSummaryResponse(
 
-        long episodeId,
+        String episodeId,
         String title,
         String description,
-        int episodeNumber,
         int viewCount,
-        LocalDateTime updatedAt,
+        int episodeNumber,
         LocalDateTime createdAt
 ) {}

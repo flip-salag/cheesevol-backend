@@ -54,7 +54,7 @@ public class EpisodeQueryService {
         return EpisodeResponseMapper.toPagingResponse(episodeResponses, episodeCount, lastEpisodeNumber);
     }
 
-    public EpisodeDetailResponse findEpisodeDetail(String episodePublicId) {
+    public EpisodeDetailResponse getEpisodeDetail(String episodePublicId) {
         EpisodeDetailQueryProjection detailResult = episodeQueryRepository.findEpisodeDetailByPublicId(episodePublicId)
                 .orElseThrow(() -> new EpisodeNotFound(episodePublicId));
 

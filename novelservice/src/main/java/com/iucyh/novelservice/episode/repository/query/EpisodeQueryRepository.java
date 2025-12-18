@@ -2,9 +2,12 @@ package com.iucyh.novelservice.episode.repository.query;
 
 import com.iucyh.novelservice.episode.repository.query.condition.EpisodeSearchCondition;
 import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
+import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
+import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface EpisodeQueryRepository {
 
@@ -16,6 +19,30 @@ public interface EpisodeQueryRepository {
      * @return 가장 최신 회차의 생성일, 결과가 없다면 {@code null}
      */
     LocalDateTime findLastEpisodeAtExceptDeletedEpisode(Long novelId, String publicId);
+
+    /**
+     * <p>현재 회차의 이전 회차 조회</p>
+     * @param novelId 조회할 회차들이 속한 소설의 id
+     * @param episodeNumber 조회의 기준이 될 회차의 회차 번호
+     * @return 기준 회차의 이전 회차, 이전 회차가 존재하지 않는다면 {@code Optional.empty()}
+     */
+    Optional<EpisodePrevNextQueryProjection> findPrevEpisode(Long novelId, Integer episodeNumber);
+
+    /**
+     * <p>현재 회차의 다음 회차 조회</p>
+     * @param novelId 조회할 회차들이 속한 소설의 id
+     * @param episodeNumber 조회의 기준이 될 회차의 회차 번호
+     * @return 기준 회차의 다음 회차, 다음 회차가 존재하지 않는다면 {@code Optional.empty()}
+     */
+    Optional<EpisodePrevNextQueryProjection> findNextEpisode(Long novelId, Integer episodeNumber);
+
+    /**
+     * <p>{@code publicId}에 해당하는 회차의 상세 정보를 조회 (소설, 유저의 일부 정보 포함)</p>
+     * <p>회차, 소설, 유저 중 하나라도 삭제되었다면(soft delete 포함) Optional.empty() 반환</p>
+     * @param publicId 조회할 회차의 public id
+     * @return 회차의 상세 정보, 조건에 맞는 episode가 없다면 {@code Optional.empty()}
+     */
+    Optional<EpisodeDetailQueryProjection> findEpisodeDetailByPublicId(String publicId);
 
     List<EpisodeSimpleQueryDto> findEpisodesByNovelId(long novelId, EpisodeSearchCondition condition);
 }

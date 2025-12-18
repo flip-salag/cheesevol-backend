@@ -1,16 +1,15 @@
 package com.iucyh.novelservice.episode.repository;
 
+import com.iucyh.novelservice.common.repository.PublicEntityRepository;
 import com.iucyh.novelservice.episode.domain.Episode;
 import com.iucyh.novelservice.episode.repository.projection.EpisodeDetail;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
-public interface EpisodeRepository extends JpaRepository<Episode, Long> {
+public interface EpisodeRepository extends PublicEntityRepository<Episode, Long> {
 
     /**
      * novelId에 해당하는 소설에 회차가 1개라도 존재하는 지 검사

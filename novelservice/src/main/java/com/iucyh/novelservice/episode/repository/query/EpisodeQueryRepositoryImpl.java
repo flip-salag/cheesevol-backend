@@ -26,7 +26,7 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
                 .from(episode)
                 .where(
                         episode.novel.id.eq(novelId),
-                        episode.publicId.ne(publicId),
+                        publicId == null ? null : episode.publicId.ne(publicId),
                         episode.deletedAt.isNull()
                 )
                 .orderBy(

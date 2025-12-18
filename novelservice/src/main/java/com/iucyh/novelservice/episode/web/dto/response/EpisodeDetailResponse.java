@@ -12,24 +12,23 @@ public record EpisodeDetailResponse(
         int episodeNumber,
         LocalDateTime createdAt,
         NovelInfo novel,
-        EpisodeNavigation navigation
+        EpisodePrevNext prevNext
 ) {
     public record NovelInfo(
 
             String novelId,
             UserBasicInfo author,
             String title,
-            int likeCount,
-            int totalEpisodeCount
+            int likeCount
     ) {}
 
-    public record EpisodeNavigation(
+    public record EpisodePrevNext(
 
-            EpisodeNavigationItem prevEpisode,
-            EpisodeNavigationItem nextEpisode
+            EpisodePrevNextItem prevEpisode,
+            EpisodePrevNextItem nextEpisode
     ) {}
 
-    public record EpisodeNavigationItem(
+    public record EpisodePrevNextItem(
 
             String episodeId,
             int episodeNumber

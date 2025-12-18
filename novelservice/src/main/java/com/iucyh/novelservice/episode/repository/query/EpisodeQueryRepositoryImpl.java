@@ -4,7 +4,9 @@ import com.iucyh.novelservice.episode.repository.query.condition.EpisodeSearchCo
 import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
 import com.iucyh.novelservice.episode.repository.query.dto.QEpisodeSimpleQueryDto;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
+import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
 import com.iucyh.novelservice.episode.repository.query.projection.QEpisodeDetailQueryProjection;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +40,48 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
                         episode.episodeNumber.desc()
                 )
                 .fetchFirst();
+    }
+
+    @Override
+    public Optional<EpisodePrevNextQueryProjection> findPrevEpisode(Long novelId, Integer episodeNumber) {
+        EpisodePrevNextQueryProjection result = queryFactory
+                .select(Projections.constructor(
+                        EpisodePrevNextQueryProjection.class,
+                        episode.publicId,
+                        episode.episodeNumber
+                ))
+                .from(episode)
+                .where(
+                        episode.novel.id.eq(novelId),
+                        episode.episodeNumber.lt(episodeNumber),
+                        episode.deletedAt.isNull()
+                )
+                .orderBy(
+                        episode.episodeNumber.desc()
+                )
+                .fetchFirst();
+        return Optional.ofNullable(result);
+    }
+
+    @Override
+    public Optional<EpisodePrevNextQueryProjection> findNextEpisode(Long novelId, Integer episodeNumber) {
+        EpisodePrevNextQueryProjection result = queryFactory
+                .select(Projections.constructor(
+                        EpisodePrevNextQueryProjection.class,
+                        episode.publicId,
+                        episode.episodeNumber
+                ))
+                .from(episode)
+                .where(
+                        episode.novel.id.eq(novelId),
+                        episode.episodeNumber.gt(episodeNumber),
+                        episode.deletedAt.isNull()
+                )
+                .orderBy(
+                        episode.episodeNumber.asc()
+                )
+                .fetchFirst();
+        return Optional.ofNullable(result);
     }
 
     @Override

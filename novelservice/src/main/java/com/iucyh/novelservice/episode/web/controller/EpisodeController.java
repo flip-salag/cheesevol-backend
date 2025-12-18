@@ -4,6 +4,7 @@ import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
 import com.iucyh.novelservice.common.response.api.SuccessResponse;
 import com.iucyh.novelservice.episode.service.EpisodeService;
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
+import com.iucyh.novelservice.episode.service.dto.command.DeleteEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeContentCommand;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeRequestMapper;
@@ -56,6 +57,16 @@ public class EpisodeController {
     ) {
         UpdateEpisodeContentCommand command = EpisodeRequestMapper.toUpdateEpisodeContentCommand(request, userId, episodePublicId);
         episodeService.updateEpisodeContent(command);
+        return ApiResponseMapper.success();
+    }
+
+    @DeleteMapping("/episodes/{episodePublicId}")
+    public SuccessResponse<Void> deleteEpisode(
+            @PathVariable String episodePublicId,
+            @RequestHeader(TEMP_USER_ID_HEADER) long userId
+    ) {
+        DeleteEpisodeCommand command = EpisodeRequestMapper.toDeleteEpisodeCommand(userId, episodePublicId);
+        episodeService.deleteEpisode(command);
         return ApiResponseMapper.success();
     }
 }

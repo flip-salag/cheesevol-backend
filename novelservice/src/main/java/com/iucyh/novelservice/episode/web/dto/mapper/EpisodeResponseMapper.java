@@ -3,9 +3,12 @@ package com.iucyh.novelservice.episode.web.dto.mapper;
 import com.iucyh.novelservice.episode.domain.Episode;
 import com.iucyh.novelservice.common.response.PageResponse;
 import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
+import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
+import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.episode.repository.projection.EpisodeDetail;
+import com.iucyh.novelservice.user.web.dto.response.info.UserBasicInfo;
 
 import java.util.List;
 
@@ -37,6 +40,27 @@ public class EpisodeResponseMapper {
         );
     }
 
+    public static EpisodeDetailResponse toEpisodeDetailResponse(EpisodeDetailQueryProjection episodeDetail, EpisodePrevNextQueryProjection prev, EpisodePrevNextQueryProjection next) {
+        UserBasicInfo author = new UserBasicInfo(episodeDetail.getUserPublicId(), episodeDetail.getUserNickname());
+        EpisodeDetailResponse.NovelInfo novelInfo = new EpisodeDetailResponse.NovelInfo(
+                episodeDetail.getNovelPublicId(),
+                author,
+                episodeDetail.getNovelTitle(),
+                episodeDetail.getNovelLikeCount()
+        );
+        EpisodeDetailResponse.EpisodePrevNext episodePrevNext = getEpisodePrevNext(prev, next);
+
+        return new EpisodeDetailResponse(
+                episodeDetail.getEpisodePublicId(),
+                episodeDetail.getEpisodeTitle(),
+                episodeDetail.getEpisodeDescription(),
+                episodeDetail.getEpisodeNumber(),
+                episodeDetail.getEpisodeCreatedAt(),
+                novelInfo,
+                episodePrevNext
+        );
+    }
+
     public static EpisodeDetailResponse toEpisodeDetailResponse(Episode episode) {
         return null; //new EpisodeDetailResponse(episode.getContent());
     }
@@ -47,5 +71,20 @@ public class EpisodeResponseMapper {
 
     public static PageResponse<EpisodeSummaryResponse> toPagingResponse(List<EpisodeSummaryResponse> episodes, long totalCount, Integer lastEpisodeNumber) {
         return new PageResponse<>(totalCount, lastEpisodeNumber, episodes);
+    }
+
+    private static EpisodeDetailResponse.EpisodePrevNext getEpisodePrevNext(EpisodePrevNextQueryProjection prev, EpisodePrevNextQueryProjection next) {
+        EpisodeDetailResponse.EpisodePrevNextItem prevEpisode = null;
+        EpisodeDetailResponse.EpisodePrevNextItem nextEpisode = null;
+
+        if (prev != null) {
+            prevEpisode = new EpisodeDetailResponse.EpisodePrevNextItem(prev.getEpisodePublicId(), prev.getEpisodeNumber());
+        }
+
+        if (next != null) {
+            nextEpisode = new EpisodeDetailResponse.EpisodePrevNextItem(next.getEpisodePublicId(), next.getEpisodeNumber());
+        }
+
+        return new EpisodeDetailResponse.EpisodePrevNext(prevEpisode, nextEpisode);
     }
 }

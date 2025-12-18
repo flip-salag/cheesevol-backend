@@ -14,6 +14,7 @@ public class EpisodeDetailQueryProjection {
     private final Integer episodeNumber;
     private final LocalDateTime episodeCreatedAt;
 
+    private final Long novelId;
     private final String novelPublicId;
     private final String novelTitle;
     private final Integer novelLikeCount;
@@ -24,7 +25,7 @@ public class EpisodeDetailQueryProjection {
     @QueryProjection
     public EpisodeDetailQueryProjection(
             String episodePublicId, String episodeTitle, String episodeDescription, Integer episodeNumber, LocalDateTime episodeCreatedAt,
-            String novelPublicId, String novelTitle, Integer novelLikeCount,
+            Long novelId, String novelPublicId, String novelTitle, Integer novelLikeCount,
             String userPublicId, String userNickname
     ) {
         this.episodePublicId = episodePublicId;
@@ -33,6 +34,7 @@ public class EpisodeDetailQueryProjection {
         this.episodeNumber = episodeNumber;
         this.episodeCreatedAt = episodeCreatedAt;
 
+        this.novelId = novelId;
         this.novelPublicId = novelPublicId;
         this.novelTitle = novelTitle;
         this.novelLikeCount = novelLikeCount;

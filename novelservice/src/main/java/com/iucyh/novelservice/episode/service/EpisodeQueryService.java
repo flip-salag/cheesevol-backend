@@ -3,6 +3,8 @@ package com.iucyh.novelservice.episode.service;
 import com.iucyh.novelservice.episode.exception.EpisodeNotFound;
 import com.iucyh.novelservice.episode.repository.query.condition.EpisodeSearchCondition;
 import com.iucyh.novelservice.common.response.PageResponse;
+import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
+import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeResponseMapper;
 import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
 import com.iucyh.novelservice.episode.web.dto.request.EpisodePagingRequest;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -51,18 +54,16 @@ public class EpisodeQueryService {
         return EpisodeResponseMapper.toPagingResponse(episodeResponses, episodeCount, lastEpisodeNumber);
     }
 
-    public EpisodeDetailResponse findEpisodeDetail(long novelId, int episodeNumber) {
-        return null;
-//        EpisodeDetail detail = episodeRepository.findEpisodeDetail(novelId, episodeNumber)
-//                .orElseThrow(() -> EpisodeNotFound.withEpisodeNumber(episodeNumber));
-//
-//        try {
-//            novelViewCountService.increaseViewCounts(novelId, detail.getId());
-//        } catch (DataAccessException e) {
-//            log.warn("Failed to increase view count for episode {} of novel {}", detail.getId(), novelId, e);
-//        }
-//
-//        return EpisodeResponseMapper.toEpisodeDetailResponse(detail);
+    public EpisodeDetailResponse findEpisodeDetail(String episodePublicId) {
+        EpisodeDetailQueryProjection detailResult = episodeQueryRepository.findEpisodeDetailByPublicId(episodePublicId)
+                .orElseThrow(() -> new EpisodeNotFound(episodePublicId));
+
+        EpisodePrevNextQueryProjection prevEpisode = episodeQueryRepository.findPrevEpisode(detailResult.getNovelId(), detailResult.getEpisodeNumber())
+                .orElse(null);
+        EpisodePrevNextQueryProjection nextEpisode = episodeQueryRepository.findNextEpisode(detailResult.getNovelId(), detailResult.getEpisodeNumber())
+                .orElse(null);
+
+        return EpisodeResponseMapper.toEpisodeDetailResponse(detailResult, prevEpisode, nextEpisode);
     }
 
     private List<EpisodeSummaryResponse> mapToEpisodeResponseList(List<EpisodeSimpleQueryDto> episodes) {

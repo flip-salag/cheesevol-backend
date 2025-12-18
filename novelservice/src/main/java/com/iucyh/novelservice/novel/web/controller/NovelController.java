@@ -75,8 +75,8 @@ public class NovelController {
             @PathVariable long novelId,
             @PathVariable int episodeNumber
     ) {
-        EpisodeDetailResponse result = episodeQueryService.findEpisodeDetail(novelId, episodeNumber);
-        return ApiResponseMapper.success(result);
+        //EpisodeDetailResponse result = episodeQueryService.findEpisodeDetail(novelId, episodeNumber);
+        return ApiResponseMapper.success(null);
     }
 
     @PostMapping

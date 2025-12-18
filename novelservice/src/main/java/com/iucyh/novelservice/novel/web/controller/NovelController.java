@@ -70,15 +70,6 @@ public class NovelController {
         return ApiResponseMapper.success(result);
     }
 
-    @GetMapping("/{novelId}/episodes/{episodeNumber}")
-    public SuccessResponse<EpisodeDetailResponse> getEpisodeDetail(
-            @PathVariable long novelId,
-            @PathVariable int episodeNumber
-    ) {
-        //EpisodeDetailResponse result = episodeQueryService.findEpisodeDetail(novelId, episodeNumber);
-        return ApiResponseMapper.success(null);
-    }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SuccessResponse<NovelSummaryResponse> createNovel(

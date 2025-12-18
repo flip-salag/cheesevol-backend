@@ -19,7 +19,12 @@ public interface EpisodeRepository extends PublicEntityRepository<Episode, Long>
      */
     boolean existsByNovelIdAndDeletedAtIsNull(Long novelId);
 
-    Page<EpisodeSummaryProjection> findAllByNovelIdAndDeletedAtIsNull(Long novelId, Pageable pageable);
+    /**
+     * 특정 소설의 회차 목록 조회, offset 기반 페이징 사용
+     * @param novelPublicId 조회할 소설의 public id
+     * @return {@code Page<EpisodeSummaryProjection>}
+     */
+    Page<EpisodeSummaryProjection> findAllByNovelPublicIdAndDeletedAtIsNull(String novelPublicId, Pageable pageable);
 
     /**
      * <p>{@code publicId}에 해당하는 회차를 조회하면서 아래 조건들을 동시에 검사</p>

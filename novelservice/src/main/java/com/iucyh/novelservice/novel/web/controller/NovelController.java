@@ -38,7 +38,6 @@ public class NovelController {
     private static final String TEMP_USER_ID_HEADER = "TEMP-USER-ID";
 
     private final NovelService novelService;
-    private final EpisodeService episodeService;
     private final NovelQueryService novelQueryService;
     private final EpisodeQueryService episodeQueryService;
 
@@ -136,15 +135,6 @@ public class NovelController {
     ) {
         DeleteNovelCommand command = NovelRequestMapper.toDeleteNovelCommand(userId, novelPublicId);
         novelService.deleteNovel(command);
-        return ApiResponseMapper.success();
-    }
-
-    @DeleteMapping("/{novelId}/episodes/{episodeId}")
-    public SuccessResponse<Void> deleteEpisode(
-            @PathVariable long novelId,
-            @PathVariable long episodeId
-    ) {
-        episodeService.deleteEpisode(novelId, episodeId);
         return ApiResponseMapper.success();
     }
 }

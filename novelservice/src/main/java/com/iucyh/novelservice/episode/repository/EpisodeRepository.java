@@ -12,18 +12,6 @@ import java.util.Optional;
 public interface EpisodeRepository extends PublicEntityRepository<Episode, Long> {
 
     /**
-     * <p>{@code publicId}에 해당하는 회차를 조회하면서 Novel 엔티티도 같이 조회 (fetch join)</p>
-     * <p>삭제된 회차 혹은 삭제된 소설이라면 조회 실패(Optional.empty())</p>
-     */
-    @Query("""
-    select e
-    from Episode e
-    join fetch e.novel n
-    where e.publicId = :publicId and e.deletedAt is null and n.deletedAt is null
-    """)
-    Optional<Episode> findByPublicIdFetch(@Param("publicId") String publicId);
-
-    /**
      * novelId에 해당하는 소설에 회차가 1개라도 존재하는 지 검사
      */
     boolean existsByNovelIdAndDeletedAtIsNull(Long novelId);

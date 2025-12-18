@@ -3,6 +3,9 @@ package com.iucyh.novelservice.episode.repository;
 import com.iucyh.novelservice.common.repository.PublicEntityRepository;
 import com.iucyh.novelservice.episode.domain.Episode;
 import com.iucyh.novelservice.episode.repository.projection.EpisodeDetail;
+import com.iucyh.novelservice.episode.repository.projection.EpisodeSummaryProjection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +18,8 @@ public interface EpisodeRepository extends PublicEntityRepository<Episode, Long>
      * novelId에 해당하는 소설에 회차가 1개라도 존재하는 지 검사
      */
     boolean existsByNovelIdAndDeletedAtIsNull(Long novelId);
+
+    Page<EpisodeSummaryProjection> findAllByNovelIdAndDeletedAtIsNull(Long novelId, Pageable pageable);
 
     /**
      * <p>{@code publicId}에 해당하는 회차를 조회하면서 아래 조건들을 동시에 검사</p>

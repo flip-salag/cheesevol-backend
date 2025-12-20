@@ -1,9 +1,13 @@
 package com.iucyh.novelservice.episode.repository.query;
 
+import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
 import com.iucyh.novelservice.episode.repository.query.condition.EpisodeSearchCondition;
 import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
+import com.iucyh.novelservice.episode.repository.query.projection.EpisodeSummaryQueryProjection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,5 +48,12 @@ public interface EpisodeQueryRepository {
      */
     Optional<EpisodeDetailQueryProjection> findEpisodeDetailByPublicId(String publicId);
 
-    List<EpisodeSimpleQueryDto> findEpisodesByNovelId(long novelId, EpisodeSearchCondition condition);
+    /**
+     * <p>{@code novelPublicId}에 해당하는 소설의 회차 목록을 조회, offset 기반 페이징 사용</p>
+     * <p>삭제된 회차는 제외</p>
+     * @param novelPublicId 조회할 소설의 public id
+     * @param condition 페이징 조건
+     * @return 페이지 정보와 회차 목록을 담은 {@code Page<EpisodeSummaryQueryProjection>}
+     */
+    Page<EpisodeSummaryQueryProjection> findEpisodesByNovelPublicId(String novelPublicId, EpisodePagingCondition condition);
 }

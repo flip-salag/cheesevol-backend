@@ -1,15 +1,21 @@
 package com.iucyh.novelservice.episode.repository.query;
 
+import com.iucyh.novelservice.episode.domain.Episode;
+import com.iucyh.novelservice.episode.enumtype.EpisodeSortType;
+import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
 import com.iucyh.novelservice.episode.repository.query.condition.EpisodeSearchCondition;
 import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
 import com.iucyh.novelservice.episode.repository.query.dto.QEpisodeSimpleQueryDto;
-import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
-import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
-import com.iucyh.novelservice.episode.repository.query.projection.QEpisodeDetailQueryProjection;
+import com.iucyh.novelservice.episode.repository.query.projection.*;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -118,33 +124,44 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
     }
 
     @Override
-    public List<EpisodeSimpleQueryDto> findEpisodesByNovelId(long novelId, EpisodeSearchCondition condition) {
-        JPAQuery<EpisodeSimpleQueryDto> query = queryFactory
-                .select(new QEpisodeSimpleQueryDto(
-                        episode.id,
-                        episode.title,
-                        episode.description,
-                        episode.episodeNumber,
-                        episode.viewCount,
-                        episode.updatedAt,
-                        episode.createdAt
-                ))
+    public Page<EpisodeSummaryQueryProjection> findEpisodesByNovelPublicId(String novelPublicId, EpisodePagingCondition condition) {
+        Pageable pageable = condition.pageable();
+        List<EpisodeSummaryQueryProjection> content = queryFactory
+                .select(
+                        new QEpisodeSummaryQueryProjection(
+                                episode.publicId,
+                                episode.title,
+                                episode.description,
+                                episode.viewCount,
+                                episode.episodeNumber,
+                                episode.createdAt
+                        )
+                )
                 .from(episode)
+                .join(episode.novel, novel)
                 .where(
-                        episode.novel.id.eq(novelId),
+                        novel.publicId.eq(novelPublicId),
                         episode.deletedAt.isNull()
                 )
-                .orderBy(episode.episodeNumber.desc())
-                .limit(condition.limit());
-        if (isNotFirstPage(condition.lastEpisodeNumber())) {
-            Integer lastEpisodeNumber = condition.lastEpisodeNumber();
-            query.where(episode.episodeNumber.lt(lastEpisodeNumber));
-        }
+                .orderBy(
+                        applyOrder(condition.sortType())
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+        JPAQuery<Long> countQuery = queryFactory
+                .select(episode.count())
+                .from(episode)
+                .join(episode.novel, novel)
+                .where(
+                        novel.publicId.eq(novelPublicId),
+                        episode.deletedAt.isNull()
+                );
 
-        return query.fetch();
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
-    private boolean isNotFirstPage(Integer lastEpisodeNumber) {
-        return lastEpisodeNumber != null;
+    private OrderSpecifier<Integer> applyOrder(EpisodeSortType sortType) {
+        return sortType == EpisodeSortType.ASC ? episode.episodeNumber.asc() : episode.episodeNumber.desc();
     }
 }

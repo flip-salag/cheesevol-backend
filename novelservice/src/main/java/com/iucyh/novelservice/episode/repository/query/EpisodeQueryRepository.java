@@ -1,16 +1,12 @@
 package com.iucyh.novelservice.episode.repository.query;
 
 import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
-import com.iucyh.novelservice.episode.repository.query.condition.EpisodeSearchCondition;
-import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodeSummaryQueryProjection;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 public interface EpisodeQueryRepository {

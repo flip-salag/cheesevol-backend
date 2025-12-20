@@ -7,10 +7,10 @@ import org.hibernate.validator.constraints.Range;
 
 public record EpisodePageRequest(
 
-        @NotNull(message = "sort is required")
+        @NotNull(message = "Sort is required")
         EpisodeSortType sort,
 
-        @NotNull(message = "page is required")
+        @NotNull(message = "Page is required")
         @PositiveOrZero
         Integer page,
 

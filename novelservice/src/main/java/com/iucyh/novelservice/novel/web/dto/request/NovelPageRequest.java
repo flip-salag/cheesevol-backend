@@ -10,10 +10,10 @@ public record NovelPageRequest(
         @NotNull
         NovelSortType sort,
 
-        @Size(max = 2048, message = "Cursor length is too long")
-        String cursor,
+        @Size(max = 2048, message = "Next is too long")
+        String next,
 
-        @Range(min = 5, max = 50, message = "Size must be between 5 and 50")
+        @Range(min = 5, max = 50)
         Integer size
 ) {
     public NovelPageRequest {

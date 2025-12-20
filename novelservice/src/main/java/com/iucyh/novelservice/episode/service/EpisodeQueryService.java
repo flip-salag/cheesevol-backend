@@ -38,7 +38,7 @@ public class EpisodeQueryService {
         EpisodePagingCondition condition = new EpisodePagingCondition(pageable, query.sortType());
         Page<EpisodeSummaryQueryProjection> result = episodeQueryRepository.findEpisodesByNovelPublicId(query.novelPublicId(), condition);
 
-        return EpisodeResponseMapper.toEpisodeSummaryResponse(result);
+        return EpisodeResponseMapper.toPageResponse(result);
     }
 
     public EpisodeDetailResponse getEpisodeDetail(String episodePublicId) {

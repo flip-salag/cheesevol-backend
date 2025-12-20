@@ -38,19 +38,6 @@ public class EpisodeResponseMapper {
         );
     }
 
-    public static PageWithOffsetResponse<EpisodeSummaryResponse> toEpisodeSummaryResponse(Page<EpisodeSummaryQueryProjection> page) {
-        List<EpisodeSummaryResponse> episodes = page.getContent().stream()
-                .map(EpisodeResponseMapper::toEpisodeSummaryResponse)
-                .toList();
-        return new PageWithOffsetResponse<>(
-                page.getNumber(),
-                page.getSize(),
-                page.getTotalPages(),
-                page.getTotalElements(),
-                episodes
-        );
-    }
-
     public static EpisodeDetailResponse toEpisodeDetailResponse(EpisodeDetailQueryProjection episodeDetail, EpisodePrevNextQueryProjection prev, EpisodePrevNextQueryProjection next) {
         UserBasicInfo author = new UserBasicInfo(episodeDetail.getUserPublicId(), episodeDetail.getUserNickname());
         EpisodeDetailResponse.NovelInfo novelInfo = new EpisodeDetailResponse.NovelInfo(
@@ -69,6 +56,19 @@ public class EpisodeResponseMapper {
                 episodeDetail.getEpisodeCreatedAt(),
                 novelInfo,
                 episodePrevNext
+        );
+    }
+
+    public static PageWithOffsetResponse<EpisodeSummaryResponse> toPageResponse(Page<EpisodeSummaryQueryProjection> page) {
+        List<EpisodeSummaryResponse> episodes = page.getContent().stream()
+                .map(EpisodeResponseMapper::toEpisodeSummaryResponse)
+                .toList();
+        return new PageWithOffsetResponse<>(
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalPages(),
+                page.getTotalElements(),
+                episodes
         );
     }
 

@@ -4,6 +4,7 @@ import com.iucyh.novelservice.episode.enumtype.EpisodeSortType;
 
 public record GetEpisodesQuery(
 
+        String novelPublicId,
         EpisodeSortType sortType,
         int page,
         int limit

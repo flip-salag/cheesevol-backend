@@ -96,11 +96,9 @@ public class NovelQueryService {
         NovelPagingStrategy pagingStrategy = getPagingStrategy(sortType);
 
         List<Novel> result = finder.apply(pagingCondition, pagingStrategy);
-        // TODO: 각 조회 조건별 쿼리 세분화 필요, 쿼리 호출 최소화 필요
-        long totalCount = novelRepository.countByDeletedAtIsNull();
 
         if (result.isEmpty()) {
-            return NovelResponseMapper.toPageResponse(List.of(), totalCount, null);
+            return NovelResponseMapper.toPageResponse(List.of(), null, limit);
         }
 
         List<Novel> pageResult = result.stream().limit(limit).toList();
@@ -112,7 +110,7 @@ public class NovelQueryService {
         }
 
         List<NovelSummaryResponse> novels = mapToNovelResponseList(pageResult);
-        return NovelResponseMapper.toPageResponse(novels, totalCount, newCursor);
+        return NovelResponseMapper.toPageResponse(novels, newCursor, limit);
     }
 
     private NovelPagingStrategy getPagingStrategy(NovelSortType sortType) {

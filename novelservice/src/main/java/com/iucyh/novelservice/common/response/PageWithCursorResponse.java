@@ -4,7 +4,7 @@ import java.util.List;
 
 public record PageWithCursorResponse<T>(
 
-        long total,
+        int size,
         Object next,
         List<T> items
 ) {}

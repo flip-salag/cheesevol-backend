@@ -43,7 +43,7 @@ public class NovelResponseMapper {
         return new NovelLikeCountResponse(likeCount);
     }
 
-    public static PageWithCursorResponse<NovelSummaryResponse> toPageResponse(List<NovelSummaryResponse> novels, long totalCount, String encodedCursor) {
-        return new PageWithCursorResponse<>(totalCount, encodedCursor, novels);
+    public static PageWithCursorResponse<NovelSummaryResponse> toPageResponse(List<NovelSummaryResponse> novels, String encodedCursor, int size) {
+        return new PageWithCursorResponse<>(size, encodedCursor, novels);
     }
 }

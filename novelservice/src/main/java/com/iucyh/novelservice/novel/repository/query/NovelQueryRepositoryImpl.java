@@ -23,6 +23,21 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
+    public boolean existsByPublicId(String publicId) {
+        Integer result = queryFactory
+                .selectOne()
+                .from(novel)
+                .join(novel.user, user)
+                .where(
+                        novel.publicId.eq(publicId),
+                        novel.deletedAt.isNull(),
+                        user.deletedAt.isNull()
+                )
+                .fetchFirst();
+        return result != null;
+    }
+
+    @Override
     public List<Novel> findNovels(NovelPagingCondition condition, NovelPagingStrategy strategy, NovelCategory category) {
         JPAQuery<Novel> query = queryFactory
                 .selectFrom(novel)

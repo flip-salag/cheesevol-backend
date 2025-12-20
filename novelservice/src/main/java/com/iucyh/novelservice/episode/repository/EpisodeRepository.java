@@ -2,7 +2,6 @@ package com.iucyh.novelservice.episode.repository;
 
 import com.iucyh.novelservice.common.repository.PublicEntityRepository;
 import com.iucyh.novelservice.episode.domain.Episode;
-import com.iucyh.novelservice.episode.repository.projection.EpisodeDetail;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -52,12 +51,6 @@ public interface EpisodeRepository extends PublicEntityRepository<Episode, Long>
         and n.user.id = :userId and n.deletedAt is null
     """)
     Optional<Episode> findByPublicIdWithNovelUserFetch(@Param("publicId") String publicId, @Param("userId") Long userId);
-
-    @Query("select count(e) from Episode e where e.novel.id = :novelId and e.deletedAt is null")
-    int countByNovelId(@Param("novelId") Long novelId);
-
-    @Query("select e.id as id, e.content as content from Episode e where e.novel.id = :novelId and e.episodeNumber = :episodeNumber and e.deletedAt is null")
-    Optional<EpisodeDetail> findEpisodeDetail(@Param("novelId") Long novelId, @Param("episodeNumber") Integer episodeNumber);
 
     @Modifying(clearAutomatically = true)
     @Query("update Episode e set e.viewCount = e.viewCount + 1 where e.id = :episodeId and e.deletedAt is null")

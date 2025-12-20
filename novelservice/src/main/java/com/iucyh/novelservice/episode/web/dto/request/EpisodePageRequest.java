@@ -1,0 +1,25 @@
+package com.iucyh.novelservice.episode.web.dto.request;
+
+import com.iucyh.novelservice.episode.enumtype.EpisodeSortType;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import org.hibernate.validator.constraints.Range;
+
+public record EpisodePageRequest(
+
+        @NotNull(message = "sort is required")
+        EpisodeSortType sort,
+
+        @NotNull(message = "page is required")
+        @PositiveOrZero
+        Integer page,
+
+        @Range(min = 5, max = 20)
+        Integer size
+) {
+    public EpisodePageRequest {
+        if (size == null) {
+            size = 20;
+        }
+    }
+}

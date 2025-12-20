@@ -4,7 +4,9 @@ import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.DeleteEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeContentCommand;
+import com.iucyh.novelservice.episode.service.dto.query.GetEpisodesQuery;
 import com.iucyh.novelservice.episode.web.dto.request.CreateEpisodeRequest;
+import com.iucyh.novelservice.episode.web.dto.request.EpisodePageRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeContentRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
 
@@ -41,5 +43,14 @@ public class EpisodeRequestMapper {
 
     public static DeleteEpisodeCommand toDeleteEpisodeCommand(long userId, String episodePublicId) {
         return new DeleteEpisodeCommand(userId, episodePublicId);
+    }
+
+    public static GetEpisodesQuery toGetEpisodesQuery(EpisodePageRequest request, String novelPublicId) {
+        return new GetEpisodesQuery(
+                novelPublicId,
+                request.sort(),
+                request.page(),
+                request.size()
+        );
     }
 }

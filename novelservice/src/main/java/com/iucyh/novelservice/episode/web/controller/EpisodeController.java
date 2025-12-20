@@ -1,5 +1,6 @@
 package com.iucyh.novelservice.episode.web.controller;
 
+import com.iucyh.novelservice.common.response.PageWithOffsetResponse;
 import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
 import com.iucyh.novelservice.common.response.api.SuccessResponse;
 import com.iucyh.novelservice.episode.service.EpisodeQueryService;
@@ -8,8 +9,10 @@ import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.DeleteEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeContentCommand;
+import com.iucyh.novelservice.episode.service.dto.query.GetEpisodesQuery;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeRequestMapper;
 import com.iucyh.novelservice.episode.web.dto.request.CreateEpisodeRequest;
+import com.iucyh.novelservice.episode.web.dto.request.EpisodePageRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeContentRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
@@ -28,6 +31,16 @@ public class EpisodeController {
 
     private final EpisodeService episodeService;
     private final EpisodeQueryService episodeQueryService;
+
+    @GetMapping("/novels/{novelPublicId}/episodes")
+    public SuccessResponse<PageWithOffsetResponse<EpisodeSummaryResponse>> getEpisodesByNovel(
+            @PathVariable String novelPublicId,
+            @Valid @ModelAttribute EpisodePageRequest request
+    ) {
+        GetEpisodesQuery query = EpisodeRequestMapper.toGetEpisodesQuery(request, novelPublicId);
+        PageWithOffsetResponse<EpisodeSummaryResponse> result = episodeQueryService.getEpisodesByNovel(query);
+        return ApiResponseMapper.success(result);
+    }
 
     @GetMapping("/episodes/{episodePublicId}")
     public SuccessResponse<EpisodeDetailResponse> getEpisodeDetail(

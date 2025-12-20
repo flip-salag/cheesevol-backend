@@ -2,7 +2,7 @@ package com.iucyh.novelservice.common.response;
 
 import java.util.List;
 
-public record PageResponse<T>(
+public record PageWithCursorResponse<T>(
 
         long total,
         Object next,

@@ -2,7 +2,7 @@ package com.iucyh.novelservice.novel.web.controller;
 
 import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
-import com.iucyh.novelservice.common.response.PageResponse;
+import com.iucyh.novelservice.common.response.PageWithCursorResponse;
 import com.iucyh.novelservice.common.response.api.SuccessResponse;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.DeleteNovelCommand;
@@ -36,22 +36,22 @@ public class NovelController {
     private final NovelQueryService novelQueryService;
 
     @GetMapping
-    public SuccessResponse<PageResponse<NovelSummaryResponse>> getNovels(
+    public SuccessResponse<PageWithCursorResponse<NovelSummaryResponse>> getNovels(
             @Valid @ModelAttribute NovelPageRequest request,
             @RequestParam(required = false) NovelCategory category
     ) {
         GetNovelsQuery query = NovelRequestMapper.toGetNovelsQuery(request, category);
-        PageResponse<NovelSummaryResponse> result = novelQueryService.getNovels(query);
+        PageWithCursorResponse<NovelSummaryResponse> result = novelQueryService.getNovels(query);
         return ApiResponseMapper.success(result);
     }
 
     @GetMapping("/new")
-    public SuccessResponse<PageResponse<NovelSummaryResponse>> getNewNovels(
+    public SuccessResponse<PageWithCursorResponse<NovelSummaryResponse>> getNewNovels(
             @Valid @ModelAttribute NovelPageRequest request,
             @RequestParam(required = false) NovelCategory category
     ) {
         GetNewNovelsQuery query = NovelRequestMapper.toGetNewNovelsQuery(request, category);
-        PageResponse<NovelSummaryResponse> result = novelQueryService.getNewNovels(query);
+        PageWithCursorResponse<NovelSummaryResponse> result = novelQueryService.getNewNovels(query);
         return ApiResponseMapper.success(result);
     }
 

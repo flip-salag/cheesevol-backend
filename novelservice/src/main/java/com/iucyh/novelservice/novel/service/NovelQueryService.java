@@ -2,7 +2,7 @@ package com.iucyh.novelservice.novel.service;
 
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
-import com.iucyh.novelservice.common.response.PageResponse;
+import com.iucyh.novelservice.common.response.PageWithCursorResponse;
 import com.iucyh.novelservice.novel.service.codec.NovelCursorCodec;
 import com.iucyh.novelservice.novel.service.dto.query.GetNewNovelsQuery;
 import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
@@ -67,14 +67,14 @@ public class NovelQueryService {
         return mapToNovelResponseList(novels);
     }
 
-    public PageResponse<NovelSummaryResponse> getNovels(GetNovelsQuery query) {
+    public PageWithCursorResponse<NovelSummaryResponse> getNovels(GetNovelsQuery query) {
         return findNovels(query.sortType(), query.cursor(), query.limit(),
                 (pagingCondition, strategy) ->
                         novelQueryRepository.findNovels(pagingCondition, strategy, query.category())
         );
     }
 
-    public PageResponse<NovelSummaryResponse> getNewNovels(GetNewNovelsQuery query) {
+    public PageWithCursorResponse<NovelSummaryResponse> getNewNovels(GetNewNovelsQuery query) {
         return findNovels(query.sortType(), query.cursor(), query.limit(),
                 (pagingCondition, strategy) ->
                         novelQueryRepository.findNewNovels(pagingCondition, strategy, query.category())
@@ -88,7 +88,7 @@ public class NovelQueryService {
      *               e.g) 조회 종류별 리포지토리 메서드 호출, 특정 비즈니스 로직을 위한 메서드 호출 및 조건 검사 등
      * @return 최종 결과를 담은 {@code PageResponse<NovelResponse>}
      */
-    private PageResponse<NovelSummaryResponse> findNovels(
+    private PageWithCursorResponse<NovelSummaryResponse> findNovels(
             NovelSortType sortType, String cursor, int limit,
             BiFunction<NovelPagingCondition, NovelPagingStrategy, List<Novel>> finder
     ) {

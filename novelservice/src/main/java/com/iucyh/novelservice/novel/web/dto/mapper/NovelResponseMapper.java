@@ -1,6 +1,6 @@
 package com.iucyh.novelservice.novel.web.dto.mapper;
 
-import com.iucyh.novelservice.common.response.PageResponse;
+import com.iucyh.novelservice.common.response.PageWithCursorResponse;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
@@ -43,7 +43,7 @@ public class NovelResponseMapper {
         return new NovelLikeCountResponse(likeCount);
     }
 
-    public static PageResponse<NovelSummaryResponse> toPageResponse(List<NovelSummaryResponse> novels, long totalCount, String encodedCursor) {
-        return new PageResponse<>(totalCount, encodedCursor, novels);
+    public static PageWithCursorResponse<NovelSummaryResponse> toPageResponse(List<NovelSummaryResponse> novels, long totalCount, String encodedCursor) {
+        return new PageWithCursorResponse<>(totalCount, encodedCursor, novels);
     }
 }

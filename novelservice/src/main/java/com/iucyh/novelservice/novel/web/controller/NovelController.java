@@ -66,8 +66,8 @@ public class NovelController {
             @PathVariable long novelId,
             @Valid @ModelAttribute EpisodePagingRequest request
     ) {
-        PageResponse<EpisodeSummaryResponse> result = episodeQueryService.findEpisodesByNovel(novelId, request);
-        return ApiResponseMapper.success(result);
+        //PageResponse<EpisodeSummaryResponse> result = episodeQueryService.findEpisodesByNovel(novelId, request);
+        return ApiResponseMapper.success(null);
     }
 
     @PostMapping

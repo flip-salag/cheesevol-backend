@@ -1,45 +1,58 @@
 package com.iucyh.novelservice.episode.web.dto.mapper;
 
+import com.iucyh.novelservice.common.response.PageWithOffsetResponse;
 import com.iucyh.novelservice.episode.domain.Episode;
 import com.iucyh.novelservice.common.response.PageResponse;
 import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
+import com.iucyh.novelservice.episode.repository.query.projection.EpisodeSummaryQueryProjection;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.episode.repository.projection.EpisodeDetail;
 import com.iucyh.novelservice.user.web.dto.response.info.UserBasicInfo;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class EpisodeResponseMapper {
 
     private EpisodeResponseMapper() {}
 
     public static EpisodeSummaryResponse toEpisodeSummaryResponse(Episode episode) {
-//        return new EpisodeSummaryResponse(
-//                episode.getId(),
-//                episode.getTitle(),
-//                episode.getDescription(),
-//                episode.getEpisodeNumber(),
-//                episode.getViewCount(),
-//                episode.getUpdatedAt(),
-//                episode.getCreatedAt()
-//        );
-        return null;
+        return new EpisodeSummaryResponse(
+                episode.getPublicId(),
+                episode.getEpisodeNumber(),
+                episode.getTitle(),
+                episode.getDescription(),
+                episode.getViewCount(),
+                episode.getCreatedAt()
+        );
     }
 
-    public static EpisodeSummaryResponse toEpisodeSummaryResponse(EpisodeSimpleQueryDto episode) {
-//        return new EpisodeSummaryResponse(
-//                episode.getId(),
-//                episode.getTitle(),
-//                episode.getDescription(),
-//                episode.getEpisodeNumber(),
-//                episode.getViewCount(),
-//                episode.getUpdatedAt(),
-//                episode.getCreatedAt()
-//        );
-        return null;
+    public static EpisodeSummaryResponse toEpisodeSummaryResponse(EpisodeSummaryQueryProjection episode) {
+        return new EpisodeSummaryResponse(
+                episode.getPublicId(),
+                episode.getEpisodeNumber(),
+                episode.getTitle(),
+                episode.getDescription(),
+                episode.getViewCount(),
+                episode.getCreatedAt()
+        );
+    }
+
+    public static PageWithOffsetResponse<EpisodeSummaryResponse> toEpisodeSummaryResponse(Page<EpisodeSummaryQueryProjection> page) {
+        List<EpisodeSummaryResponse> episodes = page.getContent().stream()
+                .map(EpisodeResponseMapper::toEpisodeSummaryResponse)
+                .toList();
+        return new PageWithOffsetResponse<>(
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalPages(),
+                page.getTotalElements(),
+                episodes
+        );
     }
 
     public static EpisodeDetailResponse toEpisodeDetailResponse(EpisodeDetailQueryProjection episodeDetail, EpisodePrevNextQueryProjection prev, EpisodePrevNextQueryProjection next) {

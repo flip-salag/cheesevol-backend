@@ -1,57 +1,44 @@
 package com.iucyh.novelservice.episode.service;
 
+import com.iucyh.novelservice.common.response.PageWithOffsetResponse;
 import com.iucyh.novelservice.episode.exception.EpisodeNotFound;
-import com.iucyh.novelservice.episode.repository.query.condition.EpisodeSearchCondition;
-import com.iucyh.novelservice.common.response.PageResponse;
+import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
+import com.iucyh.novelservice.episode.repository.query.projection.EpisodeSummaryQueryProjection;
+import com.iucyh.novelservice.episode.service.dto.query.GetEpisodesQuery;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeResponseMapper;
-import com.iucyh.novelservice.episode.repository.query.dto.EpisodeSimpleQueryDto;
-import com.iucyh.novelservice.episode.web.dto.request.EpisodePagingRequest;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
-import com.iucyh.novelservice.episode.repository.EpisodeRepository;
-import com.iucyh.novelservice.episode.repository.projection.EpisodeDetail;
 import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
-import com.iucyh.novelservice.novel.repository.NovelRepository;
-import com.iucyh.novelservice.novel.service.NovelViewCountService;
+import com.iucyh.novelservice.novel.exception.NovelNotFound;
+import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
-@Slf4j
 @Transactional(readOnly = true)
-@RequiredArgsConstructor
+@RequiredArgsConstructor // TODO: 조회수 관련 로직 구현
 public class EpisodeQueryService {
 
-    private final NovelViewCountService novelViewCountService;
-    private final NovelRepository novelRepository;
-    private final EpisodeRepository episodeRepository;
+    private final NovelQueryRepository novelQueryRepository;
     private final EpisodeQueryRepository episodeQueryRepository;
 
-    public PageResponse<EpisodeSummaryResponse> findEpisodesByNovel(long novelId, EpisodePagingRequest request) {
-        boolean novelExists = novelRepository.existsById(novelId);
+    public PageWithOffsetResponse<EpisodeSummaryResponse> getEpisodesByNovel(GetEpisodesQuery query) {
+        boolean novelExists = novelQueryRepository.existsByPublicId(query.novelPublicId());
         if (!novelExists) {
-            //throw new NovelNotFound(novelId);
+            throw new NovelNotFound(query.novelPublicId()); // 소설이 유효하지 않거나 존재하지 않으면 없는 것으로 간주 (자세한 정책은 existsByPublicId 메서드 주석 확인)
         }
 
-        EpisodeSearchCondition searchCondition = new EpisodeSearchCondition(request.lastEpisode(), request.limit());
-        List<EpisodeSimpleQueryDto> result = episodeQueryRepository.findEpisodesByNovelId(novelId, searchCondition);
-        int episodeCount = episodeRepository.countByNovelId(novelId);
+        Pageable pageable = PageRequest.of(query.page(), query.limit());
+        EpisodePagingCondition condition = new EpisodePagingCondition(pageable, query.sortType());
+        Page<EpisodeSummaryQueryProjection> result = episodeQueryRepository.findEpisodesByNovelPublicId(query.novelPublicId(), condition);
 
-        if (result.isEmpty()) {
-            return EpisodeResponseMapper.toPagingResponse(List.of(), episodeCount, null);
-        }
-
-        List<EpisodeSummaryResponse> episodeResponses = mapToEpisodeResponseList(result);
-        int lastEpisodeNumber = result.get(result.size() - 1).getEpisodeNumber();
-        return EpisodeResponseMapper.toPagingResponse(episodeResponses, episodeCount, lastEpisodeNumber);
+        return EpisodeResponseMapper.toEpisodeSummaryResponse(result);
     }
 
     public EpisodeDetailResponse getEpisodeDetail(String episodePublicId) {
@@ -64,11 +51,5 @@ public class EpisodeQueryService {
                 .orElse(null);
 
         return EpisodeResponseMapper.toEpisodeDetailResponse(detailResult, prevEpisode, nextEpisode);
-    }
-
-    private List<EpisodeSummaryResponse> mapToEpisodeResponseList(List<EpisodeSimpleQueryDto> episodes) {
-        return episodes.stream()
-                .map(EpisodeResponseMapper::toEpisodeSummaryResponse)
-                .toList();
     }
 }

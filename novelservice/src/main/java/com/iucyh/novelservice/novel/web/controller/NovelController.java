@@ -4,9 +4,6 @@ import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.common.response.PageResponse;
 import com.iucyh.novelservice.common.response.api.SuccessResponse;
-import com.iucyh.novelservice.episode.web.dto.request.EpisodePagingRequest;
-import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
-import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.DeleteNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.UpdateNovelCommand;
@@ -21,8 +18,6 @@ import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
 import com.iucyh.novelservice.novel.web.dto.request.UpdateNovelRequest;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
-import com.iucyh.novelservice.episode.service.EpisodeQueryService;
-import com.iucyh.novelservice.episode.service.EpisodeService;
 import com.iucyh.novelservice.novel.service.NovelQueryService;
 import com.iucyh.novelservice.novel.service.NovelService;
 import jakarta.validation.Valid;
@@ -39,7 +34,6 @@ public class NovelController {
 
     private final NovelService novelService;
     private final NovelQueryService novelQueryService;
-    private final EpisodeQueryService episodeQueryService;
 
     @GetMapping
     public SuccessResponse<PageResponse<NovelSummaryResponse>> getNovels(
@@ -59,15 +53,6 @@ public class NovelController {
         GetNewNovelsQuery query = NovelRequestMapper.toGetNewNovelsQuery(request, category);
         PageResponse<NovelSummaryResponse> result = novelQueryService.getNewNovels(query);
         return ApiResponseMapper.success(result);
-    }
-
-    @GetMapping("/{novelId}/episodes")
-    public SuccessResponse<PageResponse<EpisodeSummaryResponse>> getEpisodes(
-            @PathVariable long novelId,
-            @Valid @ModelAttribute EpisodePagingRequest request
-    ) {
-        //PageResponse<EpisodeSummaryResponse> result = episodeQueryService.findEpisodesByNovel(novelId, request);
-        return ApiResponseMapper.success(null);
     }
 
     @PostMapping

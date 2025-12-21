@@ -28,18 +28,15 @@ import java.util.stream.Collectors;
 public class NovelQueryService {
 
     private final NovelCursorCodec cursorCodec;
-    private final NovelRepository novelRepository;
     private final NovelQueryRepository novelQueryRepository;
     private final Map<NovelSortType, NovelPagingStrategy> pagingStrategyMap;
 
     public NovelQueryService(
             NovelCursorCodec cursorCodec,
-            NovelRepository novelRepository,
             NovelQueryRepository novelQueryRepository,
             List<NovelPagingStrategy> pagingStrategies
     ) {
         this.cursorCodec = cursorCodec;
-        this.novelRepository = novelRepository;
         this.novelQueryRepository = novelQueryRepository;
         this.pagingStrategyMap = pagingStrategies
                 .stream()

@@ -45,6 +45,14 @@ public interface EpisodeQueryRepository {
     Optional<EpisodeDetailQueryProjection> findEpisodeDetailByPublicId(String publicId);
 
     /**
+     * <p>{@code publicId}에 해당하는 회차의 본문을 조회</p>
+     * <p>회차, 소설, 유저 중 하나라도 삭제되었다면(soft delete 포함) Optional.empty() 반환</p>
+     * @param publicId 조회할 회차의 public id
+     * @return 회차의 본문, 조건에 맞는 episode가 없다면 {@code Optional.empty()}
+     */
+    Optional<String> findEpisodeContentByPublicId(String publicId);
+
+    /**
      * <p>{@code novelPublicId}에 해당하는 소설의 회차 목록을 조회, offset 기반 페이징 사용</p>
      * <p>삭제된 회차는 제외</p>
      * @param novelPublicId 조회할 소설의 public id

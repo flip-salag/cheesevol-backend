@@ -22,13 +22,9 @@ public class NovelResponseMapper {
                 novel.getPublicId(),
                 author,
                 novel.getTitle(),
-                novel.getDescription(),
                 novel.getCategory(),
-                novel.getLikeCount(),
                 novel.getTotalViewCount(),
-                novel.getIsCompleted(),
-                novel.getUpdatedAt(),
-                novel.getCreatedAt()
+                novel.getIsCompleted()
         );
     }
 

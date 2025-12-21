@@ -1,7 +1,6 @@
 package com.iucyh.novelservice.novel.service;
 
 import com.iucyh.novelservice.novel.domain.Novel;
-import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.common.response.PageWithCursorResponse;
 import com.iucyh.novelservice.novel.service.codec.NovelCursorCodec;
 import com.iucyh.novelservice.novel.service.dto.query.GetNewNovelsQuery;
@@ -29,22 +28,6 @@ public class NovelQueryService {
     private final NovelCursorCodec cursorCodec;
     private final NovelPagingStrategyFactory pagingStrategyFactory;
     private final NovelQueryRepository novelQueryRepository;
-
-    public List<NovelSummaryResponse> getPopularNovelsForSection(NovelCategory category) {
-        NovelPagingCondition pagingCondition = new NovelPagingCondition(null, 10);
-        NovelPagingStrategy strategy = pagingStrategyFactory.get(NovelSortType.POPULAR);
-        List<Novel> novels = novelQueryRepository.findNovels(pagingCondition, strategy, category);
-
-        return mapToNovelResponseList(novels);
-    }
-
-    public List<NovelSummaryResponse> getNewNovelsForSection() {
-        NovelPagingCondition pagingCondition = new NovelPagingCondition(null, 30);
-        NovelPagingStrategy strategy = pagingStrategyFactory.get(NovelSortType.LAST_UPDATE);
-        List<Novel> novels = novelQueryRepository.findNewNovels(pagingCondition, strategy, null);
-
-        return mapToNovelResponseList(novels);
-    }
 
     public PageWithCursorResponse<NovelSummaryResponse> getNovels(GetNovelsQuery query) {
         return findNovels(query.sortType(), query.cursor(), query.limit(),

@@ -15,6 +15,7 @@ import com.iucyh.novelservice.episode.web.dto.request.CreateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.request.EpisodePageRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeContentRequest;
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
+import com.iucyh.novelservice.episode.web.dto.response.EpisodeContentResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import jakarta.validation.Valid;
@@ -47,6 +48,14 @@ public class EpisodeController {
             @PathVariable String episodePublicId
     ) {
         EpisodeDetailResponse result = episodeQueryService.getEpisodeDetail(episodePublicId);
+        return ApiResponseMapper.success(result);
+    }
+
+    @GetMapping("/episodes/{episodePublicId}/content")
+    public SuccessResponse<EpisodeContentResponse> getEpisodeContent(
+            @PathVariable String episodePublicId
+    ) {
+        EpisodeContentResponse result = episodeQueryService.getEpisodeContent(episodePublicId);
         return ApiResponseMapper.success(result);
     }
 

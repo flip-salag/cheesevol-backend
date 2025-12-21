@@ -8,6 +8,7 @@ import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNex
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodeSummaryQueryProjection;
 import com.iucyh.novelservice.episode.service.dto.query.GetEpisodesQuery;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeResponseMapper;
+import com.iucyh.novelservice.episode.web.dto.response.EpisodeContentResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
@@ -51,5 +52,11 @@ public class EpisodeQueryService {
                 .orElse(null);
 
         return EpisodeResponseMapper.toEpisodeDetailResponse(detailResult, prevEpisode, nextEpisode);
+    }
+
+    public EpisodeContentResponse getEpisodeContent(String episodePublicId) {
+        String contentResult = episodeQueryRepository.findEpisodeContentByPublicId(episodePublicId)
+                .orElseThrow(() -> new EpisodeNotFound(episodePublicId));
+        return EpisodeResponseMapper.toEpisodeContentResponse(episodePublicId, contentResult);
     }
 }

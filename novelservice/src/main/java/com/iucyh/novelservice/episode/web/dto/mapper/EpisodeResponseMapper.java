@@ -5,6 +5,7 @@ import com.iucyh.novelservice.episode.domain.Episode;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodeSummaryQueryProjection;
+import com.iucyh.novelservice.episode.web.dto.response.EpisodeContentResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.user.web.dto.response.info.UserBasicInfo;
@@ -57,6 +58,10 @@ public class EpisodeResponseMapper {
                 novelInfo,
                 episodePrevNext
         );
+    }
+
+    public static EpisodeContentResponse toEpisodeContentResponse(String episodePublicId, String content) {
+        return new EpisodeContentResponse(episodePublicId, content);
     }
 
     public static PageWithOffsetResponse<EpisodeSummaryResponse> toPageResponse(Page<EpisodeSummaryQueryProjection> page) {

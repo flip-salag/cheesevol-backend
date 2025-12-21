@@ -1,71 +1,33 @@
 package com.iucyh.novelservice.novel.service;
 
 import com.iucyh.novelservice.novel.domain.Novel;
-import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.common.response.PageWithCursorResponse;
 import com.iucyh.novelservice.novel.service.codec.NovelCursorCodec;
 import com.iucyh.novelservice.novel.service.dto.query.GetNewNovelsQuery;
 import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
+import com.iucyh.novelservice.novel.service.factory.NovelPagingStrategyFactory;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
-import com.iucyh.novelservice.novel.repository.NovelRepository;
 import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
 import com.iucyh.novelservice.novel.repository.query.condition.NovelPagingCondition;
 import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
 import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class NovelQueryService {
 
     private final NovelCursorCodec cursorCodec;
-    private final NovelRepository novelRepository;
+    private final NovelPagingStrategyFactory pagingStrategyFactory;
     private final NovelQueryRepository novelQueryRepository;
-    private final Map<NovelSortType, NovelPagingStrategy> pagingStrategyMap;
-
-    public NovelQueryService(
-            NovelCursorCodec cursorCodec,
-            NovelRepository novelRepository,
-            NovelQueryRepository novelQueryRepository,
-            List<NovelPagingStrategy> pagingStrategies
-    ) {
-        this.cursorCodec = cursorCodec;
-        this.novelRepository = novelRepository;
-        this.novelQueryRepository = novelQueryRepository;
-        this.pagingStrategyMap = pagingStrategies
-                .stream()
-                .collect(
-                        Collectors.toUnmodifiableMap(
-                                NovelPagingStrategy::getSupportedSortType,
-                                Function.identity()
-                        )
-                );
-    }
-
-    public List<NovelSummaryResponse> getPopularNovelsForSection(NovelCategory category) {
-        NovelPagingCondition pagingCondition = new NovelPagingCondition(null, 10);
-        NovelPagingStrategy strategy = getPagingStrategy(NovelSortType.POPULAR);
-        List<Novel> novels = novelQueryRepository.findNovels(pagingCondition, strategy, category);
-
-        return mapToNovelResponseList(novels);
-    }
-
-    public List<NovelSummaryResponse> getNewNovelsForSection() {
-        NovelPagingCondition pagingCondition = new NovelPagingCondition(null, 30);
-        NovelPagingStrategy strategy = getPagingStrategy(NovelSortType.LAST_UPDATE);
-        List<Novel> novels = novelQueryRepository.findNewNovels(pagingCondition, strategy, null);
-
-        return mapToNovelResponseList(novels);
-    }
 
     public PageWithCursorResponse<NovelSummaryResponse> getNovels(GetNovelsQuery query) {
         return findNovels(query.sortType(), query.cursor(), query.limit(),
@@ -93,7 +55,7 @@ public class NovelQueryService {
             BiFunction<NovelPagingCondition, NovelPagingStrategy, List<Novel>> finder
     ) {
         NovelPagingCondition pagingCondition = createPagingCondition(sortType, cursor, limit + 1);
-        NovelPagingStrategy pagingStrategy = getPagingStrategy(sortType);
+        NovelPagingStrategy pagingStrategy = pagingStrategyFactory.get(sortType);
 
         List<Novel> result = finder.apply(pagingCondition, pagingStrategy);
 
@@ -111,14 +73,6 @@ public class NovelQueryService {
 
         List<NovelSummaryResponse> novels = mapToNovelResponseList(pageResult);
         return NovelResponseMapper.toPageResponse(novels, newCursor, limit);
-    }
-
-    private NovelPagingStrategy getPagingStrategy(NovelSortType sortType) {
-        NovelPagingStrategy pagingStrategy = pagingStrategyMap.get(sortType);
-        if (pagingStrategy == null) {
-            throw new IllegalArgumentException("There's no matched paging strategy with: " + sortType.name());
-        }
-        return pagingStrategy;
     }
 
     private NovelPagingCondition createPagingCondition(NovelSortType sortType, String encodedCursor, int limit) {

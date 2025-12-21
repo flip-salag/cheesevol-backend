@@ -3,8 +3,8 @@ package com.iucyh.novelservice.section.web.controller;
 import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
 import com.iucyh.novelservice.common.response.api.SuccessResponse;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
-import com.iucyh.novelservice.novel.service.NovelQueryService;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
+import com.iucyh.novelservice.section.service.SectionQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,19 +18,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SectionController {
 
-    private final NovelQueryService novelQueryService;
+    private final SectionQueryService sectionQueryService;
 
     @GetMapping("/popular")
-    public SuccessResponse<List<NovelSummaryResponse>> getPopularNovelsForSection(
+    public SuccessResponse<List<NovelSummaryResponse>> getPopularNovels(
             @RequestParam(required = false) NovelCategory category
     ) {
-        List<NovelSummaryResponse> result = novelQueryService.getPopularNovelsForSection(category);
+        List<NovelSummaryResponse> result = sectionQueryService.getPopularNovels(category);
         return ApiResponseMapper.success(result);
     }
 
     @GetMapping("/new")
-    public SuccessResponse<List<NovelSummaryResponse>> getNewNovelsForSection() {
-        List<NovelSummaryResponse> result = novelQueryService.getNewNovelsForSection();
+    public SuccessResponse<List<NovelSummaryResponse>> getNewNovels() {
+        List<NovelSummaryResponse> result = sectionQueryService.getNewNovels();
         return ApiResponseMapper.success(result);
     }
 }

@@ -51,7 +51,7 @@ public class NovelRequestMapper {
         return new GetNovelsQuery(
                 category,
                 request.sort(),
-                request.cursor(),
+                request.next(),
                 request.size()
         );
     }
@@ -60,7 +60,7 @@ public class NovelRequestMapper {
         return new GetNewNovelsQuery(
                 category,
                 request.sort(),
-                request.cursor(),
+                request.next(),
                 request.size()
         );
     }

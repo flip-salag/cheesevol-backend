@@ -73,7 +73,8 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
 
     private BooleanExpression applyDefaultFilter() {
         return novel.deletedAt.isNull() // 삭제되지 않은 소설
-                .and(novel.lastEpisodeAt.isNotNull()); // 회차가 하나라도 존재하는 소설
+                .and(novel.lastEpisodeAt.isNotNull()) // 회차가 하나라도 존재하는 소설
+                .and(user.deletedAt.isNull()); // 작성자가 삭제되지 않은 소설
     }
 
     private BooleanExpression applyCategoryFilter(NovelCategory category) {

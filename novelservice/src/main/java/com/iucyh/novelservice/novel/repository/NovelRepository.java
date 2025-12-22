@@ -16,6 +16,23 @@ public interface NovelRepository extends PublicEntityRepository<Novel, Long> {
     Optional<Novel> findByUserIdAndPublicIdAndDeletedAtIsNull(Long userId, String publicId);
 
     /**
+     * <p>{@code publicId}에 해당하는 소설 조회</p>
+     * <p>소설이 삭제되었거나 유저가 삭제되었다면(soft delete 포함) {@code Optional.emtpy()} 반환</p>
+     * <b>조회 시 User 엔티티도 같이 조회(fetch join)</b>
+     * @param publicId 조회할 Novel의 public id
+     */
+    @Query("""
+    select n
+    from Novel n
+    join fetch n.user u
+    where
+        n.publicId = :publicId
+        and n.deletedAt is null
+        and u.deletedAt is null
+    """)
+    Optional<Novel> findByPublicIdFetch(@Param("publicId") String publicId);
+
+    /**
      * <p>특정 작가의 소설 중 전달된 title과 중복되는 제목이 존재하는 지 검사</p>
      * <b>Soft Delete 된 소설을 포함하여 검사</b>
      */
@@ -27,8 +44,6 @@ public interface NovelRepository extends PublicEntityRepository<Novel, Long> {
      * <b>Soft Delete 된 소설을 포함하여 검사</b>
      */
     boolean existsByTitleAndUserIdAndPublicIdNot(String title, Long userId, String publicId);
-
-    long countByDeletedAtIsNull();
 
     @Modifying(clearAutomatically = true)
     @Query("update Novel n set n.totalViewCount = n.totalViewCount + 1 where n.id = :novelId and n.deletedAt is null")

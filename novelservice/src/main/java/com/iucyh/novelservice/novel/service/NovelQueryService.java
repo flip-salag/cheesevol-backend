@@ -2,11 +2,14 @@ package com.iucyh.novelservice.novel.service;
 
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.common.response.PageWithCursorResponse;
+import com.iucyh.novelservice.novel.exception.NovelNotFound;
+import com.iucyh.novelservice.novel.repository.NovelRepository;
 import com.iucyh.novelservice.novel.service.codec.NovelCursorCodec;
 import com.iucyh.novelservice.novel.service.dto.query.GetNewNovelsQuery;
 import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
 import com.iucyh.novelservice.novel.service.factory.NovelPagingStrategyFactory;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
+import com.iucyh.novelservice.novel.web.dto.response.NovelDetailResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
@@ -27,6 +30,7 @@ public class NovelQueryService {
 
     private final NovelCursorCodec cursorCodec;
     private final NovelPagingStrategyFactory pagingStrategyFactory;
+    private final NovelRepository novelRepository;
     private final NovelQueryRepository novelQueryRepository;
 
     public PageWithCursorResponse<NovelSummaryResponse> getNovels(GetNovelsQuery query) {
@@ -41,6 +45,12 @@ public class NovelQueryService {
                 (pagingCondition, strategy) ->
                         novelQueryRepository.findNewNovels(pagingCondition, strategy, query.category())
         );
+    }
+
+    public NovelDetailResponse getNovelDetail(String novelPublicId) {
+        Novel novel = novelRepository.findByPublicIdFetch(novelPublicId)
+                .orElseThrow(() -> new NovelNotFound(novelPublicId));
+        return NovelResponseMapper.toNovelDetailResponse(novel);
     }
 
     /**

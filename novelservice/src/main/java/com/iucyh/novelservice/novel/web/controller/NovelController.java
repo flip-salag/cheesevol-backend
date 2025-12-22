@@ -14,11 +14,8 @@ import com.iucyh.novelservice.novel.web.dto.mapper.NovelRequestMapper;
 import com.iucyh.novelservice.novel.web.dto.request.CreateNovelRequest;
 import com.iucyh.novelservice.novel.web.dto.request.NovelPageRequest;
 import com.iucyh.novelservice.novel.web.dto.request.UpdateNovelCompletionRequest;
-import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
-import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
+import com.iucyh.novelservice.novel.web.dto.response.*;
 import com.iucyh.novelservice.novel.web.dto.request.UpdateNovelRequest;
-import com.iucyh.novelservice.novel.web.dto.response.NovelSaveResponse;
-import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
 import com.iucyh.novelservice.novel.service.NovelQueryService;
 import com.iucyh.novelservice.novel.service.NovelService;
 import jakarta.validation.Valid;
@@ -53,6 +50,14 @@ public class NovelController {
     ) {
         GetNewNovelsQuery query = NovelRequestMapper.toGetNewNovelsQuery(request, category);
         PageWithCursorResponse<NovelSummaryResponse> result = novelQueryService.getNewNovels(query);
+        return ApiResponseMapper.success(result);
+    }
+
+    @GetMapping("/{novelPublicId}")
+    public SuccessResponse<NovelDetailResponse> getNovelDetail(
+            @PathVariable String novelPublicId
+    ) {
+        NovelDetailResponse result = novelQueryService.getNovelDetail(novelPublicId);
         return ApiResponseMapper.success(result);
     }
 

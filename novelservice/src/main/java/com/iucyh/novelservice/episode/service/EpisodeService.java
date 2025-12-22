@@ -7,6 +7,7 @@ import com.iucyh.novelservice.episode.service.dto.command.DeleteEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeContentCommand;
 import com.iucyh.novelservice.episode.service.dto.mapper.EpisodeCommandMapper;
+import com.iucyh.novelservice.episode.web.dto.response.EpisodeSaveResponse;
 import com.iucyh.novelservice.novel.exception.NovelAlreadyCompleted;
 import com.iucyh.novelservice.novel.exception.NovelNotFound;
 import com.iucyh.novelservice.episode.domain.Episode;
@@ -30,7 +31,7 @@ public class EpisodeService {
     private final EpisodeQueryRepository episodeQueryRepository;
     private final EpisodeRepository episodeRepository;
 
-    public EpisodeSummaryResponse createEpisode(CreateEpisodeCommand command) {
+    public EpisodeSaveResponse createEpisode(CreateEpisodeCommand command) {
         Novel novel = findNovelWithUserId(command.userId(), command.novelPublicId());
         if (novel.isCompletedNovel()) {
             throw new NovelAlreadyCompleted(); // 완결된 소설은 회차 생성 불가
@@ -41,14 +42,14 @@ public class EpisodeService {
         Episode savedEpisode = episodeRepository.save(episode); // TODO: GlobalExceptionHandler에 DuplicateKeyException 핸들링 메서드 구현 (409)
         novel.updateLastEpisode(savedEpisode.getEpisodeNumber(), savedEpisode.getCreatedAt()); // 소설의 마지막 회차와 관련된 컬럼들의 정합성을 위해 최신 회차 기준으로 업데이트
 
-        return EpisodeResponseMapper.toEpisodeSummaryResponse(savedEpisode);
+        return EpisodeResponseMapper.toEpisodeSaveResponse(savedEpisode);
     }
 
-    public EpisodeSummaryResponse updateEpisode(UpdateEpisodeCommand command) {
+    public EpisodeSaveResponse updateEpisode(UpdateEpisodeCommand command) {
         Episode episode = findEpisodeWithNovelUser(command.episodePublicId(), command.userId());
         episode.updateTextMetaData(command.title(), command.description());
 
-        return EpisodeResponseMapper.toEpisodeSummaryResponse(episode);
+        return EpisodeResponseMapper.toEpisodeSaveResponse(episode);
     }
 
     public void updateEpisodeContent(UpdateEpisodeContentCommand command) {

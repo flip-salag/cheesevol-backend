@@ -19,8 +19,7 @@ public interface NovelRepository extends PublicEntityRepository<Novel, Long> {
      * <p>{@code publicId}에 해당하는 소설 조회</p>
      * <p>소설이 삭제되었거나 유저가 삭제되었다면(soft delete 포함) {@code Optional.emtpy()} 반환</p>
      * <b>조회 시 User 엔티티도 같이 조회(fetch join)</b>
-     * @param publicId
-     * @return
+     * @param publicId 조회할 Novel의 public id
      */
     @Query("""
     select n

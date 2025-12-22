@@ -30,7 +30,7 @@ public interface NovelRepository extends PublicEntityRepository<Novel, Long> {
         and n.deletedAt is null
         and u.deletedAt is null
     """)
-    Optional<Novel> findByPublicIdAndDeletedAtIsNullFetch(@Param("publicId") String publicId);
+    Optional<Novel> findByPublicIdFetch(@Param("publicId") String publicId);
 
     /**
      * <p>특정 작가의 소설 중 전달된 title과 중복되는 제목이 존재하는 지 검사</p>

@@ -48,7 +48,7 @@ public class NovelQueryService {
     }
 
     public NovelDetailResponse getNovelDetail(String novelPublicId) {
-        Novel novel = novelRepository.findByPublicIdAndDeletedAtIsNullFetch(novelPublicId)
+        Novel novel = novelRepository.findByPublicIdFetch(novelPublicId)
                 .orElseThrow(() -> new NovelNotFound(novelPublicId));
         return NovelResponseMapper.toNovelDetailResponse(novel);
     }

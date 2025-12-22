@@ -2,10 +2,7 @@ package com.iucyh.novelservice.novel.web.dto.mapper;
 
 import com.iucyh.novelservice.common.response.PageWithCursorResponse;
 import com.iucyh.novelservice.novel.domain.Novel;
-import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
-import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
-import com.iucyh.novelservice.novel.web.dto.response.NovelSaveResponse;
-import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
+import com.iucyh.novelservice.novel.web.dto.response.*;
 import com.iucyh.novelservice.user.domain.User;
 import com.iucyh.novelservice.user.web.dto.response.info.UserBasicInfo;
 
@@ -34,6 +31,23 @@ public class NovelResponseMapper {
                 novel.getCategory(),
                 novel.getTotalViewCount(),
                 novel.getIsCompleted()
+        );
+    }
+
+    public static NovelDetailResponse toNovelDetailResponse(Novel novel) {
+        User user = novel.getUser();
+        UserBasicInfo author = new UserBasicInfo(user.getPublicId(), user.getNickname());
+
+        return new NovelDetailResponse(
+                novel.getPublicId(),
+                novel.getTitle(),
+                novel.getDescription(),
+                novel.getCategory(),
+                novel.getLikeCount(),
+                novel.getTotalViewCount(),
+                novel.isCompletedNovel(),
+                novel.getCreatedAt(),
+                author
         );
     }
 

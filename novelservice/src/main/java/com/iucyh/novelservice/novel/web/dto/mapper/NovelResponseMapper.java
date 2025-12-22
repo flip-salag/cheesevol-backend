@@ -40,7 +40,9 @@ public class NovelResponseMapper {
     public static NovelCompletionResponse toNovelCompletionResponse(Novel novel) {
         return new NovelCompletionResponse(
                 novel.getPublicId(),
-                novel.getIsCompleted()
+                novel.getIsCompleted(),
+                novel.getUpdatedAt(),
+                novel.getCreatedAt()
         );
     }
 

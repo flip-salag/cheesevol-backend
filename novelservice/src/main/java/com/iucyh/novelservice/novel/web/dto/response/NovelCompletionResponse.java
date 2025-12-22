@@ -1,7 +1,11 @@
 package com.iucyh.novelservice.novel.web.dto.response;
 
+import java.time.LocalDateTime;
+
 public record NovelCompletionResponse(
 
         String novelId,
-        boolean isCompleted
+        boolean isCompleted,
+        LocalDateTime updatedAt,
+        LocalDateTime createdAt
 ) {}

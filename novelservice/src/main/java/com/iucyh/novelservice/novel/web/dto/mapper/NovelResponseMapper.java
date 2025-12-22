@@ -4,6 +4,7 @@ import com.iucyh.novelservice.common.response.PageWithCursorResponse;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
+import com.iucyh.novelservice.novel.web.dto.response.NovelSaveResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
 import com.iucyh.novelservice.user.domain.User;
 import com.iucyh.novelservice.user.web.dto.response.info.UserBasicInfo;
@@ -13,6 +14,14 @@ import java.util.List;
 public class NovelResponseMapper {
 
     private NovelResponseMapper() {}
+
+    public static NovelSaveResponse toNovelSaveResponse(Novel novel) {
+        return new NovelSaveResponse(
+                novel.getPublicId(),
+                novel.getUpdatedAt(),
+                novel.getCreatedAt()
+        );
+    }
 
     public static NovelSummaryResponse toNovelSummaryResponse(Novel novel) {
         User user = novel.getUser();
@@ -31,7 +40,9 @@ public class NovelResponseMapper {
     public static NovelCompletionResponse toNovelCompletionResponse(Novel novel) {
         return new NovelCompletionResponse(
                 novel.getPublicId(),
-                novel.getIsCompleted()
+                novel.getIsCompleted(),
+                novel.getUpdatedAt(),
+                novel.getCreatedAt()
         );
     }
 

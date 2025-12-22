@@ -2,10 +2,9 @@ package com.iucyh.novelservice.novel.web.dto.response;
 
 import java.time.LocalDateTime;
 
-public record NovelCompletionResponse(
+public record NovelSaveResponse(
 
         String novelId,
-        boolean isCompleted,
         LocalDateTime updatedAt,
         LocalDateTime createdAt
 ) {}

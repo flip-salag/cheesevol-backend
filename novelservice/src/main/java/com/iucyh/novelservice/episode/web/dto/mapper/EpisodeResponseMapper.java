@@ -7,6 +7,7 @@ import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNex
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodeSummaryQueryProjection;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeContentResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
+import com.iucyh.novelservice.episode.web.dto.response.EpisodeSaveResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.user.web.dto.response.info.UserBasicInfo;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,14 @@ import java.util.List;
 public class EpisodeResponseMapper {
 
     private EpisodeResponseMapper() {}
+
+    public static EpisodeSaveResponse toEpisodeSaveResponse(Episode episode) {
+        return new EpisodeSaveResponse(
+                episode.getPublicId(),
+                episode.getUpdatedAt(),
+                episode.getCreatedAt()
+        );
+    }
 
     public static EpisodeSummaryResponse toEpisodeSummaryResponse(Episode episode) {
         return new EpisodeSummaryResponse(

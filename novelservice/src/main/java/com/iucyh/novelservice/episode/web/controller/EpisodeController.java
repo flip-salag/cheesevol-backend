@@ -17,6 +17,7 @@ import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeContentReques
 import com.iucyh.novelservice.episode.web.dto.request.UpdateEpisodeRequest;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeContentResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
+import com.iucyh.novelservice.episode.web.dto.response.EpisodeSaveResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -61,25 +62,25 @@ public class EpisodeController {
 
     @PostMapping("/novels/{novelPublicId}/episodes")
     @ResponseStatus(HttpStatus.CREATED)
-    public SuccessResponse<EpisodeSummaryResponse> createEpisode(
+    public SuccessResponse<EpisodeSaveResponse> createEpisode(
             @PathVariable String novelPublicId,
             @Valid @RequestBody CreateEpisodeRequest request,
             @RequestHeader(TEMP_USER_ID_HEADER) long userId
     ) {
         CreateEpisodeCommand command = EpisodeRequestMapper.toCreateEpisodeCommand(request, userId, novelPublicId);
-        EpisodeSummaryResponse createdEpisode = episodeService.createEpisode(command);
-        return ApiResponseMapper.success(createdEpisode);
+        EpisodeSaveResponse result = episodeService.createEpisode(command);
+        return ApiResponseMapper.success(result);
     }
 
     @PatchMapping("/episodes/{episodePublicId}")
-    public SuccessResponse<EpisodeSummaryResponse> updateEpisode(
+    public SuccessResponse<EpisodeSaveResponse> updateEpisode(
             @PathVariable String episodePublicId,
             @Valid @RequestBody UpdateEpisodeRequest request,
             @RequestHeader(TEMP_USER_ID_HEADER) long userId
     ) {
         UpdateEpisodeCommand command = EpisodeRequestMapper.toUpdateEpisodeCommand(request, userId, episodePublicId);
-        EpisodeSummaryResponse updatedEpisode = episodeService.updateEpisode(command);
-        return ApiResponseMapper.success(updatedEpisode);
+        EpisodeSaveResponse result = episodeService.updateEpisode(command);
+        return ApiResponseMapper.success(result);
     }
 
     @PutMapping("/episodes/{episodePublicId}/content")

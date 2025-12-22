@@ -13,6 +13,7 @@ import com.iucyh.novelservice.novel.service.dto.mapper.NovelCommandMapper;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
+import com.iucyh.novelservice.novel.web.dto.response.NovelSaveResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
 import com.iucyh.novelservice.user.domain.User;
@@ -31,7 +32,7 @@ public class NovelService {
     private final NovelRepository novelRepository;
     private final EpisodeRepository episodeRepository;
 
-    public NovelSummaryResponse createNovel(CreateNovelCommand command) {
+    public NovelSaveResponse createNovel(CreateNovelCommand command) {
         long userId = command.userId();
         User user = findUserById(userId);
 
@@ -44,10 +45,10 @@ public class NovelService {
         Novel newNovel = NovelCommandMapper.toNovel(command, user);
         Novel savedNovel = novelRepository.save(newNovel);
 
-        return NovelResponseMapper.toNovelSummaryResponse(savedNovel);
+        return NovelResponseMapper.toNovelSaveResponse(savedNovel);
     }
 
-    public NovelSummaryResponse updateNovel(UpdateNovelCommand command) {
+    public NovelSaveResponse updateNovel(UpdateNovelCommand command) {
         long userId = command.userId();
         String novelPublicId = command.novelPublicId();
         Novel novel = findNovelWithUserId(userId, novelPublicId);
@@ -63,7 +64,7 @@ public class NovelService {
         novel.updateTextMetaData(command.title(), command.description());
         novel.updateCategory(command.category());
 
-        return NovelResponseMapper.toNovelSummaryResponse(novel);
+        return NovelResponseMapper.toNovelSaveResponse(novel);
     }
 
     public NovelCompletionResponse updateNovelCompletion(UpdateNovelCompletionCommand command) {

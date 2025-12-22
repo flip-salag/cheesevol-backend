@@ -17,6 +17,7 @@ import com.iucyh.novelservice.novel.web.dto.request.UpdateNovelCompletionRequest
 import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
 import com.iucyh.novelservice.novel.web.dto.request.UpdateNovelRequest;
+import com.iucyh.novelservice.novel.web.dto.response.NovelSaveResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
 import com.iucyh.novelservice.novel.service.NovelQueryService;
 import com.iucyh.novelservice.novel.service.NovelService;
@@ -57,24 +58,24 @@ public class NovelController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SuccessResponse<NovelSummaryResponse> createNovel(
+    public SuccessResponse<NovelSaveResponse> createNovel(
             @Valid @RequestBody CreateNovelRequest request,
             @RequestHeader(TEMP_USER_ID_HEADER) long userId
     ) {
         CreateNovelCommand command = NovelRequestMapper.toCreateNovelCommand(request, userId);
-        NovelSummaryResponse createdNovel = novelService.createNovel(command);
-        return ApiResponseMapper.success(createdNovel);
+        NovelSaveResponse result = novelService.createNovel(command);
+        return ApiResponseMapper.success(result);
     }
 
     @PatchMapping("/{novelPublicId}")
-    public SuccessResponse<NovelSummaryResponse> updateNovel(
+    public SuccessResponse<NovelSaveResponse> updateNovel(
             @PathVariable String novelPublicId,
             @Valid @RequestBody UpdateNovelRequest request,
             @RequestHeader(TEMP_USER_ID_HEADER) long userId
     ) {
         UpdateNovelCommand command = NovelRequestMapper.toUpdateNovelCommand(request, userId, novelPublicId);
-        NovelSummaryResponse updatedNovel = novelService.updateNovel(command);
-        return ApiResponseMapper.success(updatedNovel);
+        NovelSaveResponse result = novelService.updateNovel(command);
+        return ApiResponseMapper.success(result);
     }
 
     @PutMapping("/{novelPublicId}/completion")

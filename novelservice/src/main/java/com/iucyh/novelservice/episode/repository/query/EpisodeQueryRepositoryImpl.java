@@ -111,7 +111,7 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
                 .join(novel.user, user)
                 .where(
                         episode.publicId.eq(publicId),
-                        applyValidEpisodeFilter()
+                        episode.deletedAt.isNull()
                 )
                 .fetchOne();
         return Optional.ofNullable(result);
@@ -122,11 +122,9 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
         String result = queryFactory
                 .select(episode.content)
                 .from(episode)
-                .join(episode.novel, novel)
-                .join(novel.user, user)
                 .where(
                         episode.publicId.eq(publicId),
-                        applyValidEpisodeFilter()
+                        episode.deletedAt.isNull()
                 )
                 .fetchOne();
         return Optional.ofNullable(result);
@@ -172,21 +170,5 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
 
     private OrderSpecifier<Integer> applyOrder(EpisodeSortType sortType) {
         return sortType == EpisodeSortType.ASC ? episode.episodeNumber.asc() : episode.episodeNumber.desc();
-    }
-
-    /**
-     * <p>조회할 회차가 유효한 회차인지 검사하기 위한 필터 적용</p>
-     * <p>필터 조건</p>
-     * <ul>
-     *     <li>삭제되지 않은 회차</li>
-     *     <li>회차가 속한 소설이 삭제되지 않은 상태</li>
-     *     <li>회차가 속한 소설의 작성자가 삭제되지 않은 상태</li>
-     * </ul>
-     * <b>주의: novel, user와 관련된 조건을 사용하므로 쿼리에서 novel, user JOIN 필수</b>
-     */
-    private BooleanExpression applyValidEpisodeFilter() {
-        return episode.deletedAt.isNull()
-                .and(novel.deletedAt.isNull())
-                .and(user.deletedAt.isNull());
     }
 }

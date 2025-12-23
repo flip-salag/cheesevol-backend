@@ -38,7 +38,7 @@ public interface EpisodeQueryRepository {
 
     /**
      * <p>{@code publicId}에 해당하는 회차의 상세 정보를 조회 (소설, 유저의 일부 정보 포함)</p>
-     * <p>회차, 소설, 유저 중 하나라도 삭제되었다면(soft delete 포함) Optional.empty() 반환</p>
+     * <p>회차가 삭제되었다면(soft delete 포함) Optional.empty() 반환</p>
      * @param publicId 조회할 회차의 public id
      * @return 회차의 상세 정보, 조건에 맞는 episode가 없다면 {@code Optional.empty()}
      */
@@ -46,7 +46,7 @@ public interface EpisodeQueryRepository {
 
     /**
      * <p>{@code publicId}에 해당하는 회차의 본문을 조회</p>
-     * <p>회차, 소설, 유저 중 하나라도 삭제되었다면(soft delete 포함) Optional.empty() 반환</p>
+     * <p>회차가 삭제되었다면(soft delete 포함) Optional.empty() 반환</p>
      * @param publicId 조회할 회차의 public id
      * @return 회차의 본문, 조건에 맞는 episode가 없다면 {@code Optional.empty()}
      */

@@ -13,7 +13,6 @@ import com.iucyh.novelservice.novel.exception.NovelNotFound;
 import com.iucyh.novelservice.episode.domain.Episode;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeResponseMapper;
-import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.episode.repository.EpisodeRepository;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
 import lombok.RequiredArgsConstructor;

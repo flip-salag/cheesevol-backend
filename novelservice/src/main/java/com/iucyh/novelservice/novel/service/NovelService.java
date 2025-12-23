@@ -101,6 +101,8 @@ public class NovelService {
     public void deleteNovel(DeleteNovelCommand command) {
         Novel novel = findNovelWithUserId(command.userId(), command.novelPublicId());
         novel.softDelete();
+        // 연관된 자식 엔티티 삭제 (bulk update)
+        episodeRepository.softDeleteByNovelId(novel.getId(), novel.getDeletedAt());
     }
 
     private User findUserById(long userId) {

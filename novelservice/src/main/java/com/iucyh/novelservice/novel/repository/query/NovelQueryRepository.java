@@ -14,7 +14,6 @@ public interface NovelQueryRepository {
      * <ul>
      *     <li>{@code publicId}에 해당하는 소설</li>
      *     <li>삭제되지 않은 소설</li>
-     *     <li>소설의 작성자가 삭제되지 않은 상태</li>
      * </ul>
      * @param publicId 검사할 소설의 public id
      * @return 조건을 충족하는 소설이 존재하면 {@code true}, 아니라면 {@code false}

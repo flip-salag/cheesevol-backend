@@ -27,11 +27,9 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
         Integer result = queryFactory
                 .selectOne()
                 .from(novel)
-                .join(novel.user, user)
                 .where(
                         novel.publicId.eq(publicId),
-                        novel.deletedAt.isNull(),
-                        user.deletedAt.isNull()
+                        novel.deletedAt.isNull()
                 )
                 .fetchFirst();
         return result != null;
@@ -43,7 +41,7 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
                 .selectFrom(novel)
                 .join(novel.user, user).fetchJoin()
                 .where(
-                        applyDefaultFilter(),
+                        applyValidNovelFilter(),
                         applyCategoryFilter(category)
                 )
                 .limit(condition.limit());
@@ -60,7 +58,7 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
                 .selectFrom(novel)
                 .join(novel.user, user).fetchJoin()
                 .where(
-                        applyDefaultFilter(),
+                        applyValidNovelFilter(),
                         applyCategoryFilter(category),
                         novel.createdAt.goe(thisMonth)
                 )
@@ -71,10 +69,17 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
                 .fetch();
     }
 
-    private BooleanExpression applyDefaultFilter() {
-        return novel.deletedAt.isNull() // 삭제되지 않은 소설
-                .and(novel.lastEpisodeAt.isNotNull()) // 회차가 하나라도 존재하는 소설
-                .and(user.deletedAt.isNull()); // 작성자가 삭제되지 않은 소설
+    /**
+     * <p>조회할 소설이 유효한 소설인지 검사하기 위한 필터 적용</p>
+     * <p>필터 조건</p>
+     * <ul>
+     *     <li>삭제되지 않은 소설</li>
+     *     <li>회차가 한개라도 존재하는(== 최신 회차 등록일이 null이 아닌) 소설</li>
+     * </ul>
+     */
+    private BooleanExpression applyValidNovelFilter() {
+        return novel.deletedAt.isNull()
+                .and(novel.lastEpisodeAt.isNotNull());
     }
 
     private BooleanExpression applyCategoryFilter(NovelCategory category) {

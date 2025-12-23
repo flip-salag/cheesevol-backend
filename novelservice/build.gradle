@@ -24,6 +24,7 @@ repositories {
 }
 
 def jnanoidVersion = '2.0.0'
+def htmlSanitizerVersion = '20220608.1'
 def querydslVersion = '7.1'
 def querydslSrcDir = layout.buildDirectory.dir("generated/querydsl")
 
@@ -52,6 +53,9 @@ dependencies {
 
 	// nanoid
 	implementation "com.aventrix.jnanoid:jnanoid:${jnanoidVersion}"
+
+	// html sanitizer
+	implementation "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:${htmlSanitizerVersion}"
 }
 
 sourceSets {

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface EpisodeRepository extends PublicEntityRepository<Episode, Long> {
@@ -55,4 +56,17 @@ public interface EpisodeRepository extends PublicEntityRepository<Episode, Long>
     @Modifying(clearAutomatically = true)
     @Query("update Episode e set e.viewCount = e.viewCount + 1 where e.id = :episodeId and e.deletedAt is null")
     void increaseViewCount(@Param("episodeId") Long episodeId);
+
+    /**
+     * 특정 Novel에 속하는 회차들을 bulk update 로 soft delete 처리
+     * @param novelId 삭제할 회차들이 속한 Novel의 pk
+     * @param deletedAt 각 Episode에 기록될 삭제 시간, 가급적 현재 시간 혹은 부모 Novel의 삭제 시간 전달 권장
+     */
+    @Modifying(clearAutomatically = true)
+    @Query("""
+    update Episode e
+    set e.deletedAt = :deletedAt
+    where e.novel.id = :novelId
+    """)
+    void softDeleteByNovelId(Long novelId, LocalDateTime deletedAt);
 }

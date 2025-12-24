@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.iucyh.novelservice.common.deserializer.html.HtmlDeserializer;
 import com.iucyh.novelservice.common.deserializer.html.HtmlSanitized;
 import com.iucyh.novelservice.common.util.htmlsanitizer.HtmlContentType;
-import com.iucyh.novelservice.common.validator.html.SizeWithoutHtml;
+import com.iucyh.novelservice.common.validator.htmlsize.SizeWithoutHtml;
 import com.iucyh.novelservice.episode.constant.EpisodeConstants;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

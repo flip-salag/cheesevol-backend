@@ -26,7 +26,7 @@ public @interface SizeWithoutHtml {
      */
     int max() default Integer.MAX_VALUE;
 
-    String message() default "Value cannot be blank";
+    String message() default "Size must be between {min} and {max}";
 
     Class<?>[] groups() default {};
 

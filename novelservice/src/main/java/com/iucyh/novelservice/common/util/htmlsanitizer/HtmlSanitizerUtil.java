@@ -20,12 +20,17 @@ public class HtmlSanitizerUtil {
 
     /**
      * <p>전달된 HTML 문자열을 내용의 종류에 따라 적절히 정제</p>
+     * <p>전달된 문자열이 비어있거나, {@code null}이라면 그 값 그대로 반환</p>
      * @param type 정제할 문자열 내용의 종류 (회차 본문, 공지사항 본문 등)
      * @param html 정제할 문자열
      * @return 규칙에 맞게 정제된 HTML 문자열
      */
     public static String sanitize(HtmlContentType type, String html) {
-        if (html == null || html.isBlank()) {
+        if (html == null) {
+            return null;
+        }
+
+        if (html.isBlank()) {
             return "";
         }
 

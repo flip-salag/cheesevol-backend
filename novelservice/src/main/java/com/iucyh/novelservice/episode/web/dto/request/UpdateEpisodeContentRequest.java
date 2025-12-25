@@ -3,7 +3,7 @@ package com.iucyh.novelservice.episode.web.dto.request;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.iucyh.novelservice.common.deserializer.html.HtmlDeserializer;
 import com.iucyh.novelservice.common.deserializer.html.HtmlSanitized;
-import com.iucyh.novelservice.common.util.htmlsanitizer.HtmlContentType;
+import com.iucyh.novelservice.common.util.html.HtmlContentType;
 import com.iucyh.novelservice.common.validator.htmlsize.SizeWithoutHtml;
 import jakarta.validation.constraints.NotBlank;
 

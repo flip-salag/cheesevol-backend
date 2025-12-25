@@ -1,6 +1,6 @@
 package com.iucyh.novelservice.common.deserializer.html;
 
-import com.iucyh.novelservice.common.util.htmlsanitizer.HtmlContentType;
+import com.iucyh.novelservice.common.util.html.HtmlContentType;
 
 import java.lang.annotation.*;
 

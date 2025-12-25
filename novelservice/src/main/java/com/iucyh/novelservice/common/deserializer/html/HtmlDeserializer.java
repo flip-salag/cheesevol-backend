@@ -8,8 +8,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.iucyh.novelservice.common.util.htmlsanitizer.HtmlContentType;
-import com.iucyh.novelservice.common.util.htmlsanitizer.HtmlSanitizerUtil;
+import com.iucyh.novelservice.common.util.html.HtmlContentType;
+import com.iucyh.novelservice.common.util.html.HtmlSanitizerUtil;
 
 import java.io.IOException;
 

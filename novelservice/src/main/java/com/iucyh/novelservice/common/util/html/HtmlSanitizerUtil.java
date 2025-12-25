@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.util.htmlsanitizer;
+package com.iucyh.novelservice.common.util.html;
 
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;

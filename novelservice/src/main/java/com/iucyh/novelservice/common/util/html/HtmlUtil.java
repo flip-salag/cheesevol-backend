@@ -3,7 +3,7 @@ package com.iucyh.novelservice.common.util.html;
 import org.jsoup.Jsoup;
 
 /**
- * <p>HTML과 관련된 편의 메서드를 제공하는 유틸</p>
+ * <p>HTML과 관련된 편의 메서드를 제공하는 유틸리티</p>
  */
 public class HtmlUtil {
 

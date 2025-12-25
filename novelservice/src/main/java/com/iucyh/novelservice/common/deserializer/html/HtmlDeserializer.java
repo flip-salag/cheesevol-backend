@@ -46,7 +46,6 @@ public class HtmlDeserializer extends StdDeserializer<String> implements Context
         return new HtmlDeserializer(annotation.value());
     }
 
-
     @Override
     public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
         String value = p.getValueAsString();

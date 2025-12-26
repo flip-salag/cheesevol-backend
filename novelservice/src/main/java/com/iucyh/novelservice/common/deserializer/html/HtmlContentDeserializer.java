@@ -32,10 +32,10 @@ public class HtmlContentDeserializer extends StdDeserializer<HtmlContent> implem
         this.registry = registry;
     }
 
-    private HtmlContentDeserializer(SafelistRegistry registry, String key) {
+    private HtmlContentDeserializer(SafelistRegistry registry, String safelistKey) {
         super(HtmlContent.class);
         this.registry = registry;
-        this.safelistKey = key;
+        this.safelistKey = safelistKey;
     }
 
     @Override

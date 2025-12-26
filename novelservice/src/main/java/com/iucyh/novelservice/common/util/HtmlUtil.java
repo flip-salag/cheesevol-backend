@@ -31,10 +31,19 @@ public class HtmlUtil {
 
     /**
      * <p>모든 HTML 태그를 제거한 순수 택스트를 반환, new line(\n), 공백은 유지</p>
+     * <p>전달된 문자열이 비어있거나, {@code null}이라면 그 값 그대로 반환</p>
      * @param html 변환할 HTML 문자열
      * @return HTML 태그가 모두 제거된 순수 텍스트
      */
     public static String toWholeText(String html) {
+        if (html == null) {
+            return null;
+        }
+
+        if (html.isBlank()) {
+            return "";
+        }
+
         return Jsoup.parse(html).wholeText();
     }
 }

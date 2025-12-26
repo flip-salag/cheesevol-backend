@@ -9,4 +9,6 @@ public abstract class EpisodeConstants {
 
     public static final int EPISODE_CONTENT_LENGTH_MIN = 450;
     public static final int EPISODE_CONTENT_LENGTH_MAX = 20000;
+
+    public static final String EPISODE_CONTENT_SAFE_LIST_KEY = "episode.content";
 }

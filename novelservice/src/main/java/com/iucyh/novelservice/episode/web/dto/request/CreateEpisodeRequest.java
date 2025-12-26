@@ -1,10 +1,9 @@
 package com.iucyh.novelservice.episode.web.dto.request;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.iucyh.novelservice.common.deserializer.html.HtmlDeserializer;
 import com.iucyh.novelservice.common.deserializer.html.HtmlSanitized;
-import com.iucyh.novelservice.common.util.html.HtmlContentType;
+import com.iucyh.novelservice.common.validator.htmlnotblank.NotBlankWithoutHtml;
 import com.iucyh.novelservice.common.validator.htmlsize.SizeWithoutHtml;
+import com.iucyh.novelservice.common.vo.HtmlContent;
 import com.iucyh.novelservice.episode.constant.EpisodeConstants;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,9 +21,9 @@ public record CreateEpisodeRequest(
         @Size(max = EPISODE_DESC_LENGTH_MAX)
         String description,
 
-        @NotBlank
+        @NotNull
+        @NotBlankWithoutHtml
         @SizeWithoutHtml(min = EPISODE_CONTENT_LENGTH_MIN, max = EPISODE_CONTENT_LENGTH_MAX)
-        @JsonDeserialize(using = HtmlDeserializer.class)
-        @HtmlSanitized(HtmlContentType.EPISODE_CONTENT)
-        String content
+        @HtmlSanitized(EpisodeConstants.EPISODE_CONTENT_SAFE_LIST_KEY)
+        HtmlContent content
 ) {}

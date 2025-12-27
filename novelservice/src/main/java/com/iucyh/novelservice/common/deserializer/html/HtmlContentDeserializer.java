@@ -18,7 +18,7 @@ import java.io.IOException;
 
 /**
  * <p>JSON의 HTML 문자열 필드를 내부에서 사용하는 HtmlContent 타입으로 변환</p>
- * <b>@HtmlSanitized 어노테이션을 필드에 붙이지 않거나 Safelist를 조회하기 위한 Key가 유효하지 않다면 {@code IllegalStateException} 예외 발생</b>
+ * <b>@SanitizedHtml 어노테이션을 필드에 붙이지 않거나 Safelist를 조회하기 위한 Key가 유효하지 않다면 {@code IllegalStateException} 예외 발생</b>
  */
 @JsonComponent
 public class HtmlContentDeserializer extends StdDeserializer<HtmlContent> implements ContextualDeserializer {
@@ -45,9 +45,9 @@ public class HtmlContentDeserializer extends StdDeserializer<HtmlContent> implem
         }
 
         // 개발자의 실수와 관련된 예외이므로 Jackson 예외가 아니라 IllegalStateException을 던져 더 명확하게 구분
-        HtmlSanitized annotation = property.getAnnotation(HtmlSanitized.class);
+        SanitizedHtml annotation = property.getAnnotation(SanitizedHtml.class);
         if (annotation == null) { // 필드에 필수 어노테이션이 없다면
-            throw new IllegalStateException("@HtmlSanitized is required on property %s".formatted(property.getName()));
+            throw new IllegalStateException("@SanitizedHtml is required on property %s".formatted(property.getName()));
         }
 
         if (!registry.containsKey(annotation.value())) { // 조회에 사용할 Key가 유효하지 않다면

@@ -21,7 +21,7 @@ public class SizeWithoutHtmlValidator implements ConstraintValidator<SizeWithout
             return true;
         }
 
-        String text = value.getTextValue().strip();
+        String text = value.getTextValue();
         return text.length() >= min && text.length() <= max;
     }
 }

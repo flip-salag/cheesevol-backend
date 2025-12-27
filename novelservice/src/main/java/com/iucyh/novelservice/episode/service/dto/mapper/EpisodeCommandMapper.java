@@ -10,6 +10,7 @@ public class EpisodeCommandMapper {
 
     public static Episode toEpisode(CreateEpisodeCommand command, Novel novel, int episodeNumber) {
         return Episode.of(
+                command.episodeType(),
                 command.title(),
                 command.description(),
                 command.content().getSanitizedValue(),

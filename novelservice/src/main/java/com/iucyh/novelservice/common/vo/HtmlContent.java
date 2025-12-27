@@ -33,7 +33,7 @@ public final class HtmlContent {
 
     public static HtmlContent of(String originalValue, Safelist safelist) {
         if (originalValue == null) {
-            throw new IllegalArgumentException("HtmlContent cannot be null");
+            throw new IllegalArgumentException("originalValue in HtmlContent cannot be null");
         }
 
         return new HtmlContent(

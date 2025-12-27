@@ -42,9 +42,6 @@ public class Novel extends PublicEntity {
     private Integer periodViewCount = 0;
 
     @Column(nullable = false)
-    private Integer prologueDeleteCount = 0;
-
-    @Column(nullable = false)
     private Integer lastEpisodeNumber = 0;
 
     private LocalDateTime lastEpisodeAt;

@@ -7,10 +7,7 @@ import java.util.Map;
 
 public class NovelAlreadyHasPrologue extends ServiceException {
 
-    public NovelAlreadyHasPrologue(String novelId) {
-        super(
-                NovelErrorCode.NOVEL_ALREADY_HAS_PROLOGUE,
-                Map.of("novelId", novelId)
-        );
+    public NovelAlreadyHasPrologue() {
+        super(NovelErrorCode.NOVEL_ALREADY_HAS_PROLOGUE);
     }
 }

@@ -24,6 +24,6 @@ public record CreateEpisodeRequest(
         @NotNull
         @NotBlankWithoutHtml
         @SizeWithoutHtml(min = EPISODE_CONTENT_LENGTH_MIN, max = EPISODE_CONTENT_LENGTH_MAX)
-        @SanitizedHtml(EpisodeConstants.EPISODE_CONTENT_SAFE_LIST_KEY)
+        @SanitizedHtml(EPISODE_CONTENT_SAFE_LIST_KEY)
         HtmlContent content
 ) {}

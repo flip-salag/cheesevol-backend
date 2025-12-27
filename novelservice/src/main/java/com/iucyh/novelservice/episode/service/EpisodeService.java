@@ -1,5 +1,6 @@
 package com.iucyh.novelservice.episode.service;
 
+import com.iucyh.novelservice.common.vo.HtmlContent;
 import com.iucyh.novelservice.episode.constant.EpisodeConstants;
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.exception.EpisodeContentLengthNotValid;
@@ -42,7 +43,7 @@ public class EpisodeService {
         if (novel.isCompletedNovel()) {
             throw new NovelAlreadyCompleted(); // 완결된 소설은 회차 생성 불가
         }
-        validateContentLength(command.episodeType(), command.content().getTextValue());
+        validateContentLength(command.episodeType(), command.content());
 
         return switch (command.episodeType()) {
             case COMMON -> createCommonEpisode(command, novel);
@@ -59,7 +60,7 @@ public class EpisodeService {
 
     public void updateEpisodeContent(UpdateEpisodeContentCommand command) {
         Episode episode = findEpisodeWithNovelUser(command.episodePublicId(), command.userId());
-        validateContentLength(episode.getEpisodeType(), command.content().getTextValue());
+        validateContentLength(episode.getEpisodeType(), command.content());
 
         episode.updateContent(command.content().getSanitizedValue());
     }
@@ -107,7 +108,7 @@ public class EpisodeService {
      * @param content 검증할 본문
      * @throws EpisodeContentLengthNotValid 본문의 길이가 너무 길거나 짧을 때
      */
-    private void validateContentLength(EpisodeType episodeType, String content) {
+    private void validateContentLength(EpisodeType episodeType, HtmlContent content) {
         int min = 0;
         int max = 0;
 
@@ -123,7 +124,8 @@ public class EpisodeService {
             }
         }
 
-        boolean isValid = content.length() >= min && content.length() <= max;
+        String textValue = content.getTextValue();
+        boolean isValid = textValue.length() >= min && textValue.length() <= max;
         if (!isValid) {
             throw new EpisodeContentLengthNotValid(episodeType, min, max);
         }

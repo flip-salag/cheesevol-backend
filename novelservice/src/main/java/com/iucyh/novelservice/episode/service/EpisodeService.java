@@ -53,7 +53,7 @@ public class EpisodeService {
 
     public void updateEpisodeContent(UpdateEpisodeContentCommand command) {
         Episode episode = findEpisodeWithNovelUser(command.episodePublicId(), command.userId());
-        episode.updateContent(command.content());
+        episode.updateContent(command.content().getSanitizedValue());
     }
 
     public void deleteEpisode(DeleteEpisodeCommand command) {

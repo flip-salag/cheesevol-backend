@@ -1,10 +1,10 @@
 package com.iucyh.novelservice.common.validator.htmlsize;
 
+import com.iucyh.novelservice.common.vo.HtmlContent;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.jsoup.Jsoup;
 
-public class SizeWithoutHtmlValidator implements ConstraintValidator<SizeWithoutHtml, String> {
+public class SizeWithoutHtmlValidator implements ConstraintValidator<SizeWithoutHtml, HtmlContent> {
 
     private int min;
     private int max;
@@ -16,12 +16,12 @@ public class SizeWithoutHtmlValidator implements ConstraintValidator<SizeWithout
     }
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
+    public boolean isValid(HtmlContent value, ConstraintValidatorContext context) {
         if (value == null) {
             return true;
         }
 
-        String parsedText = Jsoup.parse(value).wholeText();
-        return parsedText.length() >= min && parsedText.length() <= max;
+        String text = value.getTextValue();
+        return text.length() >= min && text.length() <= max;
     }
 }

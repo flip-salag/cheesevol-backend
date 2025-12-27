@@ -12,7 +12,7 @@ public class EpisodeCommandMapper {
         return Episode.of(
                 command.title(),
                 command.description(),
-                command.content(),
+                command.content().getSanitizedValue(),
                 episodeNumber,
                 novel
         );

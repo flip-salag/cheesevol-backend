@@ -59,6 +59,8 @@ public class EpisodeService {
 
     public void updateEpisodeContent(UpdateEpisodeContentCommand command) {
         Episode episode = findEpisodeWithNovelUser(command.episodePublicId(), command.userId());
+        validateContentLength(episode.getEpisodeType(), command.content().getTextValue());
+
         episode.updateContent(command.content().getSanitizedValue());
     }
 

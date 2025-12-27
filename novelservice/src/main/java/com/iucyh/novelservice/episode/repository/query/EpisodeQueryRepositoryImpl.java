@@ -1,6 +1,7 @@
 package com.iucyh.novelservice.episode.repository.query;
 
 import com.iucyh.novelservice.episode.enumtype.EpisodeSortType;
+import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
 import com.iucyh.novelservice.episode.repository.query.projection.*;
 import com.querydsl.core.types.OrderSpecifier;
@@ -27,6 +28,20 @@ import static com.iucyh.novelservice.user.domain.QUser.user;
 public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
 
     private final JPAQueryFactory queryFactory;
+
+    @Override
+    public boolean prologueExistsByNovelId(Long novelId) {
+        Integer result = queryFactory
+                .selectOne()
+                .from(episode)
+                .where(
+                        episode.novel.id.eq(novelId),
+                        episode.episodeType.eq(EpisodeType.PROLOGUE),
+                        episode.deletedAt.isNull()
+                )
+                .fetchFirst();
+        return result != null;
+    }
 
     @Override
     public LocalDateTime findLastEpisodeAtExceptDeletedEpisode(Long novelId, String publicId) {

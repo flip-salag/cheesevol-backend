@@ -12,6 +12,13 @@ import java.util.Optional;
 public interface EpisodeQueryRepository {
 
     /**
+     * <p>{@code novelId}에 해당하는 소설에 프롤로그 회차가 존재하는지 검사</p>
+     * @param novelId 검사할 소설의 id
+     * @return 해당 소설에 프롤로그 회차가 존재하면 {@code true}, 아니라면 {@code false}
+     */
+    boolean prologueExistsByNovelId(Long novelId);
+
+    /**
      * <p>{@code publicId}에 해당하는 회차와 삭제된 회차를 제외한 나머지 회차 중 가장 최신 회차의 생성일 조회</p>
      * <p>제외할 회차가 없다면 publicId에 null 전달</p>
      * @param novelId 조회할 회차들이 속한 소설의 id

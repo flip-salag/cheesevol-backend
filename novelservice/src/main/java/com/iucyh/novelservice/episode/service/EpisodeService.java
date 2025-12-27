@@ -1,5 +1,8 @@
 package com.iucyh.novelservice.episode.service;
 
+import com.iucyh.novelservice.episode.constant.EpisodeConstants;
+import com.iucyh.novelservice.episode.enumtype.EpisodeType;
+import com.iucyh.novelservice.episode.exception.EpisodeContentLengthNotValid;
 import com.iucyh.novelservice.episode.exception.EpisodeNotFound;
 import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
@@ -20,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+
+import static com.iucyh.novelservice.episode.constant.EpisodeConstants.*;
 
 @Service
 @Transactional
@@ -69,6 +74,34 @@ public class EpisodeService {
         // 다음 최신 회차가 없다면 lastEpisodeAt을 null로 설정 (소설 목록 조회 시 소설의 lastEpisodeAt이 null이라면 회차가 없는 것으로 간주)
         LocalDateTime lastEpisodeAt = episodeQueryRepository.findLastEpisodeAtExceptDeletedEpisode(novel.getId(), episode.getPublicId());
         novel.updateLastEpisodeAt(lastEpisodeAt);
+    }
+
+    /**
+     * <p>본문의 길이를 episodeType에 따라 검증</p>
+     * @param episodeType 검증의 기준으로 사용할 {@code EpisodeType}
+     * @param content 검증할 본문
+     * @throws EpisodeContentLengthNotValid 본문의 길이가 너무 길거나 짧을 때
+     */
+    private void validateContentLength(EpisodeType episodeType, String content) {
+        int min = 0;
+        int max = 0;
+
+        switch (episodeType) {
+            case COMMON -> {
+                min = COMMON_EPISODE_CONTENT_LENGTH_MIN;
+                max = COMMON_EPISODE_CONTENT_LENGTH_MAX;
+            }
+
+            case PROLOGUE -> {
+                min = PROLOGUE_EPISODE_CONTENT_LENGTH_MIN;
+                max = PROLOGUE_EPISODE_CONTENT_LENGTH_MAX;
+            }
+        }
+
+        boolean isValid = content.length() >= min && content.length() <= max;
+        if (!isValid) {
+            throw new EpisodeContentLengthNotValid(episodeType, min, max);
+        }
     }
 
     private Novel findNovelWithUserId(long userId, String novelPublicId) {

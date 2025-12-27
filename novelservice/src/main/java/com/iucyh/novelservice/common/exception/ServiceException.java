@@ -17,6 +17,10 @@ public abstract class ServiceException extends RuntimeException {
         this.causes = causes;
     }
 
+    protected ServiceException(ErrorCode errorCode, String message) {
+        this(errorCode, message, null);
+    }
+
     protected ServiceException(ErrorCode errorCode, Map<String, Object> causes) {
         this(errorCode, errorCode.getDefaultMessage(), causes);
     }

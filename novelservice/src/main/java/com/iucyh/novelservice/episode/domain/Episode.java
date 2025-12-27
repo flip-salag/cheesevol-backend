@@ -1,6 +1,7 @@
 package com.iucyh.novelservice.episode.domain;
 
 import com.iucyh.novelservice.common.entity.PublicEntity;
+import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.novel.domain.Novel;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -18,6 +19,10 @@ public class Episode extends PublicEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(length = 50, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EpisodeType episodeType;
 
     @Column(length = EPISODE_TITLE_LENGTH_MAX + 5, nullable = false)
     private String title;
@@ -38,8 +43,9 @@ public class Episode extends PublicEntity {
     @JoinColumn(name = "novel_id", nullable = false)
     private Novel novel;
 
-    public static Episode of(String title, String description, String content, Integer episodeNumber, Novel novel) {
+    public static Episode of(EpisodeType episodeType, String title, String description, String content, Integer episodeNumber, Novel novel) {
         Episode episode = new Episode();
+        episode.episodeType = episodeType;
         episode.title = title.strip();
         episode.description = description;
         episode.content = content;

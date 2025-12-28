@@ -107,6 +107,7 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
                 .select(
                         new QEpisodeDetailQueryProjection(
                                 episode.publicId,
+                                episode.episodeType,
                                 episode.title,
                                 episode.description,
                                 episode.episodeNumber,

@@ -91,7 +91,7 @@ public class EpisodeService {
     }
 
     private EpisodeSaveResponse createPrologueEpisode(CreateEpisodeCommand command, Novel novel) {
-        boolean prologueExists = episodeQueryRepository.prologueExistsByNovelId(novel.getId());
+        boolean prologueExists = episodeQueryRepository.episodeExistsByNovelIdAndEpisodeType(novel.getId(), EpisodeType.PROLOGUE);
         if (prologueExists) { // 프롤로그는 소설 당 1개만 존재가능
             throw new NovelAlreadyHasPrologue();
         }

@@ -30,13 +30,13 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public boolean prologueExistsByNovelId(Long novelId) {
+    public boolean episodeExistsByNovelIdAndEpisodeType(Long novelId, EpisodeType episodeType) {
         Integer result = queryFactory
                 .selectOne()
                 .from(episode)
                 .where(
                         episode.novel.id.eq(novelId),
-                        episode.episodeType.eq(EpisodeType.PROLOGUE),
+                        episode.episodeType.eq(episodeType),
                         episode.deletedAt.isNull()
                 )
                 .fetchFirst();

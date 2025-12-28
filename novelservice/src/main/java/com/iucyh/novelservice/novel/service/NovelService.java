@@ -1,6 +1,8 @@
 package com.iucyh.novelservice.novel.service;
 
+import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.repository.EpisodeRepository;
+import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
 import com.iucyh.novelservice.novel.exception.DuplicateNovelTitle;
 import com.iucyh.novelservice.novel.exception.NovelHasNoEpisodes;
 import com.iucyh.novelservice.novel.exception.NovelNotFound;
@@ -31,6 +33,7 @@ public class NovelService {
     private final UserRepository userRepository;
     private final NovelRepository novelRepository;
     private final EpisodeRepository episodeRepository;
+    private final EpisodeQueryRepository episodeQueryRepository;
 
     public NovelSaveResponse createNovel(CreateNovelCommand command) {
         long userId = command.userId();
@@ -74,8 +77,8 @@ public class NovelService {
 
         boolean isCompleted = command.isCompleted();
         if (isCompleted) {
-            boolean hasEpisodes = episodeRepository.existsByNovelIdAndDeletedAtIsNull(novel.getId());
-            if (!hasEpisodes) {
+            boolean hasCommonEpisodes = episodeQueryRepository.episodeExistsByNovelIdAndEpisodeType(novel.getId(), EpisodeType.COMMON);
+            if (!hasCommonEpisodes) { // 일반 회차가 한개라도 존재하지 않는다면 완결로 변경 불가
                 throw new NovelHasNoEpisodes();
             }
         }

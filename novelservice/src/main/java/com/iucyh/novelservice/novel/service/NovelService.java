@@ -4,7 +4,7 @@ import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.repository.EpisodeRepository;
 import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
 import com.iucyh.novelservice.novel.exception.DuplicateNovelTitle;
-import com.iucyh.novelservice.novel.exception.NovelHasNoEpisodes;
+import com.iucyh.novelservice.novel.exception.NovelHasNoCommonEpisodes;
 import com.iucyh.novelservice.novel.exception.NovelNotFound;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
@@ -16,7 +16,6 @@ import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSaveResponse;
-import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
 import com.iucyh.novelservice.user.domain.User;
 import com.iucyh.novelservice.user.exception.UserNotFound;
@@ -79,7 +78,7 @@ public class NovelService {
         if (isCompleted) {
             boolean hasCommonEpisodes = episodeQueryRepository.episodeExistsByNovelIdAndEpisodeType(novel.getId(), EpisodeType.COMMON);
             if (!hasCommonEpisodes) { // 일반 회차가 한개라도 존재하지 않는다면 완결로 변경 불가
-                throw new NovelHasNoEpisodes();
+                throw new NovelHasNoCommonEpisodes();
             }
         }
 

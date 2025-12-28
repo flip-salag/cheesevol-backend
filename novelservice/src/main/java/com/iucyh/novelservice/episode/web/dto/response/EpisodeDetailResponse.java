@@ -1,5 +1,6 @@
 package com.iucyh.novelservice.episode.web.dto.response;
 
+import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.user.web.dto.response.info.UserBasicInfo;
 
 import java.time.LocalDateTime;
@@ -7,9 +8,10 @@ import java.time.LocalDateTime;
 public record EpisodeDetailResponse(
 
         String episodeId,
+        int episodeNumber,
+        EpisodeType episodeType,
         String title,
         String description,
-        int episodeNumber,
         LocalDateTime createdAt,
         NovelInfo novel,
         EpisodePrevNext prevNext

@@ -50,9 +50,10 @@ public class EpisodeResponseMapper {
 
         return new EpisodeDetailResponse(
                 episodeDetail.getEpisodePublicId(),
+                episodeDetail.getEpisodeNumber(),
+                episodeDetail.getEpisodeType(),
                 episodeDetail.getEpisodeTitle(),
                 episodeDetail.getEpisodeDescription(),
-                episodeDetail.getEpisodeNumber(),
                 episodeDetail.getEpisodeCreatedAt(),
                 novelInfo,
                 episodePrevNext

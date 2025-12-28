@@ -107,6 +107,7 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
                 .select(
                         new QEpisodeDetailQueryProjection(
                                 episode.publicId,
+                                episode.episodeType,
                                 episode.title,
                                 episode.description,
                                 episode.episodeNumber,
@@ -152,6 +153,7 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
                 .select(
                         new QEpisodeSummaryQueryProjection(
                                 episode.publicId,
+                                episode.episodeType,
                                 episode.title,
                                 episode.description,
                                 episode.viewCount,

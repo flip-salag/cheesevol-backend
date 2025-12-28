@@ -26,21 +26,11 @@ public class EpisodeResponseMapper {
         );
     }
 
-    public static EpisodeSummaryResponse toEpisodeSummaryResponse(Episode episode) {
-        return new EpisodeSummaryResponse(
-                episode.getPublicId(),
-                episode.getEpisodeNumber(),
-                episode.getTitle(),
-                episode.getDescription(),
-                episode.getViewCount(),
-                episode.getCreatedAt()
-        );
-    }
-
     public static EpisodeSummaryResponse toEpisodeSummaryResponse(EpisodeSummaryQueryProjection episode) {
         return new EpisodeSummaryResponse(
                 episode.getPublicId(),
                 episode.getEpisodeNumber(),
+                episode.getEpisodeType(),
                 episode.getTitle(),
                 episode.getDescription(),
                 episode.getViewCount(),
@@ -60,9 +50,10 @@ public class EpisodeResponseMapper {
 
         return new EpisodeDetailResponse(
                 episodeDetail.getEpisodePublicId(),
+                episodeDetail.getEpisodeNumber(),
+                episodeDetail.getEpisodeType(),
                 episodeDetail.getEpisodeTitle(),
                 episodeDetail.getEpisodeDescription(),
-                episodeDetail.getEpisodeNumber(),
                 episodeDetail.getEpisodeCreatedAt(),
                 novelInfo,
                 episodePrevNext

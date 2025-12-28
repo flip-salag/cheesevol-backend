@@ -1,5 +1,6 @@
 package com.iucyh.novelservice.episode.repository.query.projection;
 
+import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 public class EpisodeSummaryQueryProjection {
 
     private final String publicId;
+    private final EpisodeType episodeType;
     private final String title;
     private final String description;
     private final Integer viewCount;
@@ -17,11 +19,12 @@ public class EpisodeSummaryQueryProjection {
 
     @QueryProjection
     public EpisodeSummaryQueryProjection(
-            String publicId, String title, String description,
+            String publicId, EpisodeType episodeType, String title, String description,
             Integer viewCount, Integer episodeNumber,
             LocalDateTime createdAt
     ) {
         this.publicId = publicId;
+        this.episodeType = episodeType;
         this.title = title;
         this.description = description;
         this.viewCount = viewCount;

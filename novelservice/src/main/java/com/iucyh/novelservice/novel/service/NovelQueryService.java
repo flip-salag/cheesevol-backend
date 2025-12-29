@@ -1,8 +1,8 @@
 package com.iucyh.novelservice.novel.service;
 
+import com.iucyh.novelservice.common.exception.DataNotFound;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.common.response.PageWithCursorResponse;
-import com.iucyh.novelservice.novel.exception.NovelNotFound;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
 import com.iucyh.novelservice.novel.service.codec.NovelCursorCodec;
 import com.iucyh.novelservice.novel.service.dto.query.GetNewNovelsQuery;
@@ -49,7 +49,7 @@ public class NovelQueryService {
 
     public NovelDetailResponse getNovelDetail(String novelPublicId) {
         Novel novel = novelRepository.findByPublicIdFetch(novelPublicId)
-                .orElseThrow(() -> new NovelNotFound(novelPublicId));
+                .orElseThrow(() -> new DataNotFound(novelPublicId));
         return NovelResponseMapper.toNovelDetailResponse(novel);
     }
 

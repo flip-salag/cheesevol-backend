@@ -1,11 +1,11 @@
 package com.iucyh.novelservice.novel.service;
 
+import com.iucyh.novelservice.common.exception.DataNotFound;
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.repository.EpisodeRepository;
 import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
 import com.iucyh.novelservice.novel.exception.DuplicateNovelTitle;
 import com.iucyh.novelservice.novel.exception.NovelHasNoCommonEpisodes;
-import com.iucyh.novelservice.novel.exception.NovelNotFound;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.DeleteNovelCommand;
@@ -114,6 +114,6 @@ public class NovelService {
 
     private Novel findNovelWithUserId(long userId, String novelPublicId) {
         return novelRepository.findByUserIdAndPublicIdAndDeletedAtIsNull(userId, novelPublicId)
-                .orElseThrow(() -> new NovelNotFound(novelPublicId));
+                .orElseThrow(() -> new DataNotFound(novelPublicId));
     }
 }

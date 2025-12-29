@@ -1,7 +1,7 @@
 package com.iucyh.novelservice.episode.service;
 
+import com.iucyh.novelservice.common.exception.DataNotFound;
 import com.iucyh.novelservice.common.vo.HtmlContent;
-import com.iucyh.novelservice.episode.constant.EpisodeConstants;
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.exception.EpisodeContentLengthNotValid;
 import com.iucyh.novelservice.episode.exception.EpisodeNotFound;
@@ -14,7 +14,6 @@ import com.iucyh.novelservice.episode.service.dto.mapper.EpisodeCommandMapper;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSaveResponse;
 import com.iucyh.novelservice.novel.exception.NovelAlreadyCompleted;
 import com.iucyh.novelservice.novel.exception.NovelAlreadyHasPrologue;
-import com.iucyh.novelservice.novel.exception.NovelNotFound;
 import com.iucyh.novelservice.episode.domain.Episode;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeResponseMapper;
@@ -133,7 +132,7 @@ public class EpisodeService {
 
     private Novel findNovelWithUserId(long userId, String novelPublicId) {
         return novelRepository.findByUserIdAndPublicIdAndDeletedAtIsNull(userId, novelPublicId)
-                .orElseThrow(() -> new NovelNotFound(novelPublicId));
+                .orElseThrow(() -> new DataNotFound(novelPublicId));
     }
 
     private Episode findEpisodeWithNovelUser(String episodePublicId, long userId) {

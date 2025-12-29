@@ -15,4 +15,14 @@ public class DataNotFound extends ServiceException {
                 Map.of("id", publicId)
         );
     }
+
+    /**
+     * <p>식별자를 노출하고 싶지 않을 때 사용</p>
+     */
+    public DataNotFound() {
+        super(
+                CommonErrorCode.DATA_NOT_FOUND,
+                "Resource not found"
+        );
+    }
 }

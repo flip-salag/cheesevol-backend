@@ -18,7 +18,6 @@ import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSaveResponse;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
 import com.iucyh.novelservice.user.domain.User;
-import com.iucyh.novelservice.user.exception.UserNotFound;
 import com.iucyh.novelservice.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -109,7 +108,7 @@ public class NovelService {
 
     private User findUserById(long userId) {
         return userRepository.findByIdAndDeletedAtIsNull(userId)
-                .orElseThrow(() -> new UserNotFound(userId));
+                .orElseThrow(DataNotFound::new);
     }
 
     private Novel findNovelWithUserId(long userId, String novelPublicId) {

@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum NovelErrorCode implements ErrorCode {
 
-    NOVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "NOVEL-4041", "Novel not found with this id"),
-
     INVALID_CURSOR(HttpStatus.BAD_REQUEST, "NOVEL-4001", "Invalid paging cursor"),
 
     NOVEL_ALREADY_COMPLETED(HttpStatus.CONFLICT, "NOVEL-4091", "Novel already completed"),

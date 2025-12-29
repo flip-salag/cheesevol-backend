@@ -16,7 +16,9 @@ public enum CommonErrorCode implements ErrorCode {
     METHOD_ARGUMENT_TYPE_MISMATCH(HttpStatus.BAD_REQUEST, "COMMON-4004", "Method argument type mismatch"),
     MISSING_SERVLET_REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, "COMMON-4005", "Missing required request parameter"),
 
-    NO_RESOURCE_FOUND(HttpStatus.NOT_FOUND, "COMMON-4041", "No resource found");
+    NO_RESOURCE_FOUND(HttpStatus.NOT_FOUND, "COMMON-4041", "No resource found"),
+
+    DUPLICATE_KEY(HttpStatus.CONFLICT, "COMMON-4091", "Duplicate resource exists");
 
     private final HttpStatus status;
     private final String code;

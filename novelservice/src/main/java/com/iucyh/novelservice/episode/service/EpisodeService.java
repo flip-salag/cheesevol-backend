@@ -84,7 +84,7 @@ public class EpisodeService {
         int newEpisodeNumber = novel.getLastEpisodeNumber() + 1;
 
         Episode episode = EpisodeCommandMapper.toEpisode(command, novel, newEpisodeNumber);
-        Episode savedEpisode = episodeRepository.save(episode); // TODO: GlobalExceptionHandler에 DuplicateKeyException 핸들링 메서드 구현 (409)
+        Episode savedEpisode = episodeRepository.save(episode);
         novel.updateLastEpisode(savedEpisode.getEpisodeNumber(), savedEpisode.getCreatedAt()); // 소설의 마지막 회차와 관련된 컬럼들의 정합성을 위해 최신 회차 기준으로 업데이트
 
         return EpisodeResponseMapper.toEpisodeSaveResponse(savedEpisode);

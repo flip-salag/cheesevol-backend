@@ -4,7 +4,6 @@ import com.iucyh.novelservice.common.exception.DataNotFound;
 import com.iucyh.novelservice.common.vo.HtmlContent;
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.exception.EpisodeContentLengthNotValid;
-import com.iucyh.novelservice.episode.exception.EpisodeNotFound;
 import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.DeleteEpisodeCommand;
@@ -137,11 +136,11 @@ public class EpisodeService {
 
     private Episode findEpisodeWithNovelUser(String episodePublicId, long userId) {
         return episodeRepository.findByPublicIdWithNovelUser(episodePublicId, userId)
-                .orElseThrow(() -> new EpisodeNotFound(episodePublicId));
+                .orElseThrow(() -> new DataNotFound(episodePublicId));
     }
 
     private Episode findEpisodeWithNovelUserFetch(String episodePublicId, long userId) {
         return episodeRepository.findByPublicIdWithNovelUserFetch(episodePublicId, userId)
-                .orElseThrow(() -> new EpisodeNotFound(episodePublicId));
+                .orElseThrow(() -> new DataNotFound(episodePublicId));
     }
 }

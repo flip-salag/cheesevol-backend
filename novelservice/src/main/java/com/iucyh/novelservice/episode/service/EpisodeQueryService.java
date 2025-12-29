@@ -2,7 +2,6 @@ package com.iucyh.novelservice.episode.service;
 
 import com.iucyh.novelservice.common.exception.DataNotFound;
 import com.iucyh.novelservice.common.response.PageWithOffsetResponse;
-import com.iucyh.novelservice.episode.exception.EpisodeNotFound;
 import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
 import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
@@ -44,7 +43,7 @@ public class EpisodeQueryService {
 
     public EpisodeDetailResponse getEpisodeDetail(String episodePublicId) {
         EpisodeDetailQueryProjection detailResult = episodeQueryRepository.findEpisodeDetailByPublicId(episodePublicId)
-                .orElseThrow(() -> new EpisodeNotFound(episodePublicId));
+                .orElseThrow(() -> new DataNotFound(episodePublicId));
 
         EpisodePrevNextQueryProjection prevEpisode = episodeQueryRepository.findPrevEpisode(detailResult.getNovelId(), detailResult.getEpisodeNumber())
                 .orElse(null);
@@ -56,7 +55,7 @@ public class EpisodeQueryService {
 
     public EpisodeContentResponse getEpisodeContent(String episodePublicId) {
         String contentResult = episodeQueryRepository.findEpisodeContentByPublicId(episodePublicId)
-                .orElseThrow(() -> new EpisodeNotFound(episodePublicId));
+                .orElseThrow(() -> new DataNotFound(episodePublicId));
         return EpisodeResponseMapper.toEpisodeContentResponse(episodePublicId, contentResult);
     }
 }

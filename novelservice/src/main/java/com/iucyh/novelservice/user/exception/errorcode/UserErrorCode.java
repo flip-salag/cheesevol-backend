@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum UserErrorCode implements ErrorCode {
 
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER-4041", "User not found with this id");
+    ; // 아무것도 없는 Enum 에러 방지 (임시)
 
     private final HttpStatus status;
     private final String code;

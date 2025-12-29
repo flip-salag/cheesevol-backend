@@ -17,7 +17,7 @@ public enum CommonErrorCode implements ErrorCode {
     MISSING_SERVLET_REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, "COMMON-4005", "Missing required request parameter"),
 
     NO_RESOURCE_FOUND(HttpStatus.NOT_FOUND, "COMMON-4041", "No resource found"),
-    DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "COMMON-4042", "Requested resource not found"), // 특정 도메인 리소스를 찾지 못했을때 사용
+    DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "COMMON-4042", "Requested resource not found"), // 특정 도메인 리소스를 찾지 못했을 때 사용
 
     DUPLICATE_KEY(HttpStatus.CONFLICT, "COMMON-4091", "Duplicate resource exists");
 

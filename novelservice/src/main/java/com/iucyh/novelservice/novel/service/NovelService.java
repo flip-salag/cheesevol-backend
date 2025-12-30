@@ -1,17 +1,14 @@
 package com.iucyh.novelservice.novel.service;
 
 import com.iucyh.novelservice.common.exception.DataNotFound;
-import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.repository.EpisodeRepository;
-import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
-import com.iucyh.novelservice.novel.exception.DuplicateNovelTitle;
-import com.iucyh.novelservice.novel.exception.NovelHasNoCommonEpisodes;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.DeleteNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.UpdateNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.UpdateNovelCompletionCommand;
 import com.iucyh.novelservice.novel.service.dto.mapper.NovelCommandMapper;
+import com.iucyh.novelservice.novel.service.policy.NovelPolicyValidator;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelCompletionResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelLikeCountResponse;
@@ -31,17 +28,15 @@ public class NovelService {
     private final UserRepository userRepository;
     private final NovelRepository novelRepository;
     private final EpisodeRepository episodeRepository;
-    private final EpisodeQueryRepository episodeQueryRepository;
+
+    private final NovelPolicyValidator novelPolicyValidator;
 
     public NovelSaveResponse createNovel(CreateNovelCommand command) {
         long userId = command.userId();
         User user = findUserById(userId);
 
-        String title = command.title();
-        boolean isDuplicateTitle = novelRepository.existsByTitleAndUserId(title, userId);
-        if (isDuplicateTitle) {
-            throw new DuplicateNovelTitle(title);
-        }
+        // 같은 작가의 소설 중 중복되는 제목이 있다면 소설 생성 불가
+        novelPolicyValidator.validateTitleNotDuplicatedInUserNovels(command.title(), userId);
 
         Novel newNovel = NovelCommandMapper.toNovel(command, user);
         Novel savedNovel = novelRepository.save(newNovel);
@@ -55,11 +50,8 @@ public class NovelService {
         Novel novel = findNovelWithUserId(userId, novelPublicId);
 
         if (command.title() != null) {
-            String title = command.title();
-            boolean isDuplicateTitle = novelRepository.existsByTitleAndUserIdAndPublicIdNot(title, userId, novelPublicId);
-            if (isDuplicateTitle) {
-                throw new DuplicateNovelTitle(title);
-            }
+            // 같은 작가의 소설 중 중복되는 제목이 있다면 소설 업데이트 불가 (업데이트 중인 소설은 제외하고 검증)
+            novelPolicyValidator.validateTitleNotDuplicatedInUserNovels(command.title(), userId, novelPublicId);
         }
 
         novel.updateTextMetaData(command.title(), command.description());
@@ -75,10 +67,8 @@ public class NovelService {
 
         boolean isCompleted = command.isCompleted();
         if (isCompleted) {
-            boolean hasCommonEpisodes = episodeQueryRepository.episodeExistsByNovelIdAndEpisodeType(novel.getId(), EpisodeType.COMMON);
-            if (!hasCommonEpisodes) { // 일반 회차가 한개라도 존재하지 않는다면 완결로 변경 불가
-                throw new NovelHasNoCommonEpisodes();
-            }
+            // 일반 회차가 한개도 존재하지 않는다면 완결로 변경 불가
+            novelPolicyValidator.validateNovelHasCommonEpisodes(novel.getId());
         }
 
         novel.updateCompletion(isCompleted);

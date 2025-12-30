@@ -19,8 +19,10 @@ public class NovelPolicyValidator {
     private final EpisodeQueryRepository episodeQueryRepository;
 
     /**
-     * <p>{@code userId}에 해당하는 유저가 작성한 소설 중 전달된 {@code title}과 중복되는 제목을 가진 소설이 없는지 검증</p>
-     * <b>삭제된 소설은 제외하고 검증</b>
+     * <p>{@code userId}에 해당하는 유저가 작성한 소설 중 전달된 {@code title}과 중복되는 제목을 가진 소설이 없는지 검증
+     * <br>
+     * 삭제된 소설은 제외하고 검증</p>
+     * <b>주의: 내부적으로 DB를 조회하므로 Transaction 안에서 실행해야 합니다.</b>
      * @param title 검증할 제목
      * @param userId 기준이 될 유저의 pk
      * @throws DuplicateNovelTitle 중복되는 제목을 가진 소설이 존재할때
@@ -33,9 +35,11 @@ public class NovelPolicyValidator {
     }
 
     /**
-     * <p>{@code userId}에 해당하는 유저가 작성한 소설 중 전달된 {@code title}과 중복되는 제목을 가진 소설이 없는지 검증</p>
-     * <p>업데이트하고 있는 소설을 제외하고 검증해야 할때 등의 상황에서 사용</p>
-     * <b>삭제된 소설과 {@code novelPublicId}에 해당하는 소설은 제외하고 검증</b>
+     * <p>{@code userId}에 해당하는 유저가 작성한 소설 중 전달된 {@code title}과 중복되는 제목을 가진 소설이 없는지 검증
+     * <br>
+     * 업데이트하고 있는 소설을 제외하고 검증해야 할때 등의 상황에서 사용</p>
+     * <p>삭제된 소설과 {@code novelPublicId}에 해당하는 소설은 제외하고 검증</p>
+     * <b>주의: 내부적으로 DB를 조회하므로 Transaction 안에서 실행해야 합니다.</b>
      * @param title 검증할 제목
      * @param userId 기준이 될 유저의 pk
      * @param novelPublicId 추가로 제외할 소설의 public id
@@ -50,6 +54,7 @@ public class NovelPolicyValidator {
 
     /**
      * <p>{@code novelId}에 해당하는 소설에 일반(COMMON) 회차가 한개라도 존재하는지 검증</p>
+     * <b>주의: 내부적으로 DB를 조회하므로 Transaction 안에서 실행해야 합니다.</b>
      * @param novelId 검증할 소설의 pk
      * @throws NovelHasNoCommonEpisodes 해당 소설에 일반 회차가 한개도 존재하지 않을때
      */
@@ -62,6 +67,7 @@ public class NovelPolicyValidator {
 
     /**
      * <p>{@code novelId}에 해당하는 소설에 프롤로그 회차가 존재하지 않는지 검증</p>
+     * <b>주의: 내부적으로 DB를 조회하므로 Transaction 안에서 실행해야 합니다.</b>
      * @param novelId 검증할 소설의 pk
      * @throws NovelAlreadyHasPrologue 해당 소설에 프롤로그 회차가 존재할때
      */

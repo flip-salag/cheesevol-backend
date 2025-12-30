@@ -34,7 +34,7 @@ public class EpisodePolicyValidator {
         }
 
         String textValue = content.getTextValue();
-        boolean isValid = textValue.length() >= min && textValue.length() <= max;
+        boolean isValid = min <= textValue.length() && textValue.length() <= max;
         if (!isValid) {
             throw new EpisodeContentLengthNotValid(episodeType, min, max);
         }

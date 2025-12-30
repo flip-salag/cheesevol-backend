@@ -19,9 +19,8 @@ public class NovelPolicyValidator {
     private final EpisodeQueryRepository episodeQueryRepository;
 
     /**
-     * <p>{@code userId}에 해당하는 유저가 작성한 소설 중 전달된 {@code title}과 중복되는 제목을 가진 소설이 없는지 검증
-     * <br>
-     * 삭제된 소설은 제외하고 검증</p>
+     * <p>{@code userId}에 해당하는 유저가 작성한 소설 중 전달된 {@code title}과 중복되는 제목을 가진 소설이 없는지 검증</p>
+     * <p>삭제된 소설은 제외하고 검증</p>
      * <b>주의: 내부적으로 DB를 조회하므로 Transaction 안에서 실행해야 합니다.</b>
      * @param title 검증할 제목
      * @param userId 기준이 될 유저의 pk

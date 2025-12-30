@@ -21,6 +21,16 @@ public interface NovelQueryRepository {
     boolean existsByPublicId(String publicId);
 
     /**
+     * <p>{@code userId}에 해당하는 유저가 작성한 소설 중 전달된 {@code title}과 중복되는 제목이 있는지 검사</p>
+     * <b>삭제된 소설은 제외하고 검사, 만약 {@code publicId}가 null이 아니라면 그에 해당하는 소설도 제외하고 검사(업데이트 중인 소설을 제외하는 등의 상황에서 사용)</b>
+     * @param title 검사할 제목
+     * @param userId 기준이 될 유저의 pk
+     * @param publicId 추가로 제외할 소설의 public id (선택, 모든 소설을 대상으로 검사 시 null 전달)
+     * @return 중복되는 제목을 가진 소설이 존재하면 {@code true}, 아니라면 {@code false}
+     */
+    boolean novelTitleExistsByUserId(String title, Long userId, String publicId);
+
+    /**
      * @param category 필터링 할 카테고리, 모든 카테고리 조회 시 null 전달
      */
     List<Novel> findNovels(NovelPagingCondition condition, NovelPagingStrategy strategy, NovelCategory category);

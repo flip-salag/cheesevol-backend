@@ -67,7 +67,7 @@ public class NovelService {
 
         boolean isCompleted = command.isCompleted();
         if (isCompleted) {
-            // 일반 회차가 한개라도 존재하지 않는다면 완결로 변경 불가
+            // 일반 회차가 한개도 존재하지 않는다면 완결로 변경 불가
             novelPolicyValidator.validateNovelHasCommonEpisodes(novel.getId());
         }
 

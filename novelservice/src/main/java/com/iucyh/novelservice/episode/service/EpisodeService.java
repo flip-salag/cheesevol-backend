@@ -1,30 +1,25 @@
 package com.iucyh.novelservice.episode.service;
 
 import com.iucyh.novelservice.common.exception.DataNotFound;
-import com.iucyh.novelservice.common.vo.HtmlContent;
-import com.iucyh.novelservice.episode.enumtype.EpisodeType;
-import com.iucyh.novelservice.episode.exception.EpisodeContentLengthNotValid;
 import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.DeleteEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeContentCommand;
 import com.iucyh.novelservice.episode.service.dto.mapper.EpisodeCommandMapper;
+import com.iucyh.novelservice.episode.service.policy.EpisodePolicyValidator;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSaveResponse;
-import com.iucyh.novelservice.novel.exception.NovelAlreadyCompleted;
-import com.iucyh.novelservice.novel.exception.NovelAlreadyHasPrologue;
 import com.iucyh.novelservice.episode.domain.Episode;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeResponseMapper;
 import com.iucyh.novelservice.episode.repository.EpisodeRepository;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
+import com.iucyh.novelservice.novel.service.policy.NovelPolicyValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-
-import static com.iucyh.novelservice.episode.constant.EpisodeConstants.*;
 
 @Service
 @Transactional
@@ -35,13 +30,14 @@ public class EpisodeService {
     private final EpisodeQueryRepository episodeQueryRepository;
     private final EpisodeRepository episodeRepository;
 
+    private final NovelPolicyValidator novelPolicyValidator;
+    private final EpisodePolicyValidator episodePolicyValidator;
+
     public EpisodeSaveResponse createEpisode(CreateEpisodeCommand command) {
         Novel novel = findNovelWithUserId(command.userId(), command.novelPublicId());
 
-        if (novel.isCompletedNovel()) {
-            throw new NovelAlreadyCompleted(); // 완결된 소설은 회차 생성 불가
-        }
-        validateContentLength(command.episodeType(), command.content());
+        novelPolicyValidator.validateNovelNotCompleted(novel); // 완결된 소설은 회차 생성 불가
+        episodePolicyValidator.validateContentLength(command.episodeType(), command.content());
 
         return switch (command.episodeType()) {
             case COMMON -> createCommonEpisode(command, novel);
@@ -58,7 +54,7 @@ public class EpisodeService {
 
     public void updateEpisodeContent(UpdateEpisodeContentCommand command) {
         Episode episode = findEpisodeWithNovelUser(command.episodePublicId(), command.userId());
-        validateContentLength(episode.getEpisodeType(), command.content());
+        episodePolicyValidator.validateContentLength(episode.getEpisodeType(), command.content());
 
         episode.updateContent(command.content().getSanitizedValue());
     }
@@ -67,9 +63,7 @@ public class EpisodeService {
         Episode episode = findEpisodeWithNovelUserFetch(command.episodePublicId(), command.userId());
         Novel novel = episode.getNovel();
 
-        if (novel.isCompletedNovel()) {
-            throw new NovelAlreadyCompleted(); // 완결된 소설은 회차 삭제 불가
-        }
+        novelPolicyValidator.validateNovelNotCompleted(novel); // 완결된 소설은 회차 삭제 불가
 
         episode.softDelete();
         // 삭제될 회차와 삭제된 회차를 제외하고 나머지 회차들 중 가장 최신 회차의 등록일로 Novel의 lastEpisodeAt 업데이트
@@ -89,44 +83,12 @@ public class EpisodeService {
     }
 
     private EpisodeSaveResponse createPrologueEpisode(CreateEpisodeCommand command, Novel novel) {
-        boolean prologueExists = episodeQueryRepository.episodeExistsByNovelIdAndEpisodeType(novel.getId(), EpisodeType.PROLOGUE);
-        if (prologueExists) { // 프롤로그는 소설 당 1개만 존재가능
-            throw new NovelAlreadyHasPrologue();
-        }
+        novelPolicyValidator.validateNovelHasNoPrologueEpisode(novel.getId()); // 프롤로그는 소설 당 1개만 존재가능
 
         Episode episode = EpisodeCommandMapper.toEpisode(command, novel, 0);
         Episode savedEpisode = episodeRepository.save(episode);
 
         return EpisodeResponseMapper.toEpisodeSaveResponse(savedEpisode);
-    }
-
-    /**
-     * <p>본문의 길이를 episodeType에 따라 검증</p>
-     * @param episodeType 검증의 기준으로 사용할 {@code EpisodeType}
-     * @param content 검증할 본문
-     * @throws EpisodeContentLengthNotValid 본문의 길이가 너무 길거나 짧을 때
-     */
-    private void validateContentLength(EpisodeType episodeType, HtmlContent content) {
-        int min = 0;
-        int max = 0;
-
-        switch (episodeType) {
-            case COMMON -> {
-                min = COMMON_EPISODE_CONTENT_LENGTH_MIN;
-                max = COMMON_EPISODE_CONTENT_LENGTH_MAX;
-            }
-
-            case PROLOGUE -> {
-                min = PROLOGUE_EPISODE_CONTENT_LENGTH_MIN;
-                max = PROLOGUE_EPISODE_CONTENT_LENGTH_MAX;
-            }
-        }
-
-        String textValue = content.getTextValue();
-        boolean isValid = textValue.length() >= min && textValue.length() <= max;
-        if (!isValid) {
-            throw new EpisodeContentLengthNotValid(episodeType, min, max);
-        }
     }
 
     private Novel findNovelWithUserId(long userId, String novelPublicId) {

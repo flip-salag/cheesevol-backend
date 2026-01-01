@@ -34,10 +34,11 @@ public class EpisodeService {
     private final EpisodePolicyValidator episodePolicyValidator;
 
     public EpisodeSaveResponse createEpisode(CreateEpisodeCommand command) {
-        Novel novel = findNovelWithUserId(command.userId(), command.novelPublicId());
-
-        novelPolicyValidator.validateNovelNotCompleted(novel); // 완결된 소설은 회차 생성 불가
+        // 순수한 값 검증이므로 불필요한 DB 조회를 방지하기 위해 가장 먼저 검증
         episodePolicyValidator.validateContentLength(command.episodeType(), command.content());
+
+        Novel novel = findNovelWithUserId(command.userId(), command.novelPublicId());
+        novelPolicyValidator.validateNovelNotCompleted(novel); // 완결된 소설은 회차 생성 불가
 
         return switch (command.episodeType()) {
             case COMMON -> createCommonEpisode(command, novel);

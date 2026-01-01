@@ -1,9 +1,9 @@
 package com.iucyh.novelservice.novel.web.controller;
 
-import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
+import com.iucyh.novelservice.base.response.api.ApiResponseMapper;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.common.response.PageWithCursorResponse;
-import com.iucyh.novelservice.common.response.api.SuccessResponse;
+import com.iucyh.novelservice.base.response.api.SuccessResponse;
 import com.iucyh.novelservice.novel.service.dto.command.CreateNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.DeleteNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.command.UpdateNovelCommand;

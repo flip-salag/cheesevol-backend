@@ -1,6 +1,6 @@
 package com.iucyh.novelservice.novel.exception.errorcode;
 
-import com.iucyh.novelservice.common.exception.errorcode.ErrorCode;
+import com.iucyh.novelservice.base.exception.ErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

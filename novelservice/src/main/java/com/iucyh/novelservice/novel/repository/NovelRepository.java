@@ -1,14 +1,14 @@
 package com.iucyh.novelservice.novel.repository;
 
-import com.iucyh.novelservice.common.repository.PublicEntityRepository;
 import com.iucyh.novelservice.novel.domain.Novel;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface NovelRepository extends PublicEntityRepository<Novel, Long> {
+public interface NovelRepository extends JpaRepository<Novel, Long> {
 
     /**
      * userId + publicId 에 해당하는 소설을 조회

@@ -1,7 +1,7 @@
 package com.iucyh.novelservice.novel.web.dto.request;
 
-import com.iucyh.novelservice.common.validator.enumfield.EnumField;
-import com.iucyh.novelservice.common.validator.notblank.NotBlankIfPresent;
+import com.iucyh.novelservice.core.validator.enumfield.EnumField;
+import com.iucyh.novelservice.core.validator.notblank.NotBlankIfPresent;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import jakarta.validation.constraints.Size;
 

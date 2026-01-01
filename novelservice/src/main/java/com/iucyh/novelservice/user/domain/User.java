@@ -1,6 +1,6 @@
 package com.iucyh.novelservice.user.domain;
 
-import com.iucyh.novelservice.common.entity.PublicEntity;
+import com.iucyh.novelservice.base.entity.PublicEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

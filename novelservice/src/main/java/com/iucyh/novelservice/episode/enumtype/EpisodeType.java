@@ -1,8 +1,8 @@
 package com.iucyh.novelservice.episode.enumtype;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.iucyh.novelservice.common.enumtype.valuedenum.ValuedEnum;
-import com.iucyh.novelservice.common.enumtype.valuedenum.ValuedEnumHelper;
+import com.iucyh.novelservice.base.enumtype.valuedenum.ValuedEnum;
+import com.iucyh.novelservice.base.enumtype.valuedenum.ValuedEnumHelper;
 
 public enum EpisodeType implements ValuedEnum {
 

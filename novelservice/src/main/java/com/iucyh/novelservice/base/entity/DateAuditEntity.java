@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.entity;
+package com.iucyh.novelservice.base.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

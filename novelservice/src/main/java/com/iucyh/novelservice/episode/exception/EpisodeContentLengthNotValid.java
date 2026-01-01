@@ -1,10 +1,10 @@
 package com.iucyh.novelservice.episode.exception;
 
-import com.iucyh.novelservice.common.exception.ServiceException;
+import com.iucyh.novelservice.base.exception.BusinessException;
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.exception.errorcode.EpisodeErrorCode;
 
-public class EpisodeContentLengthNotValid extends ServiceException {
+public class EpisodeContentLengthNotValid extends BusinessException {
 
     /**
      * @param episodeType 검증 당시 기준이 되었던 {@code EpisodeType}

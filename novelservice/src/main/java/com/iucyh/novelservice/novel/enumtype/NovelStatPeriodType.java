@@ -1,8 +1,8 @@
 package com.iucyh.novelservice.novel.enumtype;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.iucyh.novelservice.common.enumtype.valuedenum.ValuedEnum;
-import com.iucyh.novelservice.common.enumtype.valuedenum.ValuedEnumHelper;
+import com.iucyh.novelservice.base.enumtype.valuedenum.ValuedEnum;
+import com.iucyh.novelservice.base.enumtype.valuedenum.ValuedEnumHelper;
 
 public enum NovelStatPeriodType implements ValuedEnum {
 

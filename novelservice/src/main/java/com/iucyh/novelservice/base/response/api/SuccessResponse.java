@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.response.api;
+package com.iucyh.novelservice.base.response.api;
 
 import lombok.Getter;
 

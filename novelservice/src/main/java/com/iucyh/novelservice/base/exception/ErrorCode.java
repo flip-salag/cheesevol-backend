@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.exception.errorcode;
+package com.iucyh.novelservice.base.exception;
 
 import org.springframework.http.HttpStatus;
 

@@ -1,7 +1,7 @@
-package com.iucyh.novelservice.common.response.api;
+package com.iucyh.novelservice.base.response.api;
 
-import com.iucyh.novelservice.common.response.api.information.FailInformation;
-import com.iucyh.novelservice.common.exception.ServiceException;
+import com.iucyh.novelservice.base.response.api.internal.FailInformation;
+import com.iucyh.novelservice.base.exception.BusinessException;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public class ApiResponseMapper {
         return new FailResponse(info.errorCode(), info.message(), info.path(), null);
     }
 
-    public static FailResponse fail(ServiceException ex, String path) {
+    public static FailResponse fail(BusinessException ex, String path) {
         return new FailResponse(ex.getErrorCode(), ex.getMessage(), path, ex.getCauses());
     }
 

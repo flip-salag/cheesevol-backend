@@ -1,6 +1,6 @@
-package com.iucyh.novelservice.common.response.api;
+package com.iucyh.novelservice.base.response.api;
 
-import com.iucyh.novelservice.common.exception.errorcode.ErrorCode;
+import com.iucyh.novelservice.base.exception.ErrorCode;
 import lombok.Getter;
 
 import java.time.Instant;

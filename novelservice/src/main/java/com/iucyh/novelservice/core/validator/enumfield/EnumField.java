@@ -1,6 +1,6 @@
 package com.iucyh.novelservice.core.validator.enumfield;
 
-import com.iucyh.novelservice.common.enumtype.valuedenum.ValuedEnum;
+import com.iucyh.novelservice.base.enumtype.valuedenum.ValuedEnum;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

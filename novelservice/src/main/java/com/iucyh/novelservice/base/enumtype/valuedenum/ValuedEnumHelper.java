@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.enumtype.valuedenum;
+package com.iucyh.novelservice.base.enumtype.valuedenum;
 
 public class ValuedEnumHelper {
 

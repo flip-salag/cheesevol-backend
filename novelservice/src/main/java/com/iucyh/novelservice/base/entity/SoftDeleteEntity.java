@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.entity;
+package com.iucyh.novelservice.base.entity;
 
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;

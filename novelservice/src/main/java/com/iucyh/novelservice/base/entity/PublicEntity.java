@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.entity;
+package com.iucyh.novelservice.base.entity;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import jakarta.persistence.Column;

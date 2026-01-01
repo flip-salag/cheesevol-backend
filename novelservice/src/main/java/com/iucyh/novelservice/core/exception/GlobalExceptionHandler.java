@@ -2,12 +2,12 @@ package com.iucyh.novelservice.core.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iucyh.novelservice.common.exception.ServiceException;
-import com.iucyh.novelservice.common.response.api.ApiResponseMapper;
-import com.iucyh.novelservice.common.response.api.information.FailInformation;
-import com.iucyh.novelservice.common.exception.errorcode.ErrorCode;
+import com.iucyh.novelservice.base.exception.BusinessException;
+import com.iucyh.novelservice.base.response.api.ApiResponseMapper;
+import com.iucyh.novelservice.base.response.api.internal.FailInformation;
+import com.iucyh.novelservice.base.exception.ErrorCode;
 import com.iucyh.novelservice.common.util.IpUtil;
-import com.iucyh.novelservice.common.response.api.FailResponse;
+import com.iucyh.novelservice.base.response.api.FailResponse;
 import com.iucyh.novelservice.core.exception.errorcode.SystemErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private final ObjectMapper objectMapper;
 
     @ExceptionHandler
-    public ResponseEntity<FailResponse> handleServiceException(ServiceException ex, HttpServletRequest req) {
+    public ResponseEntity<FailResponse> handleServiceException(BusinessException ex, HttpServletRequest req) {
         String path = req.getRequestURI();
         FailResponse failResponse = ApiResponseMapper.fail(ex, path);
 

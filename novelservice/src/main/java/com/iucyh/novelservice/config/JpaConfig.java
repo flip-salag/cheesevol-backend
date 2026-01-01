@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.config;
+package com.iucyh.novelservice.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

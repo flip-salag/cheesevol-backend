@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.config;
+package com.iucyh.novelservice.config;
 
 import com.iucyh.novelservice.core.converter.web.StringToEnumWebConverterFactory;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.deserializer.html;
+package com.iucyh.novelservice.core.json.deserializer.html;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.iucyh.novelservice.common.deserializer.html.registry.SafelistRegistry;
+import com.iucyh.novelservice.core.json.deserializer.html.registry.SafelistRegistry;
 import com.iucyh.novelservice.common.vo.HtmlContent;
 import org.jsoup.safety.Safelist;
 import org.springframework.beans.factory.annotation.Autowired;

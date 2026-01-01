@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.deserializer.html.registry;
+package com.iucyh.novelservice.core.json.deserializer.html.registry;
 
 import org.jsoup.safety.Safelist;
 

@@ -1,6 +1,6 @@
 package com.iucyh.novelservice.episode.web.dto.request;
 
-import com.iucyh.novelservice.common.deserializer.html.SanitizedHtml;
+import com.iucyh.novelservice.core.json.deserializer.html.SanitizedHtml;
 import com.iucyh.novelservice.common.validator.htmlnotblank.NotBlankWithoutHtml;
 import com.iucyh.novelservice.common.vo.HtmlContent;
 import jakarta.validation.constraints.NotNull;

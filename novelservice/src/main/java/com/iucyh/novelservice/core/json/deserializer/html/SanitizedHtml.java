@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.deserializer.html;
+package com.iucyh.novelservice.core.json.deserializer.html;
 
 import java.lang.annotation.*;
 

@@ -1,6 +1,6 @@
 package com.iucyh.novelservice.episode.web.safelist;
 
-import com.iucyh.novelservice.common.deserializer.html.registry.SafelistProvider;
+import com.iucyh.novelservice.core.json.deserializer.html.registry.SafelistProvider;
 import com.iucyh.novelservice.episode.constant.EpisodeConstants;
 import org.jsoup.safety.Safelist;
 import org.springframework.stereotype.Component;

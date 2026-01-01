@@ -1,6 +1,8 @@
 spring:
   application:
     name: novel-service
+  profiles:
+    default: local
 
 ---
 spring:

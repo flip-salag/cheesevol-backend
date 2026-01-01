@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.validator.htmlnotblank;
+package com.iucyh.novelservice.core.validator.htmlnotblank;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

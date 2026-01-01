@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.validator.htmlsize;
+package com.iucyh.novelservice.core.validator.htmlsize;
 
 import com.iucyh.novelservice.common.vo.HtmlContent;
 import jakarta.validation.ConstraintValidator;

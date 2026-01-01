@@ -47,7 +47,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private final ObjectMapper objectMapper;
 
     @ExceptionHandler
-    public ResponseEntity<FailResponse> handleServiceException(BusinessException ex, HttpServletRequest req) {
+    public ResponseEntity<FailResponse> handleBusinessException(BusinessException ex, HttpServletRequest req) {
         String path = req.getRequestURI();
         FailResponse failResponse = ApiResponseMapper.fail(ex, path);
 

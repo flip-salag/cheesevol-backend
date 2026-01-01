@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.common.converter.web;
+package com.iucyh.novelservice.core.converter.web;
 
 import com.iucyh.novelservice.common.enumtype.valuedenum.ValuedEnum;
 import org.springframework.core.convert.converter.Converter;

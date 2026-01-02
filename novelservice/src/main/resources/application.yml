@@ -3,9 +3,6 @@ spring:
     name: novel-service
   profiles:
     default: local
-
----
-spring:
   jpa:
     open-in-view: false
     properties:

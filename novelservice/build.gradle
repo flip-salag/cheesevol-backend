@@ -45,6 +45,7 @@ dependencies {
 
 	// database
 	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	// querydsl
 	implementation "io.github.openfeign.querydsl:querydsl-jpa:${querydslVersion}"

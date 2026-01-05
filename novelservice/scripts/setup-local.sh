@@ -15,4 +15,4 @@ sed -i '' 's/^DB_NAME=.*/DB_NAME=novel_service/' "$ENV_FILE"
 sed -i '' 's/^DB_USERNAME=.*/DB_USERNAME=root/' "$ENV_FILE"
 sed -i '' 's/^DB_PASSWORD=.*/DB_PASSWORD=root123/' "$ENV_FILE"
 
-echo 'Local setup successfully 🎉'
+echo 'Local setup completed successfully 🎉'

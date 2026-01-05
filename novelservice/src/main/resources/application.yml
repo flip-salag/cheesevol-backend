@@ -1,8 +1,21 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: novel-service
+
   profiles:
+    active:
+      - local
     default: local
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME}?serverTimezone=Asia/Seoul&rewriteBatchedStatements=true
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     open-in-view: false
     properties:

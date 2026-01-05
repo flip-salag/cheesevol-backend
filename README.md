@@ -4,6 +4,9 @@
 <img width="1820" height="642" alt="novel-service (2)" src="https://github.com/user-attachments/assets/27241310-fdcc-48be-b9db-a4e5401fdedd" />
 
 ## 시작하기
+### 사전 요구사항
+- Java 17
+- MySQL 8.4.7
 ### .env.local 생성 및 로컬 환경 세팅
 ```
 ./scripts/setup-local.sh

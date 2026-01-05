@@ -1,0 +1,14 @@
+# git
+.git
+.gitignore
+.gitattributes
+
+# build
+.gradle
+build
+
+# IDE
+.idea
+
+# etc
+HELP.md

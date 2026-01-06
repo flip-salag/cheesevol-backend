@@ -28,5 +28,5 @@ reviews:
     - path: "**/*SafelistProvider.java"
       instructions: >-
         SafelistProvider is responsible for providing a Safelist of Jsoup that fits the policies of each domain.
-        Please make sure that the SafelistProvider implementations have @Component annotation.
+        SafelistProvider implementations must have @Component annotation.
   

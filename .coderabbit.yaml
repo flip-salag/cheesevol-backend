@@ -1,0 +1,32 @@
+language: ko-KR
+tone_instructions: >-
+  Write all reviews in 'Korean'.
+  Speak like a colleague with clear technical details.
+  Focus on code convention violations, security issues, bugs, and performance problems.
+  Ignore formatting but check for typos or grammar errors.
+
+reviews:
+  profile: chill
+  request_changes_workflow: true
+  path_filters:
+    - "!**/README.md"
+  path_instructions:
+    - path: "**/*.sql"
+      instructions: If a table column name is "id" or ends with "_id", verify that the column type is "bigint".
+    - path: "**/*(Query)?Service.java"
+      instructions: >-
+        In Service Layer, we don't create validation method or code directly. if you found validation method or validation code, issue a warning. this convention is mandatory.
+        If file name is {domain}Service.java, it means command service. command service cannot have query(Get) method.
+        If file name is {domain}QueryService.java, it means query service, query service cannot have command(Write) method.
+        If file name is not {domain}Service.java or {domain}QueryService.java, you should check the role of that class, and review it clearly (if you can't figure out the role, you can ask by a comment.)
+        For all Service classes, review if the comments are clear. if the comments are useless or are not readable, you should warn them.
+    - path: "**/*PolicyValidator.java"
+      instructions: >-
+        PolicyValidator is responsible for policy validation for each domain. review that each method has an comments and all comments are clear.
+        Each of the methods in PolicyValidator must specify what exceptions they are throwing as 'throws'.
+        Be sure to check the name of the method. the name should start with 'validate' and explain exactly what the method verifies.
+    - path: "**/*SafelistProvider.java"
+      instructions: >-
+        SafelistProvider is responsible for providing a Safelist of Jsoup that fits the policies of each domain.
+        Please make sure that the SafelistProvider implementations have @Component annotation.
+  

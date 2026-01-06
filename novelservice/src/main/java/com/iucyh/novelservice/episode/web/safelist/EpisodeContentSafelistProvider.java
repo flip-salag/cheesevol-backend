@@ -5,7 +5,7 @@ import com.iucyh.novelservice.episode.constant.EpisodeConstants;
 import org.jsoup.safety.Safelist;
 import org.springframework.stereotype.Component;
 
-
+@Component
 public class EpisodeContentSafelistProvider implements SafelistProvider {
 
     @Override

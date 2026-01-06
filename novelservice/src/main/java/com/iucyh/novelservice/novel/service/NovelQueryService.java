@@ -5,13 +5,11 @@ import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.common.response.PageWithCursorResponse;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
 import com.iucyh.novelservice.novel.service.codec.NovelCursorCodec;
-import com.iucyh.novelservice.novel.service.dto.command.UpdateNovelCommand;
 import com.iucyh.novelservice.novel.service.dto.query.GetNewNovelsQuery;
 import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
 import com.iucyh.novelservice.novel.service.factory.NovelPagingStrategyFactory;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelDetailResponse;
-import com.iucyh.novelservice.novel.web.dto.response.NovelSaveResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
@@ -34,18 +32,6 @@ public class NovelQueryService {
     private final NovelPagingStrategyFactory pagingStrategyFactory;
     private final NovelRepository novelRepository;
     private final NovelQueryRepository novelQueryRepository;
-
-    public NovelSaveResponse updateNovel(UpdateNovelCommand command) {
-        long userId = command.userId();
-        String novelPublicId = command.novelPublicId();
-        Novel novel = novelRepository.findByUserIdAndPublicIdAndDeletedAtIsNull(command.userId(), command.novelPublicId())
-                .orElseThrow(() -> new DataNotFound(novelPublicId));
-
-        novel.updateTextMetaData(command.title(), command.description());
-        novel.updateCategory(command.category());
-
-        return NovelResponseMapper.toNovelSaveResponse(novel);
-    }
 
     public PageWithCursorResponse<NovelSummaryResponse> getNovels(GetNovelsQuery query) {
         return findNovels(query.sortType(), query.cursor(), query.limit(),

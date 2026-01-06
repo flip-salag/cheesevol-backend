@@ -85,7 +85,7 @@ CREATE TABLE `novel_daily_stats`
 DROP TABLE IF EXISTS `novel_period_stats`;
 CREATE TABLE `novel_period_stats`
 (
-    id          INT AUTO_INCREMENT PRIMARY KEY,
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     novel_id    BIGINT      NOT NULL,
     period_type VARCHAR(50) NOT NULL,
     start_date  DATE        NOT NULL,

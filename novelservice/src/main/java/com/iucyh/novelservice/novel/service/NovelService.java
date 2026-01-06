@@ -32,11 +32,11 @@ public class NovelService {
     private final NovelPolicyValidator novelPolicyValidator;
 
     public NovelSaveResponse createNovel(CreateNovelCommand command) {
-        long userid = command.userId();
-        User user = findUserById(userid);
+        long userId = command.userId();
+        User user = findUserById(userId);
 
         // 같은 작가의 소설 중 중복되는 제목이 있다면 소설 생성 불가
-        novelPolicyValidator.validateTitleNotDuplicatedInUserNovels(command.title(), userid);
+        novelPolicyValidator.validateTitleNotDuplicatedInUserNovels(command.title(), userId);
 
         Novel newNovel = NovelCommandMapper.toNovel(command, user);
         Novel savedNovel = novelRepository.save(newNovel);

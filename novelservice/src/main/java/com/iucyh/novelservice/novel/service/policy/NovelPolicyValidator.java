@@ -26,7 +26,7 @@ public class NovelPolicyValidator {
      * @param userId 기준이 될 유저의 pk
      * @throws DuplicateNovelTitle 중복되는 제목을 가진 소설이 존재할때
      */
-    public void validateTitleNotDuplicatedInUserNovels(String title, long userId) {
+    public void validateTitleNotDuplicatedInUserNovels(String title, long userId) throws DuplicateNovelTitle {
         boolean isDuplicated = novelQueryRepository.novelTitleExistsByUserId(title, userId, null);
         if (isDuplicated) {
             throw new DuplicateNovelTitle(title);

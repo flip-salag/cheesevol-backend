@@ -5,6 +5,9 @@ tone_instructions: >-
   Focus on code convention violations, security issues, bugs, and performance problems.
   Ignore formatting but check for typos or grammar errors.
 
+early_access: true
+enable_free_tier: true
+collapse_walkthrough: false
 reviews:
   profile: chill
   request_changes_workflow: true

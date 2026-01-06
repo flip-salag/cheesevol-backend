@@ -5,8 +5,6 @@ Speak like a colleague, but the technicalities are clear and detailed.
 Focus on code that don't fit the code convention, security vulnerabilities, bugs, and performance issues.
 Don't point out format such as a space, but you can point out typos or grammar.
 
-early_access: true
-enable_free_tier: true
 reviews:
   profile: chill
   request_changes_workflow: true

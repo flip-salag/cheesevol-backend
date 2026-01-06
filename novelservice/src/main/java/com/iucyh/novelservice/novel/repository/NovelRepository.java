@@ -12,6 +12,8 @@ public interface NovelRepository extends JpaRepository<Novel, Long> {
 
     /**
      * <p>전달된 publicId에 해당하는 소설을 조회하면서 작성자의 id가 전달된 userId인지 동시에 검사</p>
+     * @param userId 작성자의 user id pk
+     * @param publicId 조회할 소설의 public id
      * @return 조회된 Novel 엔티티, 조건에 맞는 소설이 존재하지 않거나 삭제되었다면(soft delete 포함) {@code Optional.empty()} 반환
      */
     Optional<Novel> findByUserIdAndPublicIdAndDeletedAtIsNull(Long userId, String publicId);
@@ -21,6 +23,7 @@ public interface NovelRepository extends JpaRepository<Novel, Long> {
      * <p>소설이 삭제되었다면(soft delete 포함) {@code Optional.empty()} 반환</p>
      * <b>조회 시 User 엔티티도 같이 조회(fetch join)</b>
      * @param publicId 조회할 Novel의 public id
+     * @return 조회된 Novel 엔티티, 조건에 맞는 소설이 존재하지 않거나 삭제되었다면(soft delete 포함) {@code Optional.empty()} 반환
      */
     @Query("""
     select n

@@ -58,12 +58,13 @@ public class NovelQueryService {
      * @param finder 각 조회 종류별로 필요한 메서드 호출 로직을 담는 람다식
      *               <br>
      *               e.g) 조회 종류별 리포지토리 메서드 호출, 특정 비즈니스 로직을 위한 메서드 호출 및 조건 검사 등
-     * @return 최종 결과를 담은 {@code PageResponse<NovelResponse>}
+     * @return 최종 결과를 담은 {@code PageWithCursorResponse<NovelSummaryResponse>}
      */
     private PageWithCursorResponse<NovelSummaryResponse> findNovels(
             NovelSortType sortType, String cursor, int limit,
             BiFunction<NovelPagingCondition, NovelPagingStrategy, List<Novel>> finder
     ) {
+        // 다음 페이지가 있는지 확인하기 위해 limit + 1개 만큼 가져오기(결과의 size가 limit + 1 이라면 다음 페이지 존재)
         NovelPagingCondition pagingCondition = createPagingCondition(sortType, cursor, limit + 1);
         NovelPagingStrategy pagingStrategy = pagingStrategyFactory.get(sortType);
 
@@ -77,7 +78,7 @@ public class NovelQueryService {
         String newCursor = null;
 
         boolean hasNext = result.size() > limit;
-        if (hasNext) {
+        if (hasNext) { // 다음에 가져올 데이터가 존재할 때(다음 페이지가 존재할 때)만 새 cursor 생성
             newCursor = createNewEncodedCursor(pagingStrategy, pageResult);
         }
 

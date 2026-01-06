@@ -31,12 +31,19 @@ public interface NovelQueryRepository {
     boolean novelTitleExistsByUserId(String title, Long userId, String publicId);
 
     /**
+     * <p>Novel 목록 조회, category가 null이 아닐 시 해당 category에 해당하는 Novel만 조회</p>
+     * <p>삭제되었거나(soft delete 포함), COMMON(일반) 회차가 한개도 존재하지 않는 소설은 제외</p>
+     * @param condition 페이징 조건 (커서, limit 등)
+     * @param strategy Novel의 정렬 기준에 따른 페이징 쿼리 생성 전략
      * @param category 필터링 할 카테고리, 모든 카테고리 조회 시 null 전달
      */
     List<Novel> findNovels(NovelPagingCondition condition, NovelPagingStrategy strategy, NovelCategory category);
 
     /**
-     * 이번달 신작 소설 조회 메서드
+     * <p>이번달에 생성된 신작 Novel 목록 조회, category가 null이 아닐 시 해당 category에 해당하는 Novel만 조회</p>
+     * <p>삭제되었거나(soft delete 포함), COMMON(일반) 회차가 한개도 존재하지 않는 소설은 제외</p>
+     * @param condition 페이징 조건 (커서, limit 등)
+     * @param strategy Novel의 정렬 기준에 따른 페이징 쿼리 생성 전략
      * @param category 필터링 할 카테고리, 모든 카테고리 조회 시 null 전달
      */
     List<Novel> findNewNovels(NovelPagingCondition condition, NovelPagingStrategy strategy, NovelCategory category);

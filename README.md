@@ -32,10 +32,14 @@ docker compose -f ./docker/db/docker-compose.yml up -d
 ## 코드 아키텍처
 레이어드 아키텍처(Layered Architecture)를 기반으로 최대한 실용적으로 변형한 아키텍처 사용
 ### 패키지 구조
-- ```base```: 다른 모듈들이 상속받는 공통 부모 클래스(DateAuditEntity, BusinessException 등) 및 루트 응답 DTO(ApiResponse)
-- ```common```: 프로젝트 전반적으로 쓰이는 공통 모듈(유틸리티, VO 등) 및 공통 예외(DataNotFound 등)
-- ```config```: 애플리케이션 시스템의 설정 클래스(JpaConfig, WebConfig 등)
-- ```core```: 애플리케이션 시스템을 구성하는 핵심 모듈(Converter, Validator, Deserializer 등)
+- ```base```
+  - 다른 모듈들이 상속받는 공통 부모 클래스(DateAuditEntity, BusinessException 등) 및 루트 응답 DTO(ApiResponse)
+- ```common```
+  - 프로젝트 전반적으로 쓰이는 공통 모듈(유틸리티, VO 등) 및 공통 예외(DataNotFound 등)
+- ```config```
+  - 애플리케이션 시스템의 설정 클래스(JpaConfig, WebConfig 등)
+- ```core```
+  - 애플리케이션 시스템을 구성하는 핵심 모듈(Converter, Validator, Deserializer 등)
 - 나머지: 각 도메인별 패키지
 ### 핵심 모듈
 - ```Controller```: 각 도메인의 API 표현 및 라우팅

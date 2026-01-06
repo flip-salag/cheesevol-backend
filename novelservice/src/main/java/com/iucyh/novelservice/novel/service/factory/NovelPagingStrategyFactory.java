@@ -31,7 +31,7 @@ public class NovelPagingStrategyFactory {
     }
 
     @PostConstruct
-    private void validate() {
+    private void validate() { // 각 NovelSortType에 매핑되는 전략이 존재하는지 검증(하나라도 없다면 에러)
         for (NovelSortType sortType : NovelSortType.values()) {
             if (!pagingStrategyMap.containsKey(sortType)) {
                 throw new IllegalStateException("There's no matched paging strategy with: " + sortType.name());

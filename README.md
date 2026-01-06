@@ -41,7 +41,7 @@ docker compose -f ./docker/db/docker-compose.yml up -d
 - ```core```
   - 애플리케이션 시스템을 구성하는 핵심 모듈(Converter, Validator, Deserializer 등)
 - 나머지: 각 도메인별 패키지
-### 핵심 모듈
+### 주요 모듈
 - ```Controller```: 각 도메인의 API 표현 및 라우팅
 - ```Service```: 각 도메인의 Command(Create, Update, Delete)를 처리
 - ```QueryService```: 각 도메인의 Query(Read)를 처리

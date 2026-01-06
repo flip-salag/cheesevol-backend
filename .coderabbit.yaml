@@ -1,9 +1,9 @@
 language: "ko-KR"
 
 tone_instructions: >-
-Speak like a colleague, but the technicalities are clear and detailed.
-Focus on code that don't fit the code convention, security vulnerabilities, bugs, and performance issues.
-Don't point out format such as a space, but you can point out typos or grammar.
+  Speak like a colleague with clear technical details in korean.
+  Focus on code convention violations, security issues, bugs, and performance problems.
+  Ignore formatting but check for typos or grammar errors.
 
 reviews:
   profile: chill

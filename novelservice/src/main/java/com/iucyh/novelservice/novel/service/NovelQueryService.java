@@ -64,6 +64,7 @@ public class NovelQueryService {
             NovelSortType sortType, String cursor, int limit,
             BiFunction<NovelPagingCondition, NovelPagingStrategy, List<Novel>> finder
     ) {
+        // 다음 페이지가 있는지 확인하기 위해 limit + 1개 만큼 가져오기(결과의 size가 limit + 1 이라면 다음 페이지 존재)
         NovelPagingCondition pagingCondition = createPagingCondition(sortType, cursor, limit + 1);
         NovelPagingStrategy pagingStrategy = pagingStrategyFactory.get(sortType);
 
@@ -77,7 +78,7 @@ public class NovelQueryService {
         String newCursor = null;
 
         boolean hasNext = result.size() > limit;
-        if (hasNext) {
+        if (hasNext) { // 다음에 가져올 데이터가 존재할 때(다음 페이지가 존재할 때)만 새 cursor 생성
             newCursor = createNewEncodedCursor(pagingStrategy, pageResult);
         }
 

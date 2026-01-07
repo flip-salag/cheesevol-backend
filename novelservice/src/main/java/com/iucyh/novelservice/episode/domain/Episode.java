@@ -18,6 +18,7 @@ public class Episode extends PublicEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "episode_id")
     private Long id;
 
     @Column(length = 50, nullable = false)

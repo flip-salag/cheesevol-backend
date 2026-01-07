@@ -40,7 +40,7 @@ CREATE TABLE `novel`
 DROP TABLE IF EXISTS `episode`;
 CREATE TABLE `episode`
 (
-    id             BIGINT AUTO_INCREMENT PRIMARY KEY,
+    episode_id     BIGINT AUTO_INCREMENT PRIMARY KEY,
     novel_id       BIGINT      NOT NULL,
     public_id      VARCHAR(25) NOT NULL UNIQUE,
     episode_type   VARCHAR(50) NOT NULL,

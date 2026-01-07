@@ -14,6 +14,7 @@ public class User extends PublicEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     @Column(length = 320, nullable = false, unique = true)

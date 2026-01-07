@@ -19,6 +19,7 @@ public class NovelLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "novel_like_id")
     private Long id;
 
     @CreatedDate

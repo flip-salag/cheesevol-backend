@@ -78,7 +78,10 @@ public class EpisodeService {
 
         Episode episode = EpisodeCommandMapper.toEpisode(command, novel, newEpisodeNumber);
         Episode savedEpisode = episodeRepository.save(episode);
-        novel.updateLastEpisode(savedEpisode.getEpisodeNumber(), savedEpisode.getCreatedAt()); // 소설의 마지막 회차와 관련된 컬럼들의 정합성을 위해 최신 회차 기준으로 업데이트
+
+        // 소설의 마지막 회차와 관련된 컬럼들의 정합성을 위해 최신 회차 기준으로 업데이트
+        novel.updateLastEpisodeNumber(savedEpisode.getEpisodeNumber());
+        novel.updateLastPublishedAt(savedEpisode.getCreatedAt());
 
         return EpisodeResponseMapper.toEpisodeSaveResponse(savedEpisode);
     }

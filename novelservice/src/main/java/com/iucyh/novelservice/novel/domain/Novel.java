@@ -89,9 +89,8 @@ public class Novel extends PublicEntity {
         }
     }
 
-    public void updateLastEpisode(Integer lastEpisodeNumber, LocalDateTime lastPublishedAt) {
+    public void updateLastEpisodeNumber(Integer lastEpisodeNumber) {
         this.lastEpisodeNumber = lastEpisodeNumber;
-        this.lastPublishedAt = lastPublishedAt;
     }
 
     public void updateLastPublishedAt(LocalDateTime lastPublishedAt) {

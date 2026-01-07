@@ -3,7 +3,7 @@ USE `novel_service`;
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (
-    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id    BIGINT AUTO_INCREMENT PRIMARY KEY,
     public_id  VARCHAR(25)  NOT NULL UNIQUE,
     email      VARCHAR(320) NOT NULL UNIQUE,
     password   VARCHAR(255) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE `novel`
     updated_at          DATETIME     NOT NULL DEFAULT NOW(),
     deleted_at          DATETIME NULL,
 
-    CONSTRAINT fk_novel_user FOREIGN KEY (user_id) REFERENCES user (id),
+    CONSTRAINT fk_novel_user FOREIGN KEY (user_id) REFERENCES user (user_id),
     UNIQUE KEY uq_user_title (user_id, title)
 );
 
@@ -65,7 +65,7 @@ CREATE TABLE `novel_like`
     novel_id      BIGINT   NOT NULL,
     created_at    DATETIME NOT NULL DEFAULT NOW(),
 
-    CONSTRAINT fk_novel_like_user FOREIGN KEY (user_id) REFERENCES user (id),
+    CONSTRAINT fk_novel_like_user FOREIGN KEY (user_id) REFERENCES user (user_id),
     CONSTRAINT fk_novel_like_novel FOREIGN KEY (novel_id) REFERENCES novel (novel_id),
     UNIQUE KEY uq_user_novel (user_id, novel_id)
 );

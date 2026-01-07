@@ -15,6 +15,7 @@ public class NovelDailyStat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "novel_daily_stat_id")
     private Long id;
 
     @Column(nullable = false, updatable = false)

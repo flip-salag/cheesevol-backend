@@ -21,6 +21,7 @@ public class NovelPeriodStat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "novel_period_stat_id")
     private Long id;
 
     @Column(length = 50, nullable = false)

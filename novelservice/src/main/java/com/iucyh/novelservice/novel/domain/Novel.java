@@ -20,6 +20,7 @@ public class Novel extends PublicEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "novel_id")
     private Long id;
 
     @Column(length = NOVEL_TITLE_LENGTH_MAX, nullable = false)

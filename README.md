@@ -1,7 +1,7 @@
 # novel-service
 ## [이슈 로그](https://lucy-blog.notion.site/2990ad45a877803e85b6d597bbce49e4)
 ## ERD
-<img width="1820" height="642" alt="novel-service (2)" src="https://github.com/user-attachments/assets/27241310-fdcc-48be-b9db-a4e5401fdedd" />
+<img width="1820" height="642" alt="novel-service (1)" src="https://github.com/user-attachments/assets/2e90113a-ab1b-4541-8e1f-b7a856ae6cdf" />
 
 ## 기술 스택
 ### 개발 환경

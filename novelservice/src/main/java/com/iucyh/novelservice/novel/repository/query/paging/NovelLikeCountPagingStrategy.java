@@ -18,7 +18,7 @@ public class NovelLikeCountPagingStrategy extends AbstractNovelPagingStrategy {
     protected OrderSpecifier<?>[] applyOrder() {
         return new OrderSpecifier[] {
                 novel.likeCount.desc(),
-                novel.lastEpisodeAt.desc(),
+                novel.lastPublishedAt.desc(),
                 novel.id.desc()
         };
     }
@@ -30,13 +30,13 @@ public class NovelLikeCountPagingStrategy extends AbstractNovelPagingStrategy {
                 .or(
                         novel.likeCount.eq(likeCountCursor.lastLikeCount())
                                 .and(
-                                        novel.lastEpisodeAt.lt(likeCountCursor.lastEpisodeAt())
+                                        novel.lastPublishedAt.lt(likeCountCursor.lastPublishedAt())
                                 )
                 )
                 .or(
                         novel.likeCount.eq(likeCountCursor.lastLikeCount())
                                 .and(
-                                        novel.lastEpisodeAt.eq(likeCountCursor.lastEpisodeAt())
+                                        novel.lastPublishedAt.eq(likeCountCursor.lastPublishedAt())
                                 )
                                 .and(
                                         novel.id.lt(likeCountCursor.lastNovelId())
@@ -46,7 +46,7 @@ public class NovelLikeCountPagingStrategy extends AbstractNovelPagingStrategy {
 
     @Override
     public NovelCursor createCursor(Novel lastResult) {
-        return new NovelLikeCountCursor(lastResult.getId(), lastResult.getLikeCount(), lastResult.getLastEpisodeAt());
+        return new NovelLikeCountCursor(lastResult.getId(), lastResult.getLikeCount(), lastResult.getLastPublishedAt());
     }
 
     @Override

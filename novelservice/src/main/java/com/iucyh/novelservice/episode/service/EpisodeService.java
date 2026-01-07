@@ -67,10 +67,10 @@ public class EpisodeService {
         novelPolicyValidator.validateNovelNotCompleted(novel); // 완결된 소설은 회차 삭제 불가
 
         episode.softDelete();
-        // 삭제될 회차와 삭제된 회차를 제외하고 나머지 회차들 중 가장 최신 회차의 등록일로 Novel의 lastEpisodeAt 업데이트
-        // 다음 최신 회차가 없다면 lastEpisodeAt을 null로 설정 (소설 목록 조회 시 소설의 lastEpisodeAt이 null이라면 회차가 없는 것으로 간주)
-        LocalDateTime lastEpisodeAt = episodeQueryRepository.findLastEpisodeAtExceptDeletedEpisode(novel.getId(), episode.getPublicId());
-        novel.updateLastEpisodeAt(lastEpisodeAt);
+        // 삭제될 회차와 삭제된 회차를 제외하고 나머지 회차들 중 가장 최신 회차의 등록일로 Novel의 lastPublishedAt 업데이트
+        // 다음 최신 회차가 없다면 lastPublishedAt을 null로 설정 (소설 목록 조회 시 소설의 lastPublishedAt이 null이라면 회차가 없는 것으로 간주)
+        LocalDateTime lastPublishedAt = episodeQueryRepository.findLastEpisodeAtExceptDeletedEpisode(novel.getId(), episode.getPublicId());
+        novel.updateLastPublishedAt(lastPublishedAt);
     }
 
     private EpisodeSaveResponse createCommonEpisode(CreateEpisodeCommand command, Novel novel) {

@@ -6,5 +6,5 @@ public record NovelViewCountCursor(
 
         long lastNovelId,
         int lastTotalViewCount,
-        LocalDateTime lastEpisodeAt
+        LocalDateTime lastPublishedAt
 ) implements NovelCursor {}

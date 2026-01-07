@@ -45,7 +45,7 @@ public class Novel extends PublicEntity {
     @Column(nullable = false)
     private Integer lastEpisodeNumber = 0;
 
-    private LocalDateTime lastEpisodeAt;
+    private LocalDateTime lastPublishedAt;
 
     @Column(nullable = false)
     private Boolean isCompleted = false;
@@ -89,12 +89,11 @@ public class Novel extends PublicEntity {
         }
     }
 
-    public void updateLastEpisode(Integer lastEpisodeNumber, LocalDateTime lastEpisodeAt) {
+    public void updateLastEpisodeNumber(Integer lastEpisodeNumber) {
         this.lastEpisodeNumber = lastEpisodeNumber;
-        this.lastEpisodeAt = lastEpisodeAt;
     }
 
-    public void updateLastEpisodeAt(LocalDateTime lastEpisodeAt) {
-        this.lastEpisodeAt = lastEpisodeAt;
+    public void updateLastPublishedAt(LocalDateTime lastPublishedAt) {
+        this.lastPublishedAt = lastPublishedAt;
     }
 }

@@ -27,7 +27,7 @@ CREATE TABLE `novel`
     total_view_count    INT          NOT NULL DEFAULT 0,
     period_view_count   INT          NOT NULL DEFAULT 0,
     last_episode_number INT          NOT NULL DEFAULT 0,
-    last_episode_at     DATETIME NULL,
+    last_published_at   DATETIME NULL,
     is_completed        BOOLEAN      NOT NULL DEFAULT FALSE,
     created_at          DATETIME     NOT NULL DEFAULT NOW(),
     updated_at          DATETIME     NOT NULL DEFAULT NOW(),

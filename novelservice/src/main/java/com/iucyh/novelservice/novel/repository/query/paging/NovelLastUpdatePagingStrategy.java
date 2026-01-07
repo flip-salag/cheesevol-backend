@@ -17,7 +17,7 @@ public class NovelLastUpdatePagingStrategy extends AbstractNovelPagingStrategy {
     @Override
     protected OrderSpecifier<?>[] applyOrder() {
         return new OrderSpecifier[] {
-                novel.lastEpisodeAt.desc(),
+                novel.lastPublishedAt.desc(),
                 novel.createdAt.desc(),
                 novel.id.desc()
         };
@@ -26,15 +26,15 @@ public class NovelLastUpdatePagingStrategy extends AbstractNovelPagingStrategy {
     @Override
     protected BooleanExpression applyCursor(NovelCursor cursor) {
         NovelLastUpdateCursor lastUpdateCursor = (NovelLastUpdateCursor) cursor;
-        return novel.lastEpisodeAt.lt(lastUpdateCursor.lastEpisodeAt())
+        return novel.lastPublishedAt.lt(lastUpdateCursor.lastPublishedAt())
                 .or(
-                        novel.lastEpisodeAt.eq(lastUpdateCursor.lastEpisodeAt())
+                        novel.lastPublishedAt.eq(lastUpdateCursor.lastPublishedAt())
                                 .and(
                                         novel.createdAt.lt(lastUpdateCursor.lastCreatedAt())
                                 )
                 )
                 .or(
-                        novel.lastEpisodeAt.eq(lastUpdateCursor.lastEpisodeAt())
+                        novel.lastPublishedAt.eq(lastUpdateCursor.lastPublishedAt())
                                 .and(
                                         novel.createdAt.eq(lastUpdateCursor.lastCreatedAt())
                                 )
@@ -46,7 +46,7 @@ public class NovelLastUpdatePagingStrategy extends AbstractNovelPagingStrategy {
 
     @Override
     public NovelCursor createCursor(Novel lastResult) {
-        return new NovelLastUpdateCursor(lastResult.getId(), lastResult.getLastEpisodeAt(), lastResult.getCreatedAt());
+        return new NovelLastUpdateCursor(lastResult.getId(), lastResult.getLastPublishedAt(), lastResult.getCreatedAt());
     }
 
     @Override

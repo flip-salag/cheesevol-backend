@@ -6,5 +6,5 @@ public record NovelLikeCountCursor(
 
         long lastNovelId,
         int lastLikeCount,
-        LocalDateTime lastEpisodeAt
+        LocalDateTime lastPublishedAt
 ) implements NovelCursor {}

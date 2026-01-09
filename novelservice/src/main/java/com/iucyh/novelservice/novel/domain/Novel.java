@@ -34,6 +34,9 @@ public class Novel extends PublicEntity {
     private NovelCategory category;
 
     @Column(nullable = false)
+    private Integer commonEpisodeCount = 0;
+
+    @Column(nullable = false)
     private Integer likeCount = 0;
 
     @Column(nullable = false)

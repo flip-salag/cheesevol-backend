@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.iucyh.novelservice.novel.constant.NovelConstants.*;
@@ -48,7 +49,7 @@ public class Novel extends PublicEntity {
     @Column(nullable = false)
     private Integer maxEpisodeNumber = 0;
 
-    private LocalDateTime lastPublishedAt;
+    private LocalDate lastEpisodePublishDate;
 
     @Column(nullable = false)
     private Boolean isCompleted = false;
@@ -96,7 +97,7 @@ public class Novel extends PublicEntity {
         this.maxEpisodeNumber = maxEpisodeNumber;
     }
 
-    public void updateLastPublishedAt(LocalDateTime lastPublishedAt) {
-        this.lastPublishedAt = lastPublishedAt;
+    public void updateLastEpisodePublishDate(LocalDate lastEpisodePublishDate) {
+        this.lastEpisodePublishDate = lastEpisodePublishDate;
     }
 }

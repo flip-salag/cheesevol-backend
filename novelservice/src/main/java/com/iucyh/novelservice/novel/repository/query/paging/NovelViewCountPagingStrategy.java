@@ -18,7 +18,7 @@ public class NovelViewCountPagingStrategy extends AbstractNovelPagingStrategy {
     protected OrderSpecifier<?>[] applyOrder() {
         return new OrderSpecifier[] {
                 novel.totalViewCount.desc(),
-                novel.lastPublishedAt.desc(),
+                novel.lastEpisodePublishDate.desc(),
                 novel.id.desc()
         };
     }
@@ -30,13 +30,13 @@ public class NovelViewCountPagingStrategy extends AbstractNovelPagingStrategy {
                 .or(
                         novel.totalViewCount.eq(viewCountCursor.lastTotalViewCount())
                                 .and(
-                                        novel.lastPublishedAt.lt(viewCountCursor.lastPublishedAt())
+                                        novel.lastEpisodePublishDate.lt(viewCountCursor.lastEpisodePublishDate())
                                 )
                 )
                 .or(
                         novel.totalViewCount.eq(viewCountCursor.lastTotalViewCount())
                                 .and(
-                                        novel.lastPublishedAt.eq(viewCountCursor.lastPublishedAt())
+                                        novel.lastEpisodePublishDate.eq(viewCountCursor.lastEpisodePublishDate())
                                 )
                                 .and(
                                         novel.id.lt(viewCountCursor.lastNovelId())
@@ -46,7 +46,7 @@ public class NovelViewCountPagingStrategy extends AbstractNovelPagingStrategy {
 
     @Override
     public NovelCursor createCursor(Novel lastResult) {
-        return new NovelViewCountCursor(lastResult.getId(), lastResult.getTotalViewCount(), lastResult.getLastPublishedAt());
+        return new NovelViewCountCursor(lastResult.getId(), lastResult.getTotalViewCount(), lastResult.getLastEpisodePublishDate());
     }
 
     @Override

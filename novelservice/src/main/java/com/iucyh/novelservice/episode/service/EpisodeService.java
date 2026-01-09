@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -65,27 +66,30 @@ public class EpisodeService {
         Novel novel = episode.getNovel();
 
         novelPolicyValidator.validateNovelNotCompleted(novel); // 완결된 소설은 회차 삭제 불가
-
         episode.softDelete();
-        // 삭제될 회차와 삭제된 회차를 제외하고 나머지 회차들 중 가장 최신 회차의 등록일로 Novel의 lastPublishedAt 업데이트
-        // 다음 최신 회차가 없다면 lastPublishedAt을 null로 설정 (소설 목록 조회 시 소설의 lastPublishedAt이 null이라면 회차가 없는 것으로 간주)
-        LocalDateTime lastPublishedAt = episodeQueryRepository.findLastEpisodeAtExceptDeletedEpisode(novel.getId(), episode.getPublicId());
-        novel.updateLastPublishedAt(lastPublishedAt);
+
+        // 가장 최신 회차의 등록일을 가장 최신 회차 발행일로 변환 후 novel에 저장 (최신 회차 등록일 조회 시 삭제중인 회차, 삭제된 회차는 제외)
+        LocalDateTime lastEpisodeAt = episodeQueryRepository.findLastEpisodeAtExceptDeletedEpisode(novel.getId(), episode.getPublicId());
+        LocalDate lastEpisodePublishDate = toLastEpisodePublishDate(lastEpisodeAt);
+
+        // 소설에 더 이상 회차가 한개도 존재하지 않으면 자연스럽게 null로 설정
+        novel.updateLastEpisodePublishDate(lastEpisodePublishDate);
     }
 
     private EpisodeSaveResponse createCommonEpisode(CreateEpisodeCommand command, Novel novel) {
-        int newEpisodeNumber = novel.getLastEpisodeNumber() + 1;
+        int newEpisodeNumber = novel.getMaxEpisodeNumber() + 1;
 
         Episode episode = EpisodeCommandMapper.toEpisode(command, novel, newEpisodeNumber);
         Episode savedEpisode = episodeRepository.save(episode);
 
-        // 소설의 마지막 회차와 관련된 컬럼들의 정합성을 위해 최신 회차 기준으로 업데이트
-        novel.updateLastEpisodeNumber(savedEpisode.getEpisodeNumber());
-        novel.updateLastPublishedAt(savedEpisode.getCreatedAt());
+        LocalDate lastEpisodePublishDate = toLastEpisodePublishDate(savedEpisode.getCreatedAt());
+        novel.updateMaxEpisodeNumber(savedEpisode.getEpisodeNumber());
+        novel.updateLastEpisodePublishDate(lastEpisodePublishDate);
 
         return EpisodeResponseMapper.toEpisodeSaveResponse(savedEpisode);
     }
 
+    // TODO: 프롤로그 등록 시에도 lastEpisodePublishDate 업데이트
     private EpisodeSaveResponse createPrologueEpisode(CreateEpisodeCommand command, Novel novel) {
         novelPolicyValidator.validateNovelHasNoPrologueEpisode(novel.getId()); // 프롤로그는 소설 당 1개만 존재가능
 
@@ -93,6 +97,15 @@ public class EpisodeService {
         Episode savedEpisode = episodeRepository.save(episode);
 
         return EpisodeResponseMapper.toEpisodeSaveResponse(savedEpisode);
+    }
+
+    /**
+     * <p>전달받은 {@code LocalDateTime} 타입의 회차 등록일을 {@code LocalDate} 타입의 마지막 회차 발행일로 변환</p>
+     * @param episodeCreatedAt 변환할 회차의 등록일
+     * @return 변환된 결과, episodeCreatedAt이 null이라면 그 값 그대로 반환
+     */
+    private LocalDate toLastEpisodePublishDate(LocalDateTime episodeCreatedAt) {
+        return episodeCreatedAt == null ? null : episodeCreatedAt.toLocalDate();
     }
 
     private Novel findNovelWithUserId(long userId, String novelPublicId) {

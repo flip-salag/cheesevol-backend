@@ -94,7 +94,7 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
      */
     private BooleanExpression applyValidNovelFilter() {
         return novel.deletedAt.isNull()
-                .and(novel.lastPublishedAt.isNotNull());
+                .and(novel.lastEpisodePublishDate.isNotNull());
     }
 
     private BooleanExpression applyCategoryFilter(NovelCategory category) {

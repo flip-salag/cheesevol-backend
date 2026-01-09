@@ -46,7 +46,7 @@ public class Novel extends PublicEntity {
     private Integer periodViewCount = 0;
 
     @Column(nullable = false)
-    private Integer lastEpisodeNumber = 0;
+    private Integer maxEpisodeNumber = 0;
 
     private LocalDateTime lastPublishedAt;
 
@@ -92,8 +92,8 @@ public class Novel extends PublicEntity {
         }
     }
 
-    public void updateLastEpisodeNumber(Integer lastEpisodeNumber) {
-        this.lastEpisodeNumber = lastEpisodeNumber;
+    public void updateMaxEpisodeNumber(Integer maxEpisodeNumber) {
+        this.maxEpisodeNumber = maxEpisodeNumber;
     }
 
     public void updateLastPublishedAt(LocalDateTime lastPublishedAt) {

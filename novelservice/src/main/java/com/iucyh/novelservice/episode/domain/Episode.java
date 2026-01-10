@@ -25,10 +25,10 @@ public class Episode extends PublicEntity {
     @Enumerated(EnumType.STRING)
     private EpisodeType episodeType;
 
-    @Column(length = EPISODE_TITLE_LENGTH_MAX + 5, nullable = false)
+    @Column(length = EPISODE_TITLE_LENGTH_MAX, nullable = false)
     private String title;
 
-    @Column(length = EPISODE_DESC_LENGTH_MAX + 5, nullable = false)
+    @Column(length = EPISODE_DESC_LENGTH_MAX, nullable = false)
     private String description;
 
     @Column(columnDefinition = "TEXT", nullable = false)

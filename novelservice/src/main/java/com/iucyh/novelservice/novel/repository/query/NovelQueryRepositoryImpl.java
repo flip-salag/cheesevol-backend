@@ -89,12 +89,12 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
      * <p>필터 조건</p>
      * <ul>
      *     <li>삭제되지 않은 소설</li>
-     *     <li>회차가 한개라도 존재하는(== 최신 회차 등록일이 null이 아닌) 소설</li>
+     *     <li>일반 회차가 한개라도 존재하는 소설</li>
      * </ul>
      */
     private BooleanExpression applyValidNovelFilter() {
         return novel.deletedAt.isNull()
-                .and(novel.lastEpisodePublishDate.isNotNull());
+                .and(novel.hasCommonEpisode.isTrue());
     }
 
     private BooleanExpression applyCategoryFilter(NovelCategory category) {

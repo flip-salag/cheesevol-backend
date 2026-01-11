@@ -20,6 +20,16 @@ public interface EpisodeQueryRepository {
     boolean episodeExistsByNovelIdAndEpisodeType(Long novelId, EpisodeType episodeType);
 
     /**
+     * <p>{@code novelId}에 해당하는 소설에 종류가 {@code episodeType}인 회차가 존재하는지 검사</p>
+     * <p>전달된 {@code id}에 해당하는 회차와 삭제된 회차를 제외하고 나머지를 대상으로 검사</p>
+     * @param novelId 검사할 소설의 id
+     * @param episodeType 검사할 회차 종류
+     * @param id 추가로 제외할 회차의 pk
+     * @return 조건이 맞는 회차가 존재하면 {@code true}, 아니라면 {@code false}
+     */
+    boolean episodeExistsByNovelIdAndEpisodeType(Long novelId, EpisodeType episodeType, Long id);
+
+    /**
      * <p>{@code publicId}에 해당하는 회차와 삭제된 회차를 제외한 나머지 회차 중 가장 최신 회차의 생성일 조회</p>
      * <p>제외할 회차가 없다면 publicId에 null 전달</p>
      * @param novelId 조회할 회차들이 속한 소설의 id

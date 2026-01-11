@@ -1,6 +1,7 @@
 package com.iucyh.novelservice.episode.service;
 
 import com.iucyh.novelservice.common.exception.DataNotFound;
+import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.DeleteEpisodeCommand;
@@ -68,6 +69,14 @@ public class EpisodeService {
         novelPolicyValidator.validateNovelNotCompleted(novel); // 완결된 소설은 회차 삭제 불가
         episode.softDelete();
 
+        // novel에 더 이상 일반 회차가 한개도 존재하지 않으면 hasCommonEpisode를 false로 변경 (회차 존재 여부 조회 시 삭제중인 회차, 삭제된 회차는 제외)
+        if (episode.getEpisodeType() == EpisodeType.COMMON) { // 삭제하려는 회차가 COMMON이 아니라면 COMMON과 관련된 상태는 변하지 않으므로 업데이트 스킵
+            boolean hasCommonEpisode = episodeQueryRepository.episodeExistsByNovelIdAndEpisodeType(novel.getId(), EpisodeType.COMMON, episode.getId());
+            if (!hasCommonEpisode) {
+                novel.updateHasCommonEpisode(false);
+            }
+        }
+
         // 가장 최신 회차의 등록일을 가장 최신 회차 발행일로 변환 후 novel에 저장 (최신 회차 등록일 조회 시 삭제중인 회차, 삭제된 회차는 제외)
         LocalDateTime lastEpisodeAt = episodeQueryRepository.findLastEpisodeAtExceptDeletedEpisode(novel.getId(), episode.getPublicId());
         LocalDate lastEpisodePublishDate = toLastEpisodePublishDate(lastEpisodeAt);
@@ -85,6 +94,7 @@ public class EpisodeService {
         LocalDate lastEpisodePublishDate = toLastEpisodePublishDate(savedEpisode.getCreatedAt());
         novel.updateMaxEpisodeNumber(savedEpisode.getEpisodeNumber());
         novel.updateLastEpisodePublishDate(lastEpisodePublishDate);
+        novel.updateHasCommonEpisode(true);
 
         return EpisodeResponseMapper.toEpisodeSaveResponse(savedEpisode);
     }

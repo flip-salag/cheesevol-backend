@@ -11,6 +11,7 @@ public record NovelDetailResponse(
         String title,
         String description,
         NovelCategory category,
+        int commonEpisodeCount,
         int likeCount,
         int totalViewCount,
         boolean isCompleted,

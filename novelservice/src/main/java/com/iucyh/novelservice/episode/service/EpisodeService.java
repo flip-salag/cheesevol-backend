@@ -42,10 +42,21 @@ public class EpisodeService {
         Novel novel = findNovelWithUserId(command.userId(), command.novelPublicId());
         novelPolicyValidator.validateNovelNotCompleted(novel); // 완결된 소설은 회차 생성 불가
 
-        return switch (command.episodeType()) {
+        Episode savedEpisode = switch (command.episodeType()) {
             case COMMON -> createCommonEpisode(command, novel);
             case PROLOGUE -> createPrologueEpisode(command, novel);
         };
+        LocalDate lastEpisodePublishDate = toLastEpisodePublishDate(savedEpisode.getCreatedAt());
+        novel.updateLastEpisodePublishDate(lastEpisodePublishDate);
+
+        // COMMON 회차 생성 시 관련 컬럼 업데이트
+        if (command.episodeType() == EpisodeType.COMMON) {
+            novel.updateMaxEpisodeNumber(savedEpisode.getEpisodeNumber());
+            novel.updateHasCommonEpisode(true);
+            novelRepository.increaseCommonEpisodeCount(novel.getId());
+        }
+
+        return EpisodeResponseMapper.toEpisodeSaveResponse(savedEpisode);
     }
 
     public EpisodeSaveResponse updateEpisode(UpdateEpisodeCommand command) {
@@ -89,29 +100,18 @@ public class EpisodeService {
         }
     }
 
-    private EpisodeSaveResponse createCommonEpisode(CreateEpisodeCommand command, Novel novel) {
+    private Episode createCommonEpisode(CreateEpisodeCommand command, Novel novel) {
         int newEpisodeNumber = novel.getMaxEpisodeNumber() + 1;
 
         Episode episode = EpisodeCommandMapper.toEpisode(command, novel, newEpisodeNumber);
-        Episode savedEpisode = episodeRepository.save(episode);
-
-        LocalDate lastEpisodePublishDate = toLastEpisodePublishDate(savedEpisode.getCreatedAt());
-        novel.updateMaxEpisodeNumber(savedEpisode.getEpisodeNumber());
-        novel.updateLastEpisodePublishDate(lastEpisodePublishDate);
-        novel.updateHasCommonEpisode(true);
-        novelRepository.increaseCommonEpisodeCount(novel.getId());
-
-        return EpisodeResponseMapper.toEpisodeSaveResponse(savedEpisode);
+        return episodeRepository.save(episode);
     }
 
-    // TODO: 프롤로그 등록 시에도 lastEpisodePublishDate 업데이트
-    private EpisodeSaveResponse createPrologueEpisode(CreateEpisodeCommand command, Novel novel) {
+    private Episode createPrologueEpisode(CreateEpisodeCommand command, Novel novel) {
         novelPolicyValidator.validateNovelHasNoPrologueEpisode(novel.getId()); // 프롤로그는 소설 당 1개만 존재가능
 
         Episode episode = EpisodeCommandMapper.toEpisode(command, novel, 0);
-        Episode savedEpisode = episodeRepository.save(episode);
-
-        return EpisodeResponseMapper.toEpisodeSaveResponse(savedEpisode);
+        return episodeRepository.save(episode);
     }
 
     /**

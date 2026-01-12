@@ -76,7 +76,7 @@ public class EpisodeService {
         // 소설에 더 이상 회차가 한개도 존재하지 않으면 자연스럽게 null로 설정
         novel.updateLastEpisodePublishDate(lastEpisodePublishDate);
 
-        // COMMON 회차와 관련된 컬럼 동기화 (삭제하려는 회차가 COMMON이 아니라면 COMMON과 관련된 상태는 변하지 않으므로 업데이트 스킵)
+        // COMMON 회차와 관련된 컬럼 업데이트 (삭제하려는 회차가 COMMON이 아니라면 COMMON과 관련된 상태는 변하지 않으므로 업데이트 스킵)
         if (episode.getEpisodeType() == EpisodeType.COMMON) {
             boolean hasCommonEpisode = episodeQueryRepository.episodeExistsByNovelIdAndEpisodeType(novel.getId(), EpisodeType.COMMON, episode.getId());
             if (!hasCommonEpisode) {

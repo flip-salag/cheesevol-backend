@@ -97,7 +97,7 @@ public class Novel extends PublicEntity {
     }
 
     public void updateCompletion(Boolean isCompleted) {
-        if (this.isCompleted != isCompleted) { // TODO: 위 메서드처럼 equals로 변경
+        if (!this.isCompleted.equals(isCompleted)) {
             this.isCompleted = isCompleted;
         }
     }

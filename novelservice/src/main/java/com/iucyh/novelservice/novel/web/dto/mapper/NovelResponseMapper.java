@@ -43,6 +43,7 @@ public class NovelResponseMapper {
                 novel.getTitle(),
                 novel.getDescription(),
                 novel.getCategory(),
+                novel.getCommonEpisodeCount(),
                 novel.getLikeCount(),
                 novel.getTotalViewCount(),
                 novel.isCompletedNovel(),

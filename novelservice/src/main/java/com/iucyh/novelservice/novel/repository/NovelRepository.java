@@ -54,7 +54,7 @@ public interface NovelRepository extends JpaRepository<Novel, Long> {
     @Query("""
     update Novel n
     set n.commonEpisodeCount = n.commonEpisodeCount - 1
-    where n.id = :id
+    where n.id = :id and n.commonEpisodeCount > 0
     """)
     void decreaseCommonEpisodeCount(@Param("id") Long id);
 

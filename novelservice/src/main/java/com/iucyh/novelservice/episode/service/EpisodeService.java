@@ -99,6 +99,7 @@ public class EpisodeService {
         novel.updateMaxEpisodeNumber(savedEpisode.getEpisodeNumber());
         novel.updateLastEpisodePublishDate(lastEpisodePublishDate);
         novel.updateHasCommonEpisode(true);
+        novelRepository.increaseCommonEpisodeCount(novel.getId());
 
         return EpisodeResponseMapper.toEpisodeSaveResponse(savedEpisode);
     }

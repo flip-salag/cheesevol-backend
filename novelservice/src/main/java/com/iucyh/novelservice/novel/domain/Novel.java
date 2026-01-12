@@ -103,7 +103,10 @@ public class Novel extends PublicEntity {
     }
 
     public void updateMaxEpisodeNumber(Integer maxEpisodeNumber) {
-        this.maxEpisodeNumber = maxEpisodeNumber;
+        // 기존값보다 인자의 값이 클때만 업데이트(max_episode_number는 절대 감소하지 않는 컬럼)
+        if (maxEpisodeNumber != null && maxEpisodeNumber > this.maxEpisodeNumber) {
+            this.maxEpisodeNumber = maxEpisodeNumber;
+        }
     }
 
     public void updateLastEpisodePublishDate(LocalDate lastEpisodePublishDate) {

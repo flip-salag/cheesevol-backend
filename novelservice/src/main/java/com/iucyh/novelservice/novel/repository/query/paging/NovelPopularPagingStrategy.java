@@ -26,7 +26,7 @@ public class NovelPopularPagingStrategy extends AbstractNovelPagingStrategy {
     @Override
     protected BooleanExpression applyCursor(NovelCursor cursor) {
         NovelPopularCursor popularCursor = (NovelPopularCursor) cursor;
-        BooleanExpression cursorCondition = novel.periodViewCount.lt(popularCursor.periodViewCount())
+        return novel.periodViewCount.lt(popularCursor.periodViewCount())
                 .or(
                         novel.periodViewCount.eq(popularCursor.periodViewCount())
                                 .and(
@@ -42,8 +42,12 @@ public class NovelPopularPagingStrategy extends AbstractNovelPagingStrategy {
                                         novel.id.lt(popularCursor.novelId())
                                 )
                 );
-        return cursorCondition
-                .and(novel.lastEpisodePublishDate.isNotNull()); // 정렬의 안정성을 위해 last_episode_publish_date 이 null인 소설은 제외
+    }
+
+    @Override
+    protected BooleanExpression applyAdditionalFilter() {
+        // 정렬의 안정성을 위해 정합성이 깨진(회차는 존재하는데 최신 회차 발행일은 null인) 소설 제외
+        return novel.lastEpisodePublishDate.isNotNull();
     }
 
     @Override

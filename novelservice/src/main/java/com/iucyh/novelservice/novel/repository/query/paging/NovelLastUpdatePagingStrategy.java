@@ -18,7 +18,7 @@ public class NovelLastUpdatePagingStrategy extends AbstractNovelPagingStrategy {
     protected OrderSpecifier<?>[] applyOrder() {
         return new OrderSpecifier[] {
                 novel.lastEpisodePublishDate.desc(),
-                novel.createdAt.desc(),
+                novel.totalViewCount.desc(),
                 novel.id.desc()
         };
     }
@@ -30,23 +30,29 @@ public class NovelLastUpdatePagingStrategy extends AbstractNovelPagingStrategy {
                 .or(
                         novel.lastEpisodePublishDate.eq(lastUpdateCursor.lastEpisodePublishDate())
                                 .and(
-                                        novel.createdAt.lt(lastUpdateCursor.lastCreatedAt())
+                                        novel.totalViewCount.lt(lastUpdateCursor.totalViewCount())
                                 )
                 )
                 .or(
                         novel.lastEpisodePublishDate.eq(lastUpdateCursor.lastEpisodePublishDate())
                                 .and(
-                                        novel.createdAt.eq(lastUpdateCursor.lastCreatedAt())
+                                        novel.totalViewCount.eq(lastUpdateCursor.totalViewCount())
                                 )
                                 .and(
-                                        novel.id.lt(lastUpdateCursor.lastNovelId())
+                                        novel.id.lt(lastUpdateCursor.novelId())
                                 )
                 );
     }
 
     @Override
+    protected BooleanExpression applyAdditionalFilter() {
+        // 정렬의 안정성을 위해 정합성이 깨진(회차는 존재하는데 최신 회차 발행일은 null인) 소설 제외
+        return novel.lastEpisodePublishDate.isNotNull();
+    }
+
+    @Override
     public NovelCursor createCursor(Novel lastResult) {
-        return new NovelLastUpdateCursor(lastResult.getId(), lastResult.getLastEpisodePublishDate(), lastResult.getCreatedAt());
+        return new NovelLastUpdateCursor(lastResult.getId(), lastResult.getLastEpisodePublishDate(), lastResult.getTotalViewCount());
     }
 
     @Override

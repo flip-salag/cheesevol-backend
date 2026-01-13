@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public record NovelLastUpdateCursor(
 
-        long lastNovelId,
+        long novelId,
         LocalDate lastEpisodePublishDate,
-        LocalDateTime lastCreatedAt
+        int totalViewCount
 ) implements NovelCursor {}

@@ -1,8 +1,10 @@
 package com.iucyh.novelservice.novel.repository.query.paging.cursor;
 
+import java.time.LocalDate;
+
 public record NovelPopularCursor(
 
-        long lastNovelId,
-        int lastPeriodViewCount,
-        int lastTotalViewCount
+        long novelId,
+        int periodViewCount,
+        LocalDate lastEpisodePublishDate
 ) implements NovelCursor {}

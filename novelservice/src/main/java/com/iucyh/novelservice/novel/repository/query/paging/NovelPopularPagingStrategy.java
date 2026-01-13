@@ -18,7 +18,7 @@ public class NovelPopularPagingStrategy extends AbstractNovelPagingStrategy {
     protected OrderSpecifier<?>[] applyOrder() {
         return new OrderSpecifier[] {
                 novel.periodViewCount.desc(),
-                novel.totalViewCount.desc(),
+                novel.lastEpisodePublishDate.desc(),
                 novel.id.desc()
         };
     }
@@ -26,27 +26,29 @@ public class NovelPopularPagingStrategy extends AbstractNovelPagingStrategy {
     @Override
     protected BooleanExpression applyCursor(NovelCursor cursor) {
         NovelPopularCursor popularCursor = (NovelPopularCursor) cursor;
-        return novel.periodViewCount.lt(popularCursor.lastPeriodViewCount())
+        BooleanExpression cursorCondition = novel.periodViewCount.lt(popularCursor.periodViewCount())
                 .or(
-                        novel.periodViewCount.eq(popularCursor.lastPeriodViewCount())
+                        novel.periodViewCount.eq(popularCursor.periodViewCount())
                                 .and(
-                                        novel.totalViewCount.lt(popularCursor.lastTotalViewCount())
+                                        novel.lastEpisodePublishDate.lt(popularCursor.lastEpisodePublishDate())
                                 )
                 )
                 .or(
-                        novel.periodViewCount.eq(popularCursor.lastPeriodViewCount())
+                        novel.periodViewCount.eq(popularCursor.periodViewCount())
                                 .and(
-                                        novel.totalViewCount.eq(popularCursor.lastTotalViewCount())
+                                        novel.lastEpisodePublishDate.eq(popularCursor.lastEpisodePublishDate())
                                 )
                                 .and(
-                                        novel.id.lt(popularCursor.lastNovelId())
+                                        novel.id.lt(popularCursor.novelId())
                                 )
                 );
+        return cursorCondition
+                .and(novel.lastEpisodePublishDate.isNotNull()); // 정렬의 안정성을 위해 last_episode_publish_date 이 null인 소설은 제외
     }
 
     @Override
     public NovelCursor createCursor(Novel lastResult) {
-        return new NovelPopularCursor(lastResult.getId(), lastResult.getPeriodViewCount(), lastResult.getTotalViewCount());
+        return new NovelPopularCursor(lastResult.getId(), lastResult.getPeriodViewCount(), lastResult.getLastEpisodePublishDate());
     }
 
     @Override

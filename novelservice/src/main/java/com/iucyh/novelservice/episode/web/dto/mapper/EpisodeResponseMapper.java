@@ -82,11 +82,11 @@ public class EpisodeResponseMapper {
         EpisodeDetailResponse.EpisodePrevNextItem nextEpisode = null;
 
         if (prev != null) {
-            prevEpisode = new EpisodeDetailResponse.EpisodePrevNextItem(prev.getEpisodePublicId(), prev.getEpisodeNumber());
+            prevEpisode = new EpisodeDetailResponse.EpisodePrevNextItem(prev.getPublicId(), prev.getEpisodeNumber());
         }
 
         if (next != null) {
-            nextEpisode = new EpisodeDetailResponse.EpisodePrevNextItem(next.getEpisodePublicId(), next.getEpisodeNumber());
+            nextEpisode = new EpisodeDetailResponse.EpisodePrevNextItem(next.getPublicId(), next.getEpisodeNumber());
         }
 
         return new EpisodeDetailResponse.EpisodePrevNext(prevEpisode, nextEpisode);

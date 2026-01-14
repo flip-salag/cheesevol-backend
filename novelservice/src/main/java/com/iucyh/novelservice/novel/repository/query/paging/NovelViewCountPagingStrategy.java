@@ -26,22 +26,28 @@ public class NovelViewCountPagingStrategy extends AbstractNovelPagingStrategy {
     @Override
     protected BooleanExpression applyCursor(NovelCursor cursor) {
         NovelViewCountCursor viewCountCursor = (NovelViewCountCursor) cursor;
-        return novel.totalViewCount.lt(viewCountCursor.lastTotalViewCount())
+        return novel.totalViewCount.lt(viewCountCursor.totalViewCount())
                 .or(
-                        novel.totalViewCount.eq(viewCountCursor.lastTotalViewCount())
+                        novel.totalViewCount.eq(viewCountCursor.totalViewCount())
                                 .and(
                                         novel.lastEpisodePublishDate.lt(viewCountCursor.lastEpisodePublishDate())
                                 )
                 )
                 .or(
-                        novel.totalViewCount.eq(viewCountCursor.lastTotalViewCount())
+                        novel.totalViewCount.eq(viewCountCursor.totalViewCount())
                                 .and(
                                         novel.lastEpisodePublishDate.eq(viewCountCursor.lastEpisodePublishDate())
                                 )
                                 .and(
-                                        novel.id.lt(viewCountCursor.lastNovelId())
+                                        novel.id.lt(viewCountCursor.novelId())
                                 )
                 );
+    }
+
+    @Override
+    protected BooleanExpression applyAdditionalFilter() {
+        // 정렬의 안정성을 위해 정합성이 깨진(회차는 존재하는데 최신 회차 발행일은 null인) 소설 제외
+        return novel.lastEpisodePublishDate.isNotNull();
     }
 
     @Override

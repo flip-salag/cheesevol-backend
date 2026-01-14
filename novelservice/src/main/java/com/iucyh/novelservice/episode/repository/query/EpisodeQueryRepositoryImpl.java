@@ -59,13 +59,13 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
     }
 
     @Override
-    public LocalDateTime findLastEpisodeAtExceptDeletedEpisode(Long novelId, String publicId) {
+    public LocalDateTime findLastEpisodeAtExceptDeletedEpisode(Long novelId, Long id) {
         return queryFactory
                 .select(episode.createdAt)
                 .from(episode)
                 .where(
                         episode.novel.id.eq(novelId),
-                        publicId == null ? null : episode.publicId.ne(publicId),
+                        episode.id.ne(id),
                         episode.deletedAt.isNull()
                 )
                 .orderBy(

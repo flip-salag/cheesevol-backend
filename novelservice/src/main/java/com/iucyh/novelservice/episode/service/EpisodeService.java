@@ -81,7 +81,7 @@ public class EpisodeService {
         episode.softDelete();
 
         // 가장 최신 회차의 등록일을 가장 최신 회차 발행일로 변환 후 novel에 저장 (최신 회차 등록일 조회 시 삭제중인 회차, 삭제된 회차는 제외)
-        LocalDateTime lastEpisodeAt = episodeQueryRepository.findLastEpisodeAtExceptDeletedEpisode(novel.getId(), episode.getPublicId());
+        LocalDateTime lastEpisodeAt = episodeQueryRepository.findLastEpisodeAtExceptDeletedEpisode(novel.getId(), episode.getId());
         LocalDate lastEpisodePublishDate = toLastEpisodePublishDate(lastEpisodeAt);
 
         // 소설에 더 이상 회차가 한개도 존재하지 않으면 자연스럽게 null로 설정

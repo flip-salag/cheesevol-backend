@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public record NovelViewCountCursor(
 
-        long lastNovelId,
-        int lastTotalViewCount,
+        long novelId,
+        int totalViewCount,
         LocalDate lastEpisodePublishDate
 ) implements NovelCursor {}

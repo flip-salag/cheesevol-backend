@@ -18,7 +18,7 @@ public class NovelLikeCountPagingStrategy extends AbstractNovelPagingStrategy {
     protected OrderSpecifier<?>[] applyOrder() {
         return new OrderSpecifier[] {
                 novel.likeCount.desc(),
-                novel.lastEpisodePublishDate.desc(),
+                novel.totalViewCount.desc(),
                 novel.id.desc()
         };
     }
@@ -26,27 +26,27 @@ public class NovelLikeCountPagingStrategy extends AbstractNovelPagingStrategy {
     @Override
     protected BooleanExpression applyCursor(NovelCursor cursor) {
         NovelLikeCountCursor likeCountCursor = (NovelLikeCountCursor) cursor;
-        return novel.likeCount.lt(likeCountCursor.lastLikeCount())
+        return novel.likeCount.lt(likeCountCursor.likeCount())
                 .or(
-                        novel.likeCount.eq(likeCountCursor.lastLikeCount())
+                        novel.likeCount.eq(likeCountCursor.likeCount())
                                 .and(
-                                        novel.lastEpisodePublishDate.lt(likeCountCursor.lastEpisodePublishDate())
+                                        novel.totalViewCount.lt(likeCountCursor.totalViewCount())
                                 )
                 )
                 .or(
-                        novel.likeCount.eq(likeCountCursor.lastLikeCount())
+                        novel.likeCount.eq(likeCountCursor.likeCount())
                                 .and(
-                                        novel.lastEpisodePublishDate.eq(likeCountCursor.lastEpisodePublishDate())
+                                        novel.totalViewCount.eq(likeCountCursor.totalViewCount())
                                 )
                                 .and(
-                                        novel.id.lt(likeCountCursor.lastNovelId())
+                                        novel.id.lt(likeCountCursor.novelId())
                                 )
                 );
     }
 
     @Override
     public NovelCursor createCursor(Novel lastResult) {
-        return new NovelLikeCountCursor(lastResult.getId(), lastResult.getLikeCount(), lastResult.getLastEpisodePublishDate());
+        return new NovelLikeCountCursor(lastResult.getId(), lastResult.getLikeCount(), lastResult.getTotalViewCount());
     }
 
     @Override

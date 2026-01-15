@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 import static com.iucyh.novelservice.novel.domain.QNovel.novel;
@@ -68,14 +70,13 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
 
     @Override
     public List<Novel> findNewNovels(NovelPagingCondition condition, NovelPagingStrategy strategy, NovelCategory category) {
-        LocalDateTime thisMonth = getThisMonth();
         JPAQuery<Novel> query = queryFactory
                 .selectFrom(novel)
                 .join(novel.user, user).fetchJoin()
                 .where(
                         applyValidNovelFilter(),
                         applyCategoryFilter(category),
-                        novel.createdAt.goe(thisMonth)
+                        applyNewNovelFilter()
                 )
                 .limit(condition.limit());
 
@@ -101,12 +102,17 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
         return category == null ? null : novel.category.eq(category);
     }
 
-    private LocalDateTime getThisMonth() {
-        return LocalDateTime.now()
-                .withDayOfMonth(1)
-                .withHour(0)
-                .withMinute(0)
-                .withSecond(0)
-                .withNano(0);
+    /**
+     * <p>신작 소설만 조회하기 위한 필터 적용</p>
+     */
+    private BooleanExpression applyNewNovelFilter() {
+        LocalDateTime now = LocalDateTime.now();
+        return novel.createdAt.goe(
+                now.with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN)
+        ).and(
+                novel.createdAt.lt(
+                        now.with(TemporalAdjusters.firstDayOfNextMonth()).with(LocalTime.MIN)
+                )
+        );
     }
 }

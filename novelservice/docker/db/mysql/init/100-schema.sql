@@ -24,7 +24,6 @@ CREATE TABLE `novel`
     description               VARCHAR(500) NOT NULL DEFAULT '',
     category                  VARCHAR(50)  NOT NULL,
     common_episode_count      INT          NOT NULL DEFAULT 0,
-    has_common_episode        BOOLEAN      NOT NULL DEFAULT FALSE,
     like_count                INT          NOT NULL DEFAULT 0,
     total_view_count          INT          NOT NULL DEFAULT 0,
     period_view_count         INT          NOT NULL DEFAULT 0,

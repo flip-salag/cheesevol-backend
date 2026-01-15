@@ -52,9 +52,6 @@ public class Novel extends PublicEntity {
     private LocalDate lastEpisodePublishDate;
 
     @Column(nullable = false)
-    private Boolean hasCommonEpisode = false;
-
-    @Column(nullable = false)
     private Boolean isCompleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -87,12 +84,6 @@ public class Novel extends PublicEntity {
     public void updateCategory(NovelCategory category) {
         if (category != null) {
             this.category = category;
-        }
-    }
-
-    public void updateHasCommonEpisode(Boolean hasCommonEpisode) {
-        if (!this.hasCommonEpisode.equals(hasCommonEpisode)) {
-            this.hasCommonEpisode = hasCommonEpisode;
         }
     }
 

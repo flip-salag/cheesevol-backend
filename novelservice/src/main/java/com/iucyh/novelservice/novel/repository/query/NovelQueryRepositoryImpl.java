@@ -94,7 +94,7 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
      */
     private BooleanExpression applyValidNovelFilter() {
         return novel.deletedAt.isNull()
-                .and(novel.hasCommonEpisode.isTrue());
+                .and(novel.commonEpisodeCount.gt(0));
     }
 
     private BooleanExpression applyCategoryFilter(NovelCategory category) {

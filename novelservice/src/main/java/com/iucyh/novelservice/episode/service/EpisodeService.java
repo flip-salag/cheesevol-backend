@@ -52,7 +52,6 @@ public class EpisodeService {
         // COMMON 회차 생성 시 관련 컬럼 업데이트
         if (command.episodeType() == EpisodeType.COMMON) {
             novel.updateMaxEpisodeNumber(savedEpisode.getEpisodeNumber());
-            novel.updateHasCommonEpisode(true);
             novelRepository.increaseCommonEpisodeCount(novel.getId());
         }
 
@@ -89,12 +88,6 @@ public class EpisodeService {
 
         // COMMON 회차와 관련된 컬럼 업데이트 (삭제하려는 회차가 COMMON이 아니라면 COMMON과 관련된 상태는 변하지 않으므로 업데이트 스킵)
         if (episode.getEpisodeType() == EpisodeType.COMMON) {
-            boolean hasCommonEpisode = episodeQueryRepository.episodeExistsByNovelIdAndEpisodeType(novel.getId(), EpisodeType.COMMON, episode.getId());
-            if (!hasCommonEpisode) {
-                // novel에 더 이상 일반 회차가 한개도 존재하지 않으면 hasCommonEpisode를 false로 변경 (회차 존재 여부 조회 시 삭제중인 회차, 삭제된 회차는 제외)
-                novel.updateHasCommonEpisode(false);
-            }
-
             // DB 레벨에서 음수값 방지
             novelRepository.decreaseCommonEpisodeCount(novel.getId());
         }

@@ -44,21 +44,6 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
     }
 
     @Override
-    public boolean episodeExistsByNovelIdAndEpisodeType(Long novelId, EpisodeType episodeType, Long id) {
-        Integer result = queryFactory
-                .selectOne()
-                .from(episode)
-                .where(
-                        episode.novel.id.eq(novelId),
-                        episode.episodeType.eq(episodeType),
-                        episode.id.ne(id),
-                        episode.deletedAt.isNull()
-                )
-                .fetchFirst();
-        return result != null;
-    }
-
-    @Override
     public LocalDateTime findLastEpisodeAtExceptDeletedEpisode(Long novelId, Long id) {
         return queryFactory
                 .select(episode.createdAt)

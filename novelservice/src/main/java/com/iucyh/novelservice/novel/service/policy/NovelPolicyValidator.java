@@ -19,7 +19,7 @@ public class NovelPolicyValidator {
 
     /**
      * <p>{@code cursor}가 반환하는 {@code NovelSortType}과 전달된 {@code sortType}이 일치하는지 검증</p>
-     * @param cursor NovelCursor 객체로 디코딩 된 클라이언트로부터 전달받은 커서
+     * @param cursor {@code NovelCursor} 객체로 디코딩 된 클라이언트로부터 전달받은 커서
      * @param sortType 클라이언트로부터 전달받은 정렬 기준
      * @throws InvalidNovelCursor 커서가 해당 정렬기준과 맞지 않을 때
      */

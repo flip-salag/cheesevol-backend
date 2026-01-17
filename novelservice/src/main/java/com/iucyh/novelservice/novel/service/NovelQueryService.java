@@ -68,7 +68,7 @@ public class NovelQueryService {
             BiFunction<NovelPagingCondition, NovelPagingStrategy, List<Novel>> finder
     ) {
         NovelCursor decodedCursor = null;
-        if (cursor != null) {
+        if (cursor != null && !cursor.isBlank()) {
             decodedCursor = cursorCodec.decode(cursor, sortType.getSupportedCursorClass());
             // JSON은 필드 순서를 신경쓰지 않기 때문에 필드명만 같다면 서로 다른 정렬 기준끼리도 커서가 호환될 수 있으므로 별도로 추가 검증
             novelPolicyValidator.validateNovelCursorMatchesSortType(decodedCursor, sortType);

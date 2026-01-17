@@ -23,7 +23,7 @@ public class NovelPolicyValidator {
      * @param sortType 클라이언트로부터 전달받은 정렬 기준
      * @throws InvalidNovelCursor 커서가 해당 정렬기준과 맞지 않을 때
      */
-    public void validateNovelCursorMatchesSortType(NovelCursor cursor, NovelSortType sortType) {
+    public void validateNovelCursorMatchesSortType(NovelCursor cursor, NovelSortType sortType) throws InvalidNovelCursor {
         if (cursor.getSortType() != sortType) {
             throw new InvalidNovelCursor();
         }

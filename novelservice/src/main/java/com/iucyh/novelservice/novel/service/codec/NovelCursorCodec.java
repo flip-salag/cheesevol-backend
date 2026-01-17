@@ -1,6 +1,5 @@
 package com.iucyh.novelservice.novel.service.codec;
 
-import com.iucyh.novelservice.novel.exception.InvalidNovelCursor;
 import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
 
 public interface NovelCursorCodec {
@@ -18,5 +17,5 @@ public interface NovelCursorCodec {
      * @param type 디코딩 될 {@code NovelCursor} Class
      * @return 전달된 문자열 값을 기반으로 디코딩 된 {@code NovelCursor}
      */
-    <T extends NovelCursor> NovelCursor decode(String cursor, Class<T> type);
+    <T extends NovelCursor> T decode(String cursor, Class<T> type);
 }

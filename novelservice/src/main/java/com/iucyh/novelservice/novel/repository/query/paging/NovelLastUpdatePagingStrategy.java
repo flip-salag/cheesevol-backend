@@ -26,20 +26,20 @@ public class NovelLastUpdatePagingStrategy extends AbstractNovelPagingStrategy {
     @Override
     protected BooleanExpression applyCursor(NovelCursor cursor) {
         NovelLastUpdateCursor lastUpdateCursor = (NovelLastUpdateCursor) cursor;
-        return novel.lastEpisodePublishDate.lt(lastUpdateCursor.lastEpisodePublishDate())
+        return novel.lastEpisodePublishDate.lt(lastUpdateCursor.getLastEpisodePublishDate())
                 .or(
-                        novel.lastEpisodePublishDate.eq(lastUpdateCursor.lastEpisodePublishDate())
+                        novel.lastEpisodePublishDate.eq(lastUpdateCursor.getLastEpisodePublishDate())
                                 .and(
-                                        novel.totalViewCount.lt(lastUpdateCursor.totalViewCount())
+                                        novel.totalViewCount.lt(lastUpdateCursor.getTotalViewCount())
                                 )
                 )
                 .or(
-                        novel.lastEpisodePublishDate.eq(lastUpdateCursor.lastEpisodePublishDate())
+                        novel.lastEpisodePublishDate.eq(lastUpdateCursor.getLastEpisodePublishDate())
                                 .and(
-                                        novel.totalViewCount.eq(lastUpdateCursor.totalViewCount())
+                                        novel.totalViewCount.eq(lastUpdateCursor.getTotalViewCount())
                                 )
                                 .and(
-                                        novel.id.lt(lastUpdateCursor.novelId())
+                                        novel.id.lt(lastUpdateCursor.getNovelId())
                                 )
                 );
     }
@@ -52,7 +52,7 @@ public class NovelLastUpdatePagingStrategy extends AbstractNovelPagingStrategy {
 
     @Override
     public NovelCursor createCursor(Novel lastResult) {
-        return new NovelLastUpdateCursor(lastResult.getId(), lastResult.getLastEpisodePublishDate(), lastResult.getTotalViewCount());
+        return NovelLastUpdateCursor.of(lastResult.getId(), lastResult.getLastEpisodePublishDate(), lastResult.getTotalViewCount());
     }
 
     @Override

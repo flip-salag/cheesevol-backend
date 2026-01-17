@@ -26,27 +26,27 @@ public class NovelLikeCountPagingStrategy extends AbstractNovelPagingStrategy {
     @Override
     protected BooleanExpression applyCursor(NovelCursor cursor) {
         NovelLikeCountCursor likeCountCursor = (NovelLikeCountCursor) cursor;
-        return novel.likeCount.lt(likeCountCursor.likeCount())
+        return novel.likeCount.lt(likeCountCursor.getLikeCount())
                 .or(
-                        novel.likeCount.eq(likeCountCursor.likeCount())
+                        novel.likeCount.eq(likeCountCursor.getLikeCount())
                                 .and(
-                                        novel.totalViewCount.lt(likeCountCursor.totalViewCount())
+                                        novel.totalViewCount.lt(likeCountCursor.getTotalViewCount())
                                 )
                 )
                 .or(
-                        novel.likeCount.eq(likeCountCursor.likeCount())
+                        novel.likeCount.eq(likeCountCursor.getLikeCount())
                                 .and(
-                                        novel.totalViewCount.eq(likeCountCursor.totalViewCount())
+                                        novel.totalViewCount.eq(likeCountCursor.getTotalViewCount())
                                 )
                                 .and(
-                                        novel.id.lt(likeCountCursor.novelId())
+                                        novel.id.lt(likeCountCursor.getNovelId())
                                 )
                 );
     }
 
     @Override
     public NovelCursor createCursor(Novel lastResult) {
-        return new NovelLikeCountCursor(lastResult.getId(), lastResult.getLikeCount(), lastResult.getTotalViewCount());
+        return NovelLikeCountCursor.of(lastResult.getId(), lastResult.getLikeCount(), lastResult.getTotalViewCount());
     }
 
     @Override

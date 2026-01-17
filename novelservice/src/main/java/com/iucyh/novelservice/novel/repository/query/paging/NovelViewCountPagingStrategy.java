@@ -26,20 +26,20 @@ public class NovelViewCountPagingStrategy extends AbstractNovelPagingStrategy {
     @Override
     protected BooleanExpression applyCursor(NovelCursor cursor) {
         NovelViewCountCursor viewCountCursor = (NovelViewCountCursor) cursor;
-        return novel.totalViewCount.lt(viewCountCursor.totalViewCount())
+        return novel.totalViewCount.lt(viewCountCursor.getTotalViewCount())
                 .or(
-                        novel.totalViewCount.eq(viewCountCursor.totalViewCount())
+                        novel.totalViewCount.eq(viewCountCursor.getTotalViewCount())
                                 .and(
-                                        novel.lastEpisodePublishDate.lt(viewCountCursor.lastEpisodePublishDate())
+                                        novel.lastEpisodePublishDate.lt(viewCountCursor.getLastEpisodePublishDate())
                                 )
                 )
                 .or(
-                        novel.totalViewCount.eq(viewCountCursor.totalViewCount())
+                        novel.totalViewCount.eq(viewCountCursor.getTotalViewCount())
                                 .and(
-                                        novel.lastEpisodePublishDate.eq(viewCountCursor.lastEpisodePublishDate())
+                                        novel.lastEpisodePublishDate.eq(viewCountCursor.getLastEpisodePublishDate())
                                 )
                                 .and(
-                                        novel.id.lt(viewCountCursor.novelId())
+                                        novel.id.lt(viewCountCursor.getNovelId())
                                 )
                 );
     }
@@ -52,7 +52,7 @@ public class NovelViewCountPagingStrategy extends AbstractNovelPagingStrategy {
 
     @Override
     public NovelCursor createCursor(Novel lastResult) {
-        return new NovelViewCountCursor(lastResult.getId(), lastResult.getTotalViewCount(), lastResult.getLastEpisodePublishDate());
+        return NovelViewCountCursor.of(lastResult.getId(), lastResult.getTotalViewCount(), lastResult.getLastEpisodePublishDate());
     }
 
     @Override

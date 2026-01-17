@@ -3,11 +3,10 @@ package com.iucyh.novelservice.novel.service.policy;
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
 import com.iucyh.novelservice.novel.domain.Novel;
-import com.iucyh.novelservice.novel.exception.DuplicateNovelTitle;
-import com.iucyh.novelservice.novel.exception.NovelAlreadyCompleted;
-import com.iucyh.novelservice.novel.exception.NovelAlreadyHasPrologue;
-import com.iucyh.novelservice.novel.exception.NovelHasNoCommonEpisodes;
+import com.iucyh.novelservice.novel.enumtype.NovelSortType;
+import com.iucyh.novelservice.novel.exception.*;
 import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
+import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +16,18 @@ public class NovelPolicyValidator {
 
     private final NovelQueryRepository novelQueryRepository;
     private final EpisodeQueryRepository episodeQueryRepository;
+
+    /**
+     * <p>{@code cursor}가 반환하는 {@code NovelSortType}과 전달된 {@code sortType}이 일치하는지 검증</p>
+     * @param cursor {@code NovelCursor} 객체로 디코딩된 클라이언트로부터 전달받은 커서
+     * @param sortType 클라이언트로부터 전달받은 정렬 기준
+     * @throws InvalidNovelCursor 커서가 해당 정렬 기준과 맞지 않을 때
+     */
+    public void validateNovelCursorMatchesSortType(NovelCursor cursor, NovelSortType sortType) throws InvalidNovelCursor {
+        if (cursor.getSortType() != sortType) {
+            throw new InvalidNovelCursor();
+        }
+    }
 
     /**
      * <p>{@code userId}에 해당하는 유저가 작성한 소설 중 전달된 {@code title}과 중복되는 제목을 가진 소설이 없는지 검증</p>

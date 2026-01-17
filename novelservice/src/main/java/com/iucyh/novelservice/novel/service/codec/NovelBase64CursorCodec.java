@@ -18,15 +18,11 @@ public class NovelBase64CursorCodec implements NovelCursorCodec {
     }
 
     @Override
-    public <T extends NovelCursor> NovelCursor decode(String cursor, Class<T> type) throws InvalidNovelCursor {
+    public <T extends NovelCursor> T decode(String cursor, Class<T> type) {
         if (cursor == null || cursor.isBlank()) {
             return null;
         }
 
-        try {
-            return base64Util.decode(cursor, type);
-        } catch (RuntimeException e) {
-            throw new InvalidNovelCursor();
-        }
+        return base64Util.decode(cursor, type);
     }
 }

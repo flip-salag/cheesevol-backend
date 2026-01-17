@@ -247,3 +247,5 @@ SET
 UPDATE episode
 SET deleted_at = NOW()
 WHERE episode_number = 3 AND novel_id IN (@novel4, @novel5);
+
+DROP TEMPORARY TABLE IF EXISTS temp_episode_seq;

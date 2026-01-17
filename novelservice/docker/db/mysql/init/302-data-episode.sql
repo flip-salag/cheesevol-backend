@@ -1,13 +1,13 @@
 USE `novel_service`;
 
-SET @novel1 = (SELECT novel_id FROM novel WHERE title = 'novel-1');
-SET @novel2 = (SELECT novel_id FROM novel WHERE title = 'novel-2');
-SET @novel3 = (SELECT novel_id FROM novel WHERE title = 'novel-3');
-SET @novel4 = (SELECT novel_id FROM novel WHERE title = 'novel-4');
-SET @novel5 = (SELECT novel_id FROM novel WHERE title = 'novel-5');
-SET @novel6 = (SELECT novel_id FROM novel WHERE title = 'novel-6');
-SET @novel7 = (SELECT novel_id FROM novel WHERE title = 'novel-7');
-SET @novel8 = (SELECT novel_id FROM novel WHERE title = 'novel-8');
+SET @novel1 := (SELECT novel_id FROM novel WHERE title = 'novel-1');
+SET @novel2 := (SELECT novel_id FROM novel WHERE title = 'novel-2');
+SET @novel3 := (SELECT novel_id FROM novel WHERE title = 'novel-3');
+SET @novel4 := (SELECT novel_id FROM novel WHERE title = 'novel-4');
+SET @novel5 := (SELECT novel_id FROM novel WHERE title = 'novel-5');
+SET @novel6 := (SELECT novel_id FROM novel WHERE title = 'novel-6');
+SET @novel7 := (SELECT novel_id FROM novel WHERE title = 'novel-7');
+SET @novel8 := (SELECT novel_id FROM novel WHERE title = 'novel-8');
 
 DROP TEMPORARY TABLE IF EXISTS temp_episode_seq;
 CREATE TEMPORARY TABLE temp_episode_seq (ep_no INT NOT NULL);

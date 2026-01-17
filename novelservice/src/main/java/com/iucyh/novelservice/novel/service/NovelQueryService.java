@@ -8,6 +8,7 @@ import com.iucyh.novelservice.novel.service.codec.NovelCursorCodec;
 import com.iucyh.novelservice.novel.service.dto.query.GetNewNovelsQuery;
 import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
 import com.iucyh.novelservice.novel.service.factory.NovelPagingStrategyFactory;
+import com.iucyh.novelservice.novel.service.policy.NovelPolicyValidator;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelDetailResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
@@ -32,6 +33,8 @@ public class NovelQueryService {
     private final NovelPagingStrategyFactory pagingStrategyFactory;
     private final NovelRepository novelRepository;
     private final NovelQueryRepository novelQueryRepository;
+
+    private final NovelPolicyValidator novelPolicyValidator;
 
     public PageWithCursorResponse<NovelSummaryResponse> getNovels(GetNovelsQuery query) {
         return findNovels(query.sortType(), query.cursor(), query.limit(),
@@ -64,8 +67,15 @@ public class NovelQueryService {
             NovelSortType sortType, String cursor, int limit,
             BiFunction<NovelPagingCondition, NovelPagingStrategy, List<Novel>> finder
     ) {
+        NovelCursor decodedCursor = null;
+        if (cursor != null) {
+            decodedCursor = cursorCodec.decode(cursor, sortType.getSupportedCursorClass());
+            // JSON은 필드 순서를 신경쓰지 않기 때문에 필드명만 같다면 서로 다른 정렬 기준끼리도 커서가 호환될 수 있으므로 별도로 추가 검증
+            novelPolicyValidator.validateNovelCursorMatchesSortType(decodedCursor, sortType);
+        }
+
         // 다음 페이지가 있는지 확인하기 위해 limit + 1개 만큼 가져오기(결과의 size가 limit + 1 이라면 다음 페이지 존재)
-        NovelPagingCondition pagingCondition = createPagingCondition(sortType, cursor, limit + 1);
+        NovelPagingCondition pagingCondition = new NovelPagingCondition(decodedCursor, limit + 1);
         NovelPagingStrategy pagingStrategy = pagingStrategyFactory.get(sortType);
 
         List<Novel> result = finder.apply(pagingCondition, pagingStrategy);
@@ -84,11 +94,6 @@ public class NovelQueryService {
 
         List<NovelSummaryResponse> novels = mapToNovelResponseList(pageResult);
         return NovelResponseMapper.toPageResponse(novels, newCursor, limit);
-    }
-
-    private NovelPagingCondition createPagingCondition(NovelSortType sortType, String encodedCursor, int limit) {
-        NovelCursor decodedCursor = cursorCodec.decode(encodedCursor, sortType.getSupportedCursorClass());
-        return new NovelPagingCondition(decodedCursor, limit);
     }
 
     private List<NovelSummaryResponse> mapToNovelResponseList(List<Novel> novels) {

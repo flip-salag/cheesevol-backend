@@ -26,20 +26,20 @@ public class NovelPopularPagingStrategy extends AbstractNovelPagingStrategy {
     @Override
     protected BooleanExpression applyCursor(NovelCursor cursor) {
         NovelPopularCursor popularCursor = (NovelPopularCursor) cursor;
-        return novel.periodViewCount.lt(popularCursor.periodViewCount())
+        return novel.periodViewCount.lt(popularCursor.getPeriodViewCount())
                 .or(
-                        novel.periodViewCount.eq(popularCursor.periodViewCount())
+                        novel.periodViewCount.eq(popularCursor.getPeriodViewCount())
                                 .and(
-                                        novel.lastEpisodePublishDate.lt(popularCursor.lastEpisodePublishDate())
+                                        novel.lastEpisodePublishDate.lt(popularCursor.getLastEpisodePublishDate())
                                 )
                 )
                 .or(
-                        novel.periodViewCount.eq(popularCursor.periodViewCount())
+                        novel.periodViewCount.eq(popularCursor.getPeriodViewCount())
                                 .and(
-                                        novel.lastEpisodePublishDate.eq(popularCursor.lastEpisodePublishDate())
+                                        novel.lastEpisodePublishDate.eq(popularCursor.getLastEpisodePublishDate())
                                 )
                                 .and(
-                                        novel.id.lt(popularCursor.novelId())
+                                        novel.id.lt(popularCursor.getNovelId())
                                 )
                 );
     }
@@ -52,7 +52,7 @@ public class NovelPopularPagingStrategy extends AbstractNovelPagingStrategy {
 
     @Override
     public NovelCursor createCursor(Novel lastResult) {
-        return new NovelPopularCursor(lastResult.getId(), lastResult.getPeriodViewCount(), lastResult.getLastEpisodePublishDate());
+        return NovelPopularCursor.of(lastResult.getId(), lastResult.getPeriodViewCount(), lastResult.getLastEpisodePublishDate());
     }
 
     @Override

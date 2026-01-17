@@ -23,10 +23,6 @@ public class NovelBase64CursorCodec implements NovelCursorCodec {
             return null;
         }
 
-        try {
-            return base64Util.decode(cursor, type);
-        } catch (RuntimeException e) {
-            throw new InvalidNovelCursor();
-        }
+        return base64Util.decode(cursor, type);
     }
 }

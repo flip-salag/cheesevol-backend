@@ -26,7 +26,7 @@ public class NovelBase64CursorCodec implements NovelCursorCodec {
         try {
             return base64Util.decode(cursor, type);
         } catch (IllegalArgumentException e) {
-            throw new InvalidNovelCursor();
+            throw new InvalidNovelCursor(e);
         }
     }
 }

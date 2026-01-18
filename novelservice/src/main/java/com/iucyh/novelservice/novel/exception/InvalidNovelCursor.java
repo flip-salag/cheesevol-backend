@@ -5,7 +5,7 @@ import com.iucyh.novelservice.novel.exception.errorcode.NovelErrorCode;
 
 public class InvalidNovelCursor extends BusinessException {
 
-    public InvalidNovelCursor() {
-        super(NovelErrorCode.INVALID_CURSOR);
+    public InvalidNovelCursor(Throwable cause) {
+        super(NovelErrorCode.INVALID_CURSOR, cause);
     }
 }

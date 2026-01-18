@@ -17,7 +17,7 @@ public interface NovelCursorCodec {
      * @param cursor 디코딩 할 문자열 값
      * @param type 디코딩 될 {@code NovelCursor} 클래스
      * @return 전달된 문자열 값을 기반으로 디코딩 된 {@code NovelCursor}
-     * @throws InvalidNovelCursor 전달된 {@code curosr}가 유효한 값이 아닐 때 (Base64 형식이 아니거나 JSON 역직렬화가 불가능할 때)
+     * @throws InvalidNovelCursor 전달된 {@code cursor}가 유효한 값이 아닐 때 (Base64 형식이 아니거나 JSON 역직렬화가 불가능할 때)
      */
     <T extends NovelCursor> T decode(String cursor, Class<T> type) throws InvalidNovelCursor;
 }

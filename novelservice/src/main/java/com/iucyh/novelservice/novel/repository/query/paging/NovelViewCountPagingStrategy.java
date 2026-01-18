@@ -56,6 +56,11 @@ public class NovelViewCountPagingStrategy extends AbstractNovelPagingStrategy {
     }
 
     @Override
+    public Class<? extends NovelCursor> getCursorClass() {
+        return NovelViewCountCursor.class;
+    }
+
+    @Override
     public NovelSortType getSupportedSortType() {
         return NovelSortType.VIEW_COUNT;
     }

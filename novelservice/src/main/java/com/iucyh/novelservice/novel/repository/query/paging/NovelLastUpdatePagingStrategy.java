@@ -56,6 +56,11 @@ public class NovelLastUpdatePagingStrategy extends AbstractNovelPagingStrategy {
     }
 
     @Override
+    public Class<? extends NovelCursor> getCursorClass() {
+        return NovelLastUpdateCursor.class;
+    }
+
+    @Override
     public NovelSortType getSupportedSortType() {
         return NovelSortType.LAST_UPDATE;
     }

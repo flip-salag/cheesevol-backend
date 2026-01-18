@@ -50,6 +50,11 @@ public class NovelLikeCountPagingStrategy extends AbstractNovelPagingStrategy {
     }
 
     @Override
+    public Class<? extends NovelCursor> getCursorClass() {
+        return NovelLikeCountCursor.class;
+    }
+
+    @Override
     public NovelSortType getSupportedSortType() {
         return NovelSortType.LIKE_COUNT;
     }

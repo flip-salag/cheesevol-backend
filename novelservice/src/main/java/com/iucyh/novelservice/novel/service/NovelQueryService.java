@@ -67,16 +67,17 @@ public class NovelQueryService {
             NovelSortType sortType, String cursor, int limit,
             BiFunction<NovelPagingCondition, NovelPagingStrategy, List<Novel>> finder
     ) {
+        NovelPagingStrategy pagingStrategy = pagingStrategyFactory.get(sortType);
         NovelCursor decodedCursor = null;
+
         if (cursor != null && !cursor.isBlank()) {
-            decodedCursor = cursorCodec.decode(cursor, sortType.getSupportedCursorClass());
+            decodedCursor = cursorCodec.decode(cursor, pagingStrategy.getCursorClass());
             // JSON은 필드 순서를 신경쓰지 않기 때문에 필드명만 같다면 서로 다른 정렬 기준끼리도 커서가 호환될 수 있으므로 별도로 추가 검증
             novelPolicyValidator.validateNovelCursorMatchesSortType(decodedCursor, sortType);
         }
 
         // 다음 페이지가 있는지 확인하기 위해 limit + 1개 만큼 가져오기(결과의 size가 limit + 1 이라면 다음 페이지 존재)
         NovelPagingCondition pagingCondition = new NovelPagingCondition(decodedCursor, limit + 1);
-        NovelPagingStrategy pagingStrategy = pagingStrategyFactory.get(sortType);
 
         List<Novel> result = finder.apply(pagingCondition, pagingStrategy);
 

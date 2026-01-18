@@ -20,12 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SectionQueryService {
 
-    private final NovelPagingStrategyRegistry pagingStrategyFactory;
+    private final NovelPagingStrategyRegistry pagingStrategyRegistry;
     private final NovelQueryRepository novelQueryRepository;
 
     public List<NovelSummaryResponse> getPopularNovels(NovelCategory category) {
         NovelPagingCondition pagingCondition = new NovelPagingCondition(null, 10);
-        NovelPagingStrategy strategy = pagingStrategyFactory.get(NovelSortType.POPULAR);
+        NovelPagingStrategy strategy = pagingStrategyRegistry.get(NovelSortType.POPULAR);
         List<Novel> novels = novelQueryRepository.findNovels(pagingCondition, strategy, category);
 
         return mapToNovelResponseList(novels);
@@ -33,7 +33,7 @@ public class SectionQueryService {
 
     public List<NovelSummaryResponse> getNewNovels() {
         NovelPagingCondition pagingCondition = new NovelPagingCondition(null, 30);
-        NovelPagingStrategy strategy = pagingStrategyFactory.get(NovelSortType.LAST_UPDATE);
+        NovelPagingStrategy strategy = pagingStrategyRegistry.get(NovelSortType.LAST_UPDATE);
         List<Novel> novels = novelQueryRepository.findNewNovels(pagingCondition, strategy, null);
 
         return mapToNovelResponseList(novels);

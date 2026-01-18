@@ -30,7 +30,7 @@ import java.util.function.BiFunction;
 public class NovelQueryService {
 
     private final NovelCursorCodec cursorCodec;
-    private final NovelPagingStrategyRegistry pagingStrategyFactory;
+    private final NovelPagingStrategyRegistry pagingStrategyRegistry;
     private final NovelRepository novelRepository;
     private final NovelQueryRepository novelQueryRepository;
 
@@ -67,7 +67,7 @@ public class NovelQueryService {
             NovelSortType sortType, String cursor, int limit,
             BiFunction<NovelPagingCondition, NovelPagingStrategy, List<Novel>> finder
     ) {
-        NovelPagingStrategy pagingStrategy = pagingStrategyFactory.get(sortType);
+        NovelPagingStrategy pagingStrategy = pagingStrategyRegistry.get(sortType);
         NovelCursor decodedCursor = null;
 
         if (cursor != null && !cursor.isBlank()) {
@@ -78,7 +78,6 @@ public class NovelQueryService {
 
         // 다음 페이지가 있는지 확인하기 위해 limit + 1개 만큼 가져오기(결과의 size가 limit + 1 이라면 다음 페이지 존재)
         NovelPagingCondition pagingCondition = new NovelPagingCondition(decodedCursor, limit + 1);
-
         List<Novel> result = finder.apply(pagingCondition, pagingStrategy);
 
         if (result.isEmpty()) {

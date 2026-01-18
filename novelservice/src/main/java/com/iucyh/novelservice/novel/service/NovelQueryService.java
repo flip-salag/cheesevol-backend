@@ -7,7 +7,7 @@ import com.iucyh.novelservice.novel.repository.NovelRepository;
 import com.iucyh.novelservice.novel.service.codec.NovelCursorCodec;
 import com.iucyh.novelservice.novel.service.dto.query.GetNewNovelsQuery;
 import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
-import com.iucyh.novelservice.novel.service.factory.NovelPagingStrategyFactory;
+import com.iucyh.novelservice.novel.service.registry.NovelPagingStrategyRegistry;
 import com.iucyh.novelservice.novel.service.policy.NovelPolicyValidator;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelDetailResponse;
@@ -30,7 +30,7 @@ import java.util.function.BiFunction;
 public class NovelQueryService {
 
     private final NovelCursorCodec cursorCodec;
-    private final NovelPagingStrategyFactory pagingStrategyFactory;
+    private final NovelPagingStrategyRegistry pagingStrategyFactory;
     private final NovelRepository novelRepository;
     private final NovelQueryRepository novelQueryRepository;
 

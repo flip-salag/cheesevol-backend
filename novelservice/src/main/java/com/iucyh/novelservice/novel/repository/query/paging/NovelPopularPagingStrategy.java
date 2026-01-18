@@ -56,6 +56,11 @@ public class NovelPopularPagingStrategy extends AbstractNovelPagingStrategy {
     }
 
     @Override
+    public Class<? extends NovelCursor> getCursorClass() {
+        return NovelPopularCursor.class;
+    }
+
+    @Override
     public NovelSortType getSupportedSortType() {
         return NovelSortType.POPULAR;
     }

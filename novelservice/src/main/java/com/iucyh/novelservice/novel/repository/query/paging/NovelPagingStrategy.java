@@ -27,6 +27,11 @@ public interface NovelPagingStrategy {
     NovelCursor createCursor(Novel lastResult);
 
     /**
+     * @return 해당 전략이 사용하는 {@code NovelCursor} 클래스
+     */
+    Class<? extends NovelCursor> getCursorClass();
+
+    /**
      * @return 해당 전략이 담당하는 정렬 기준과 매핑되는 {@code NovelSortType}
      */
     NovelSortType getSupportedSortType();

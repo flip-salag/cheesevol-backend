@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 public enum NovelErrorCode implements ErrorCode {
 
     INVALID_CURSOR(HttpStatus.BAD_REQUEST, "NOVEL-4001", "Invalid paging cursor"),
+    CURSOR_NOT_MATCHES_SORT_TYPE(HttpStatus.BAD_REQUEST, "NOVEL-4002", "Cursor doesn't match sort type"),
 
     NOVEL_ALREADY_COMPLETED(HttpStatus.CONFLICT, "NOVEL-4091", "Novel already completed"),
     DUPLICATE_TITLE(HttpStatus.CONFLICT, "NOVEL-4092", "Novel title already exists"),

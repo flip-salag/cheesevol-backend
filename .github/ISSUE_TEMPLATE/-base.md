@@ -1,10 +1,9 @@
 ---
-name: "[feat] 기능 추가"
-about: 새로운 기능을 추가하거나 기존 기능(성능) 개선 시 사용
-title: 'Feature:'
+name: 'base'
+about: 기능 추가, 빌드, 기타 수정 등 bug fix, refactoring이 아닌 모든 작업
+title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ## 📝 개요

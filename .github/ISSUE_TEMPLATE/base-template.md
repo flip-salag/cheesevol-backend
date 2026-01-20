@@ -1,9 +1,10 @@
 ---
-name: 'base'
+name: base-template
 about: 기능 추가, 빌드, 기타 수정 등 bug fix, refactoring이 아닌 모든 작업
 title: ''
 labels: ''
 assignees: ''
+
 ---
 
 ## 📝 개요

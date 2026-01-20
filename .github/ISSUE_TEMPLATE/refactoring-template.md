@@ -1,7 +1,7 @@
 ---
 name: "Refactoring"
 about: 코드, DB 등 리펙토링 작업
-title: ''
+title: 'Refactoring: '
 labels: ''
 assignees: ''
 

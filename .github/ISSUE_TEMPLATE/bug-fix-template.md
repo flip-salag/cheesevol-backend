@@ -1,7 +1,7 @@
 ---
 name: "Bug fix"
 about: 버그 수정 작업
-title: ''
+title: 'Fix: '
 labels: ''
 assignees: ''
 ---

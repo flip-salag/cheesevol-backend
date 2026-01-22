@@ -31,6 +31,7 @@ public class Episode extends PublicEntity {
     @Column(length = EPISODE_DESC_LENGTH_MAX, nullable = false)
     private String description;
 
+    @Lob
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 

@@ -1,5 +1,6 @@
 # novel-service
 ## [이슈 로그](https://lucy-blog.notion.site/2990ad45a877803e85b6d597bbce49e4)
+## [개발 문서](https://lucy-blog.notion.site/Flip-2f20ad45a877802a8a57c382cea7191b)
 ## ERD
 <img width="1830" height="642" alt="novel-service (6)" src="https://github.com/user-attachments/assets/f4d42dbf-efe9-4372-a386-80a7f9e5cac9" />
 

@@ -1,9 +1,10 @@
 # 사락(Flip)
 > 가벼운 도파민 소비형 작품이 아닌, 문학적 깊이와 개성을 지닌 작품을 웹소설처럼 간편하게 읽을 수 있는 플랫폼
-## [이슈 로그](https://lucy-blog.notion.site/2990ad45a877803e85b6d597bbce49e4)
-## [개발 문서](https://lucy-blog.notion.site/Flip-2f20ad45a877802a8a57c382cea7191b)
-## ERD
-<img width="1830" height="642" alt="novel-service (6)" src="https://github.com/user-attachments/assets/f4d42dbf-efe9-4372-a386-80a7f9e5cac9" />
+<div align="left">
+  <a href="https://lucy-blog.notion.site/2990ad45a877803e85b6d597bbce49e4">이슈 로그</a>
+  &nbsp;
+  <a href="https://lucy-blog.notion.site/Flip-2f20ad45a877802a8a57c382cea7191b">개발 문서</a>
+</div>
 
 ## 기술 스택
 ### 개발 환경

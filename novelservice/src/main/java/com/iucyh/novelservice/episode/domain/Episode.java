@@ -8,6 +8,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 import static com.iucyh.novelservice.episode.constant.EpisodeConstants.*;
 
 @Entity
@@ -41,17 +43,21 @@ public class Episode extends PublicEntity {
     @Column(nullable = false)
     private Integer viewCount = 0;
 
+    @Column(nullable = false)
+    private LocalDateTime publishedAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "novel_id", nullable = false)
     private Novel novel;
 
-    public static Episode of(EpisodeType episodeType, String title, String description, String content, Integer episodeNumber, Novel novel) {
+    public static Episode of(EpisodeType episodeType, String title, String description, String content, Integer episodeNumber, LocalDateTime publishedAt, Novel novel) {
         Episode episode = new Episode();
         episode.episodeType = episodeType;
         episode.title = title.strip();
         episode.description = description;
         episode.content = content;
         episode.episodeNumber = episodeNumber;
+        episode.publishedAt = publishedAt;
         episode.novel = novel;
         return episode;
     }

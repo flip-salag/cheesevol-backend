@@ -96,14 +96,14 @@ public class EpisodeService {
     private Episode createCommonEpisode(CreateEpisodeCommand command, Novel novel) {
         int newEpisodeNumber = novel.getMaxEpisodeNumber() + 1;
 
-        Episode episode = EpisodeCommandMapper.toEpisode(command, novel, newEpisodeNumber);
+        Episode episode = EpisodeCommandMapper.toEpisode(command, novel, newEpisodeNumber, LocalDateTime.now());
         return episodeRepository.save(episode);
     }
 
     private Episode createPrologueEpisode(CreateEpisodeCommand command, Novel novel) {
         novelPolicyValidator.validateNovelHasNoPrologueEpisode(novel.getId()); // 프롤로그는 소설 당 1개만 존재가능
 
-        Episode episode = EpisodeCommandMapper.toEpisode(command, novel, 0);
+        Episode episode = EpisodeCommandMapper.toEpisode(command, novel, 0, LocalDateTime.now());
         return episodeRepository.save(episode);
     }
 

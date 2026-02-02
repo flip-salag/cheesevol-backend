@@ -54,15 +54,19 @@ public class Novel extends PublicEntity {
     @Column(nullable = false)
     private Boolean isCompleted = false;
 
+    @Column(nullable = false)
+    private LocalDateTime publishedAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public static Novel of(String title, String description, NovelCategory category, User user) {
+    public static Novel of(String title, String description, NovelCategory category, LocalDateTime publishedAt, User user) {
         Novel novel = new Novel();
         novel.title = title.strip();
         novel.description = description;
         novel.category = category;
+        novel.publishedAt = publishedAt;
         novel.user = user;
         return novel;
     }

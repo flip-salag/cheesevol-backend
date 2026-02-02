@@ -20,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -38,7 +40,7 @@ public class NovelService {
         // 같은 작가의 소설 중 중복되는 제목이 있다면 소설 생성 불가
         novelPolicyValidator.validateTitleNotDuplicatedInUserNovels(command.title(), userId);
 
-        Novel newNovel = NovelCommandMapper.toNovel(command, user);
+        Novel newNovel = NovelCommandMapper.toNovel(command, user, LocalDateTime.now());
         Novel savedNovel = novelRepository.save(newNovel);
 
         return NovelResponseMapper.toNovelSaveResponse(savedNovel);

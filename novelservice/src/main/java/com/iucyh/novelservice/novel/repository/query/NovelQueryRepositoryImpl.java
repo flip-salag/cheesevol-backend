@@ -107,10 +107,10 @@ public class NovelQueryRepositoryImpl implements NovelQueryRepository {
      */
     private BooleanExpression applyNewNovelFilter() {
         LocalDateTime now = LocalDateTime.now();
-        return novel.createdAt.goe(
+        return novel.publishedAt.goe(
                 now.with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN)
         ).and(
-                novel.createdAt.lt(
+                novel.publishedAt.lt(
                         now.with(TemporalAdjusters.firstDayOfNextMonth()).with(LocalTime.MIN)
                 )
         );

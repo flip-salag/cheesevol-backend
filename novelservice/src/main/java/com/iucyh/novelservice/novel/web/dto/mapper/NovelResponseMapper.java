@@ -47,7 +47,7 @@ public class NovelResponseMapper {
                 novel.getLikeCount(),
                 novel.getTotalViewCount(),
                 novel.isCompletedNovel(),
-                novel.getCreatedAt(),
+                novel.getPublishedAt(),
                 author
         );
     }

@@ -15,6 +15,6 @@ public record NovelDetailResponse(
         int likeCount,
         int totalViewCount,
         boolean isCompleted,
-        LocalDateTime createdAt,
+        LocalDateTime publishedAt,
         UserBasicInfo author
 ) {}

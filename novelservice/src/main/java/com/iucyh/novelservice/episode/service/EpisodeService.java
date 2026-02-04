@@ -46,7 +46,7 @@ public class EpisodeService {
             case COMMON -> createCommonEpisode(command, novel);
             case PROLOGUE -> createPrologueEpisode(command, novel);
         };
-        LocalDate lastEpisodePublishDate = toLastEpisodePublishDate(savedEpisode.getCreatedAt());
+        LocalDate lastEpisodePublishDate = toLastEpisodePublishDate(savedEpisode.getPublishedAt());
         novel.updateLastEpisodePublishDate(lastEpisodePublishDate);
 
         // COMMON 회차 생성 시 관련 컬럼 업데이트

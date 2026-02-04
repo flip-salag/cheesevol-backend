@@ -12,5 +12,5 @@ public record EpisodeSummaryResponse(
         String title,
         String description,
         int viewCount,
-        LocalDateTime createdAt
+        LocalDateTime publishedAt
 ) {}

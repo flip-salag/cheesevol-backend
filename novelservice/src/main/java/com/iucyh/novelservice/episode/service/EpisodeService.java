@@ -46,7 +46,7 @@ public class EpisodeService {
             case COMMON -> createCommonEpisode(command, novel);
             case PROLOGUE -> createPrologueEpisode(command, novel);
         };
-        LocalDate lastEpisodePublishDate = toLastEpisodePublishDate(savedEpisode.getCreatedAt());
+        LocalDate lastEpisodePublishDate = toLastEpisodePublishDate(savedEpisode.getPublishedAt());
         novel.updateLastEpisodePublishDate(lastEpisodePublishDate);
 
         // COMMON 회차 생성 시 관련 컬럼 업데이트
@@ -108,12 +108,12 @@ public class EpisodeService {
     }
 
     /**
-     * <p>전달받은 {@code LocalDateTime} 타입의 회차 등록일을 {@code LocalDate} 타입의 마지막 회차 발행일로 변환</p>
-     * @param episodeCreatedAt 변환할 회차의 등록일
-     * @return 변환된 결과, episodeCreatedAt이 null이라면 그 값 그대로 반환
+     * <p>전달받은 {@code LocalDateTime} 타입의 회차 발행일시를 {@code LocalDate} 타입의 마지막 회차 발행일로 변환</p>
+     * @param episodePublishedAt 변환할 회차의 발행일시
+     * @return 변환된 결과, episodePublishedAt이 null이라면 그 값 그대로 반환
      */
-    private LocalDate toLastEpisodePublishDate(LocalDateTime episodeCreatedAt) {
-        return episodeCreatedAt == null ? null : episodeCreatedAt.toLocalDate();
+    private LocalDate toLastEpisodePublishDate(LocalDateTime episodePublishedAt) {
+        return episodePublishedAt == null ? null : episodePublishedAt.toLocalDate();
     }
 
     private Novel findNovelWithUserId(long userId, String novelPublicId) {

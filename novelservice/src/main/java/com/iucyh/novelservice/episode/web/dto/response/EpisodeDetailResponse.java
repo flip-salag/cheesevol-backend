@@ -12,7 +12,7 @@ public record EpisodeDetailResponse(
         EpisodeType episodeType,
         String title,
         String description,
-        LocalDateTime createdAt,
+        LocalDateTime publishedAt,
         NovelInfo novel,
         EpisodePrevNext prevNext
 ) {

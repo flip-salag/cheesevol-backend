@@ -158,7 +158,7 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
                                 episode.description,
                                 episode.viewCount,
                                 episode.episodeNumber,
-                                episode.createdAt
+                                episode.publishedAt
                         )
                 )
                 .from(episode)

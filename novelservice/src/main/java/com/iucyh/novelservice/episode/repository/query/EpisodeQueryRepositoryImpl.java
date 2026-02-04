@@ -111,7 +111,7 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
                                 episode.title,
                                 episode.description,
                                 episode.episodeNumber,
-                                episode.createdAt,
+                                episode.publishedAt,
 
                                 novel.id,
                                 novel.publicId,

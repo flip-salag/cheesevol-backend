@@ -20,13 +20,13 @@ public interface EpisodeQueryRepository {
     boolean episodeExistsByNovelIdAndEpisodeType(Long novelId, EpisodeType episodeType);
 
     /**
-     * <p>{@code novelId}에 해당하는 소설에 속한 회차 중 가장 최신 회차의 생성일 조회</p>
+     * <p>{@code novelId}에 해당하는 소설에 속한 회차 중 가장 최신 회차의 발행일 조회</p>
      * <p>전달된 {@code id}에 해당하는 회차와 삭제된 회차를 제외하고 나머지를 대상으로 조회</p>
      * @param novelId 조회할 회차들이 속한 소설의 id
      * @param id 추가로 제외할 회차의 pk
-     * @return 가장 최신 회차의 생성일, 결과가 없다면 {@code null}
+     * @return 가장 최신 회차의 발행일, 결과가 없다면 {@code null}
      */
-    LocalDateTime findLastEpisodeAtExceptDeletedEpisode(Long novelId, Long id);
+    LocalDateTime findLastEpisodePublishedAt(Long novelId, Long id);
 
     /**
      * <p>현재 회차의 이전 회차 조회</p>

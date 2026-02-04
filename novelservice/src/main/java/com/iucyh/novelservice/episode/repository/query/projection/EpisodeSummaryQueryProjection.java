@@ -15,13 +15,13 @@ public class EpisodeSummaryQueryProjection {
     private final String description;
     private final Integer viewCount;
     private final Integer episodeNumber;
-    private final LocalDateTime createdAt;
+    private final LocalDateTime publishedAt;
 
     @QueryProjection
     public EpisodeSummaryQueryProjection(
             String publicId, EpisodeType episodeType, String title, String description,
             Integer viewCount, Integer episodeNumber,
-            LocalDateTime createdAt
+            LocalDateTime publishedAt
     ) {
         this.publicId = publicId;
         this.episodeType = episodeType;
@@ -29,6 +29,6 @@ public class EpisodeSummaryQueryProjection {
         this.description = description;
         this.viewCount = viewCount;
         this.episodeNumber = episodeNumber;
-        this.createdAt = createdAt;
+        this.publishedAt = publishedAt;
     }
 }

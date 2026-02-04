@@ -34,7 +34,7 @@ public class EpisodeResponseMapper {
                 episode.getTitle(),
                 episode.getDescription(),
                 episode.getViewCount(),
-                episode.getCreatedAt()
+                episode.getPublishedAt()
         );
     }
 
@@ -54,7 +54,7 @@ public class EpisodeResponseMapper {
                 episodeDetail.getEpisodeType(),
                 episodeDetail.getEpisodeTitle(),
                 episodeDetail.getEpisodeDescription(),
-                episodeDetail.getEpisodeCreatedAt(),
+                episodeDetail.getEpisodePublishedAt(),
                 novelInfo,
                 episodePrevNext
         );

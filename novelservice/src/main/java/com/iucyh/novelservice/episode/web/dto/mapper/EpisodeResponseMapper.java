@@ -54,7 +54,7 @@ public class EpisodeResponseMapper {
                 episodeDetail.getEpisodeType(),
                 episodeDetail.getEpisodeTitle(),
                 episodeDetail.getEpisodeDescription(),
-                episodeDetail.getEpisodeCreatedAt(),
+                episodeDetail.getEpisodePublishedAt(),
                 novelInfo,
                 episodePrevNext
         );

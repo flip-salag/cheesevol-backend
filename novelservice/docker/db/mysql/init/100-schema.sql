@@ -1,4 +1,4 @@
-USE `novel_service`;
+USE novel_service;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
@@ -8,9 +8,9 @@ CREATE TABLE `user`
     email      VARCHAR(320) NOT NULL UNIQUE,
     password   VARCHAR(255) NOT NULL,
     nickname   VARCHAR(20)  NOT NULL,
-    bio        VARCHAR(100) NOT NULL DEFAULT '',
-    created_at DATETIME     NOT NULL DEFAULT NOW(),
-    updated_at DATETIME     NOT NULL DEFAULT NOW(),
+    bio        VARCHAR(100) NOT NULL,
+    created_at DATETIME     NOT NULL,
+    updated_at DATETIME     NOT NULL,
     deleted_at DATETIME NULL
 );
 
@@ -21,7 +21,7 @@ CREATE TABLE `novel`
     user_id                   BIGINT       NOT NULL,
     public_id                 VARCHAR(25)  NOT NULL UNIQUE,
     title                     VARCHAR(50)  NOT NULL,
-    description               VARCHAR(500) NOT NULL DEFAULT '',
+    description               VARCHAR(500) NOT NULL,
     category                  VARCHAR(50)  NOT NULL,
     common_episode_count      INT          NOT NULL DEFAULT 0,
     like_count                INT          NOT NULL DEFAULT 0,
@@ -29,10 +29,10 @@ CREATE TABLE `novel`
     period_view_count         INT          NOT NULL DEFAULT 0,
     max_episode_number        INT          NOT NULL DEFAULT 0,
     last_episode_publish_date DATE NULL,
-    is_completed              BOOLEAN      NOT NULL DEFAULT FALSE,
+    is_completed              BOOLEAN      NOT NULL,
     published_at              DATETIME     NOT NULL,
-    created_at                DATETIME     NOT NULL DEFAULT NOW(),
-    updated_at                DATETIME     NOT NULL DEFAULT NOW(),
+    created_at                DATETIME     NOT NULL,
+    updated_at                DATETIME     NOT NULL,
     deleted_at                DATETIME NULL,
 
     CONSTRAINT fk_novel_user FOREIGN KEY (user_id) REFERENCES user (user_id),
@@ -47,13 +47,13 @@ CREATE TABLE `episode`
     public_id      VARCHAR(25) NOT NULL UNIQUE,
     episode_type   VARCHAR(50) NOT NULL,
     title          VARCHAR(50) NOT NULL,
-    description    VARCHAR(35) NOT NULL DEFAULT '',
+    description    VARCHAR(35) NOT NULL,
     content        TEXT        NOT NULL,
     episode_number INT         NOT NULL,
     view_count     INT         NOT NULL DEFAULT 0,
     published_at   DATETIME    NOT NULL,
-    created_at     DATETIME    NOT NULL DEFAULT NOW(),
-    updated_at     DATETIME    NOT NULL DEFAULT NOW(),
+    created_at     DATETIME    NOT NULL,
+    updated_at     DATETIME    NOT NULL,
     deleted_at     DATETIME NULL,
 
     CONSTRAINT fk_episode_novel FOREIGN KEY (novel_id) REFERENCES novel (novel_id),
@@ -66,7 +66,7 @@ CREATE TABLE `novel_like`
     novel_like_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id       BIGINT   NOT NULL,
     novel_id      BIGINT   NOT NULL,
-    created_at    DATETIME NOT NULL DEFAULT NOW(),
+    created_at    DATETIME NOT NULL,
 
     CONSTRAINT fk_novel_like_user FOREIGN KEY (user_id) REFERENCES user (user_id),
     CONSTRAINT fk_novel_like_novel FOREIGN KEY (novel_id) REFERENCES novel (novel_id),
@@ -94,7 +94,7 @@ CREATE TABLE `novel_period_stats`
     start_date           DATE        NOT NULL,
     end_date             DATE        NOT NULL,
     view_count           INT         NOT NULL DEFAULT 0,
-    updated_at           DATETIME    NOT NULL DEFAULT NOW(),
+    updated_at           DATETIME    NOT NULL,
 
     CONSTRAINT fk_novel_period_stat_novel FOREIGN KEY (novel_id) REFERENCES novel (novel_id),
     UNIQUE KEY uq_novel_start_end (novel_id, period_type, start_date, end_date)

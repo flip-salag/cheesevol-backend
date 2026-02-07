@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS temp_episode_seq;
 CREATE TABLE temp_episode_seq (ep_no INT NOT NULL);
 INSERT INTO temp_episode_seq VALUES (0), (1), (2), (3), (4), (5);
 
-INSERT INTO episode (novel_id, public_id, episode_type, title, description, content, episode_number, view_count, published_at, deleted_at)
+INSERT INTO episode (novel_id, public_id, episode_type, title, description, content, episode_number, view_count, published_at, created_at, updated_at, deleted_at)
 -- ==== novel 1 ====
 SELECT
     n.novel_id,
@@ -40,6 +40,8 @@ SELECT
     e.ep_no,
     1000 + (e.ep_no * 5),
     DATE_ADD(n.published_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.created_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.updated_at, INTERVAL (e.ep_no + 2) DAY),
     n.deleted_at
 FROM temp_episode_seq e
 JOIN (
@@ -68,6 +70,8 @@ SELECT
     e.ep_no,
     1000 + (e.ep_no * 5),
     DATE_ADD(n.published_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.created_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.updated_at, INTERVAL (e.ep_no + 2) DAY),
     n.deleted_at
 FROM temp_episode_seq e
 JOIN (
@@ -95,6 +99,8 @@ SELECT
     e.ep_no,
     1000 + (e.ep_no * 5),
     DATE_ADD(n.published_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.created_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.updated_at, INTERVAL (e.ep_no + 2) DAY),
     n.deleted_at
 FROM temp_episode_seq e
 JOIN (
@@ -122,6 +128,8 @@ SELECT
     e.ep_no,
     1000 + (e.ep_no * 5),
     DATE_ADD(n.published_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.created_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.updated_at, INTERVAL (e.ep_no + 2) DAY),
     n.deleted_at
 FROM temp_episode_seq e
 JOIN (
@@ -150,6 +158,8 @@ SELECT
     e.ep_no,
     1000 + (e.ep_no * 5),
     DATE_ADD(n.published_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.created_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.updated_at, INTERVAL (e.ep_no + 2) DAY),
     n.deleted_at
 FROM temp_episode_seq e
 JOIN (
@@ -177,6 +187,8 @@ SELECT
     e.ep_no,
     1000 + (e.ep_no * 5),
     DATE_ADD(n.published_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.created_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.updated_at, INTERVAL (e.ep_no + 2) DAY),
     n.deleted_at
 FROM temp_episode_seq e
 JOIN (
@@ -205,6 +217,8 @@ SELECT
     e.ep_no,
     1000 + (e.ep_no * 5),
     DATE_ADD(n.published_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.created_at, INTERVAL (e.ep_no + 2) DAY),
+    DATE_ADD(n.updated_at, INTERVAL (e.ep_no + 2) DAY),
     n.deleted_at
 FROM temp_episode_seq e
 JOIN (
@@ -223,14 +237,8 @@ JOIN (
 JOIN novel n ON n.novel_id = @novel8;
 
 -- ==== after insert ====
-UPDATE episode e
-JOIN novel n ON n.novel_id = e.novel_id
-SET
-    e.created_at = DATE_ADD(n.created_at, INTERVAL (e.episode_number + 2) DAY),
-    e.updated_at = DATE_ADD(n.updated_at, INTERVAL (e.episode_number + 2) DAY);
-
 UPDATE episode
-SET deleted_at = NOW()
+SET deleted_at = CURRENT_TIMESTAMP
 WHERE episode_number = 3 AND novel_id IN (@novel4, @novel5, @novel6);
 
 UPDATE novel n

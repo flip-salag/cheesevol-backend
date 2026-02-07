@@ -4,14 +4,17 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (
     user_id    BIGINT AUTO_INCREMENT PRIMARY KEY,
-    public_id  VARCHAR(25)  NOT NULL UNIQUE,
-    email      VARCHAR(320) NOT NULL UNIQUE,
+    public_id  VARCHAR(25)  NOT NULL,
+    email      VARCHAR(320) NOT NULL,
     password   VARCHAR(255) NOT NULL,
     nickname   VARCHAR(20)  NOT NULL,
     bio        VARCHAR(100) NOT NULL,
     created_at DATETIME     NOT NULL,
     updated_at DATETIME     NOT NULL,
-    deleted_at DATETIME NULL
+    deleted_at DATETIME NULL,
+
+    UNIQUE KEY uq_user_public_id (public_id),
+    UNIQUE KEY uq_user_email (email)
 );
 
 DROP TABLE IF EXISTS `novel`;
@@ -19,7 +22,7 @@ CREATE TABLE `novel`
 (
     novel_id                  BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id                   BIGINT       NOT NULL,
-    public_id                 VARCHAR(25)  NOT NULL UNIQUE,
+    public_id                 VARCHAR(25)  NOT NULL,
     title                     VARCHAR(50)  NOT NULL,
     description               VARCHAR(500) NOT NULL,
     category                  VARCHAR(50)  NOT NULL,
@@ -36,7 +39,8 @@ CREATE TABLE `novel`
     deleted_at                DATETIME NULL,
 
     CONSTRAINT fk_novel_user FOREIGN KEY (user_id) REFERENCES user (user_id),
-    UNIQUE KEY uq_user_title (user_id, title)
+    UNIQUE KEY uq_novel_public_id (public_id),
+    UNIQUE KEY uq_novel_user_id_title (user_id, title)
 );
 
 DROP TABLE IF EXISTS `episode`;
@@ -44,7 +48,7 @@ CREATE TABLE `episode`
 (
     episode_id     BIGINT AUTO_INCREMENT PRIMARY KEY,
     novel_id       BIGINT      NOT NULL,
-    public_id      VARCHAR(25) NOT NULL UNIQUE,
+    public_id      VARCHAR(25) NOT NULL,
     episode_type   VARCHAR(50) NOT NULL,
     title          VARCHAR(50) NOT NULL,
     description    VARCHAR(35) NOT NULL,
@@ -57,7 +61,8 @@ CREATE TABLE `episode`
     deleted_at     DATETIME NULL,
 
     CONSTRAINT fk_episode_novel FOREIGN KEY (novel_id) REFERENCES novel (novel_id),
-    UNIQUE KEY uq_novel_episode_number (novel_id, episode_number)
+    UNIQUE KEY uq_episode_public_id (public_id),
+    UNIQUE KEY uq_episode_novel_id_episode_number (novel_id, episode_number)
 );
 
 DROP TABLE IF EXISTS `novel_like`;
@@ -70,7 +75,7 @@ CREATE TABLE `novel_like`
 
     CONSTRAINT fk_novel_like_user FOREIGN KEY (user_id) REFERENCES user (user_id),
     CONSTRAINT fk_novel_like_novel FOREIGN KEY (novel_id) REFERENCES novel (novel_id),
-    UNIQUE KEY uq_user_novel (user_id, novel_id)
+    UNIQUE KEY uq_novel_like_user_id_novel_id (user_id, novel_id)
 );
 
 DROP TABLE IF EXISTS `novel_daily_stats`;
@@ -81,8 +86,8 @@ CREATE TABLE `novel_daily_stats`
     stat_date           DATE   NOT NULL,
     view_count          INT    NOT NULL DEFAULT 0,
 
-    CONSTRAINT fk_novel_daily_stat_novel FOREIGN KEY (novel_id) REFERENCES novel (novel_id),
-    UNIQUE KEY uq_novel_stat_date (novel_id, stat_date)
+    CONSTRAINT fk_novel_daily_stats_novel FOREIGN KEY (novel_id) REFERENCES novel (novel_id),
+    UNIQUE KEY uq_novel_daily_stats_novel_id_stat_date (novel_id, stat_date)
 );
 
 DROP TABLE IF EXISTS `novel_period_stats`;
@@ -96,6 +101,6 @@ CREATE TABLE `novel_period_stats`
     view_count           INT         NOT NULL DEFAULT 0,
     updated_at           DATETIME    NOT NULL,
 
-    CONSTRAINT fk_novel_period_stat_novel FOREIGN KEY (novel_id) REFERENCES novel (novel_id),
-    UNIQUE KEY uq_novel_start_end (novel_id, period_type, start_date, end_date)
+    CONSTRAINT fk_novel_period_stats_novel FOREIGN KEY (novel_id) REFERENCES novel (novel_id),
+    UNIQUE KEY uq_novel_period_stats_novel_id_period_type_start_date_end_date (novel_id, period_type, start_date, end_date)
 );

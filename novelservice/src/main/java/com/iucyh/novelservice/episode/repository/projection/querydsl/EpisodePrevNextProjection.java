@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class EpisodePrevNextQueryProjection {
+public class EpisodePrevNextProjection {
 
     private final String publicId;
     private final Integer episodeNumber;

@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class EpisodeDetailQueryProjection {
+public class EpisodeDetailProjection {
 
     private final String episodePublicId;
     private final EpisodeType episodeType;
@@ -25,7 +25,7 @@ public class EpisodeDetailQueryProjection {
     private final String userNickname;
 
     @QueryProjection
-    public EpisodeDetailQueryProjection(
+    public EpisodeDetailProjection(
             String episodePublicId, EpisodeType episodeType, String episodeTitle, String episodeDescription, Integer episodeNumber, LocalDateTime episodePublishedAt,
             Long novelId, String novelPublicId, String novelTitle, Integer novelLikeCount,
             String userPublicId, String userNickname

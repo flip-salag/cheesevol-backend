@@ -2,10 +2,10 @@ package com.iucyh.novelservice.episode.service;
 
 import com.iucyh.novelservice.common.exception.DataNotFound;
 import com.iucyh.novelservice.common.response.PageWithOffsetResponse;
+import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeDetailProjection;
+import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeSummaryProjection;
 import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
-import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
-import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
-import com.iucyh.novelservice.episode.repository.query.projection.EpisodeSummaryQueryProjection;
+import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodePrevNextProjection;
 import com.iucyh.novelservice.episode.service.dto.query.GetEpisodesQuery;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeResponseMapper;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeContentResponse;
@@ -36,18 +36,18 @@ public class EpisodeQueryService {
 
         Pageable pageable = PageRequest.of(query.page(), query.limit());
         EpisodePagingCondition condition = new EpisodePagingCondition(pageable, query.sortType());
-        Page<EpisodeSummaryQueryProjection> result = episodeQueryRepository.findEpisodesByNovelPublicId(query.novelPublicId(), condition);
+        Page<EpisodeSummaryProjection> result = episodeQueryRepository.findEpisodesByNovelPublicId(query.novelPublicId(), condition);
 
         return EpisodeResponseMapper.toPageResponse(result);
     }
 
     public EpisodeDetailResponse getEpisodeDetail(String episodePublicId) {
-        EpisodeDetailQueryProjection detailResult = episodeQueryRepository.findEpisodeDetailByPublicId(episodePublicId)
+        EpisodeDetailProjection detailResult = episodeQueryRepository.findEpisodeDetailByPublicId(episodePublicId)
                 .orElseThrow(() -> new DataNotFound(episodePublicId));
 
-        EpisodePrevNextQueryProjection prevEpisode = episodeQueryRepository.findPrevEpisode(detailResult.getNovelId(), detailResult.getEpisodeNumber())
+        EpisodePrevNextProjection prevEpisode = episodeQueryRepository.findPrevEpisode(detailResult.getNovelId(), detailResult.getEpisodeNumber())
                 .orElse(null);
-        EpisodePrevNextQueryProjection nextEpisode = episodeQueryRepository.findNextEpisode(detailResult.getNovelId(), detailResult.getEpisodeNumber())
+        EpisodePrevNextProjection nextEpisode = episodeQueryRepository.findNextEpisode(detailResult.getNovelId(), detailResult.getEpisodeNumber())
                 .orElse(null);
 
         return EpisodeResponseMapper.toEpisodeDetailResponse(detailResult, prevEpisode, nextEpisode);

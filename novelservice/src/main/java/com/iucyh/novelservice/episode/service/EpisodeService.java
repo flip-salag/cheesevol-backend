@@ -2,7 +2,6 @@ package com.iucyh.novelservice.episode.service;
 
 import com.iucyh.novelservice.common.exception.DataNotFound;
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
-import com.iucyh.novelservice.episode.repository.custom.EpisodeCustomRepository;
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.DeleteEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
@@ -29,7 +28,6 @@ import java.time.LocalDateTime;
 public class EpisodeService {
 
     private final NovelRepository novelRepository;
-    private final EpisodeCustomRepository episodeQueryRepository;
     private final EpisodeRepository episodeRepository;
 
     private final NovelPolicyValidator novelPolicyValidator;
@@ -80,7 +78,7 @@ public class EpisodeService {
         episode.softDelete();
 
         // 가장 최신 회차의 발행일시를 가장 최신 회차 발행일로 변환 후 novel에 저장 (최신 회차 발행일시 조회 시 삭제중인 회차, 삭제된 회차는 제외)
-        LocalDateTime lastEpisodePublishedAt = episodeQueryRepository.findLastEpisodePublishedAt(novel.getId(), episode.getId());
+        LocalDateTime lastEpisodePublishedAt = episodeRepository.findLastEpisodePublishedAt(novel.getId(), episode.getId());
         LocalDate lastEpisodePublishDate = toLastEpisodePublishDate(lastEpisodePublishedAt);
 
         // 소설에 더 이상 회차가 한개도 존재하지 않으면 자연스럽게 null로 설정

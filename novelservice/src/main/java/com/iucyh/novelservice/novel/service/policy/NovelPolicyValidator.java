@@ -1,7 +1,7 @@
 package com.iucyh.novelservice.novel.service.policy;
 
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
-import com.iucyh.novelservice.episode.repository.custom.EpisodeCustomRepository;
+import com.iucyh.novelservice.episode.repository.EpisodeRepository;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import com.iucyh.novelservice.novel.exception.*;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class NovelPolicyValidator {
 
     private final NovelRepository novelRepository;
-    private final EpisodeCustomRepository episodeQueryRepository;
+    private final EpisodeRepository episodeRepository;
 
     /**
      * <p>디코딩된 {@code cursor} 객체가 전달된 {@code sortType}과 실제로 매칭되는지 검증</p>
@@ -69,7 +69,7 @@ public class NovelPolicyValidator {
      * @throws NovelHasNoCommonEpisodes 해당 소설에 일반 회차가 한개도 존재하지 않을때
      */
     public void validateNovelHasCommonEpisodes(long novelId) throws NovelHasNoCommonEpisodes {
-        boolean hasCommonEpisode = episodeQueryRepository.episodeExistsByNovelIdAndEpisodeType(novelId, EpisodeType.COMMON);
+        boolean hasCommonEpisode = episodeRepository.episodeExistsByNovelIdAndEpisodeType(novelId, EpisodeType.COMMON);
         if (!hasCommonEpisode) {
             throw new NovelHasNoCommonEpisodes();
         }
@@ -82,7 +82,7 @@ public class NovelPolicyValidator {
      * @throws NovelAlreadyHasPrologue 해당 소설에 프롤로그 회차가 존재할때
      */
     public void validateNovelHasNoPrologueEpisode(long novelId) throws NovelAlreadyHasPrologue {
-        boolean hasPrologueEpisode = episodeQueryRepository.episodeExistsByNovelIdAndEpisodeType(novelId, EpisodeType.PROLOGUE);
+        boolean hasPrologueEpisode = episodeRepository.episodeExistsByNovelIdAndEpisodeType(novelId, EpisodeType.PROLOGUE);
         if (hasPrologueEpisode) {
             throw new NovelAlreadyHasPrologue();
         }

@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,7 +21,6 @@ import static com.iucyh.novelservice.episode.domain.QEpisode.episode;
 import static com.iucyh.novelservice.novel.domain.QNovel.novel;
 import static com.iucyh.novelservice.user.domain.QUser.user;
 
-@Repository
 @RequiredArgsConstructor
 public class EpisodeCustomRepositoryImpl implements EpisodeCustomRepository {
 

@@ -2,6 +2,7 @@ package com.iucyh.novelservice.episode.service;
 
 import com.iucyh.novelservice.common.exception.DataNotFound;
 import com.iucyh.novelservice.common.response.PageWithOffsetResponse;
+import com.iucyh.novelservice.episode.repository.EpisodeRepository;
 import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeDetailProjection;
 import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeSummaryProjection;
 import com.iucyh.novelservice.episode.repository.custom.condition.EpisodePagingCondition;
@@ -11,7 +12,6 @@ import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeResponseMapper;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeContentResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
-import com.iucyh.novelservice.episode.repository.custom.EpisodeCustomRepository;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class EpisodeQueryService {
 
     private final NovelRepository novelRepository;
-    private final EpisodeCustomRepository episodeQueryRepository;
+    private final EpisodeRepository episodeRepository;
 
     public PageWithOffsetResponse<EpisodeSummaryResponse> getEpisodesByNovel(GetEpisodesQuery query) {
         boolean novelExists = novelRepository.existsByPublicId(query.novelPublicId());
@@ -36,25 +36,25 @@ public class EpisodeQueryService {
 
         Pageable pageable = PageRequest.of(query.page(), query.limit());
         EpisodePagingCondition condition = new EpisodePagingCondition(pageable, query.sortType());
-        Page<EpisodeSummaryProjection> result = episodeQueryRepository.findEpisodesByNovelPublicId(query.novelPublicId(), condition);
+        Page<EpisodeSummaryProjection> result = episodeRepository.findEpisodesByNovelPublicId(query.novelPublicId(), condition);
 
         return EpisodeResponseMapper.toPageResponse(result);
     }
 
     public EpisodeDetailResponse getEpisodeDetail(String episodePublicId) {
-        EpisodeDetailProjection detailResult = episodeQueryRepository.findEpisodeDetailByPublicId(episodePublicId)
+        EpisodeDetailProjection detailResult = episodeRepository.findEpisodeDetailByPublicId(episodePublicId)
                 .orElseThrow(() -> new DataNotFound(episodePublicId));
 
-        EpisodePrevNextProjection prevEpisode = episodeQueryRepository.findPrevEpisode(detailResult.getNovelId(), detailResult.getEpisodeNumber())
+        EpisodePrevNextProjection prevEpisode = episodeRepository.findPrevEpisode(detailResult.getNovelId(), detailResult.getEpisodeNumber())
                 .orElse(null);
-        EpisodePrevNextProjection nextEpisode = episodeQueryRepository.findNextEpisode(detailResult.getNovelId(), detailResult.getEpisodeNumber())
+        EpisodePrevNextProjection nextEpisode = episodeRepository.findNextEpisode(detailResult.getNovelId(), detailResult.getEpisodeNumber())
                 .orElse(null);
 
         return EpisodeResponseMapper.toEpisodeDetailResponse(detailResult, prevEpisode, nextEpisode);
     }
 
     public EpisodeContentResponse getEpisodeContent(String episodePublicId) {
-        String contentResult = episodeQueryRepository.findEpisodeContentByPublicId(episodePublicId)
+        String contentResult = episodeRepository.findEpisodeContentByPublicId(episodePublicId)
                 .orElseThrow(() -> new DataNotFound(episodePublicId));
         return EpisodeResponseMapper.toEpisodeContentResponse(episodePublicId, contentResult);
     }

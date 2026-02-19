@@ -8,7 +8,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -18,7 +17,6 @@ import java.util.List;
 import static com.iucyh.novelservice.novel.domain.QNovel.novel;
 import static com.iucyh.novelservice.user.domain.QUser.user;
 
-@Repository
 @RequiredArgsConstructor
 public class NovelCustomRepositoryImpl implements NovelCustomRepository {
 

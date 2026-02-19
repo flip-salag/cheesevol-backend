@@ -5,7 +5,7 @@ import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import com.iucyh.novelservice.novel.exception.*;
-import com.iucyh.novelservice.novel.repository.custom.NovelCustomRepository;
+import com.iucyh.novelservice.novel.repository.NovelRepository;
 import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelCursor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NovelPolicyValidator {
 
-    private final NovelCustomRepository novelQueryRepository;
+    private final NovelRepository novelRepository;
     private final EpisodeQueryRepository episodeQueryRepository;
 
     /**
@@ -38,7 +38,7 @@ public class NovelPolicyValidator {
      * @throws DuplicateNovelTitle 중복되는 제목을 가진 소설이 존재할때
      */
     public void validateTitleNotDuplicatedInUserNovels(String title, long userId) throws DuplicateNovelTitle {
-        boolean isDuplicated = novelQueryRepository.novelTitleExistsByUserId(title, userId, null);
+        boolean isDuplicated = novelRepository.novelTitleExistsByUserId(title, userId, null);
         if (isDuplicated) {
             throw new DuplicateNovelTitle(title);
         }
@@ -56,7 +56,7 @@ public class NovelPolicyValidator {
      * @throws DuplicateNovelTitle 중복되는 제목을 가진 소설이 존재할때
      */
     public void validateTitleNotDuplicatedInUserNovels(String title, long userId, String novelPublicId) throws DuplicateNovelTitle {
-        boolean isDuplicated = novelQueryRepository.novelTitleExistsByUserId(title, userId, novelPublicId);
+        boolean isDuplicated = novelRepository.novelTitleExistsByUserId(title, userId, novelPublicId);
         if (isDuplicated) {
             throw new DuplicateNovelTitle(title);
         }

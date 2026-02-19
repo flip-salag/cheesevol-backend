@@ -12,7 +12,7 @@ import com.iucyh.novelservice.episode.web.dto.response.EpisodeContentResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
-import com.iucyh.novelservice.novel.repository.custom.NovelCustomRepository;
+import com.iucyh.novelservice.novel.repository.NovelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,11 +25,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor // TODO: 조회수 관련 로직 구현
 public class EpisodeQueryService {
 
-    private final NovelCustomRepository novelQueryRepository;
+    private final NovelRepository novelRepository;
     private final EpisodeQueryRepository episodeQueryRepository;
 
     public PageWithOffsetResponse<EpisodeSummaryResponse> getEpisodesByNovel(GetEpisodesQuery query) {
-        boolean novelExists = novelQueryRepository.existsByPublicId(query.novelPublicId());
+        boolean novelExists = novelRepository.existsByPublicId(query.novelPublicId());
         if (!novelExists) {
             throw new DataNotFound(query.novelPublicId()); // 소설이 유효하지 않거나 존재하지 않으면 없는 것으로 간주 (자세한 정책은 existsByPublicId 메서드 주석 확인)
         }

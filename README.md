@@ -55,5 +55,7 @@ docker compose -f ./docker/db/docker-compose.yml up -d
 - ```PolicyValidator```
   - 각 도메인의 정책 검증(중복 제목 검증, 프롤로그 존재 여부 검증 등), Service 모듈들은 직접 정책 검증을 구현하지 않고 적절한 PolicyValidator를 주입받아 사용
   - 도메인 의존성 최소화 및 Service 모듈에 검증 로직이 직접 들어가 책임이 흐려지고 가독성, 확장성, 재사용성, 유지보수성이 떨어지는 문제 방지
-- ```Repository```: Spring Data JPA 리포지토리, 간단한 조회 및 exists, bulk update, save 처리, 외부에서는 CustomRepository 등을 의존하지 않고 이 리포지토리만 의존(단일 진입점)
+- ```Repository```
+  - Spring Data JPA 리포지토리, 간단한 조회 및 exists, bulk update, save 처리
+  - 외부(Service 레이어 등)에서는 CustomRepository 등을 의존하지 않고 이 Spring Data JPA 리포지토리만 의존(단일 진입점)
 - ```CustomRepository```: QueryDSL을 사용하는 커스텀 리포지토리, 동적 쿼리나 복잡한 쿼리 처리

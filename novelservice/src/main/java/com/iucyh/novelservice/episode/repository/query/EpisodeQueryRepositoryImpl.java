@@ -2,9 +2,6 @@ package com.iucyh.novelservice.episode.repository.query;
 
 import com.iucyh.novelservice.episode.enumtype.EpisodeSortType;
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
-import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeDetailProjection;
-import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodePrevNextProjection;
-import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeSummaryProjection;
 import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
 import com.iucyh.novelservice.episode.repository.projection.querydsl.*;
 import com.querydsl.core.types.OrderSpecifier;

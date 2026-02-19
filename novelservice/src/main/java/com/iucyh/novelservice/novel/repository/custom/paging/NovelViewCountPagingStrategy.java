@@ -1,10 +1,10 @@
-package com.iucyh.novelservice.novel.repository.query.paging;
+package com.iucyh.novelservice.novel.repository.custom.paging;
 
 import com.iucyh.novelservice.novel.domain.Novel;
-import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
-import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelViewCountCursor;
+import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelCursor;
+import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelViewCountCursor;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
-import com.iucyh.novelservice.novel.repository.query.paging.template.AbstractNovelPagingStrategy;
+import com.iucyh.novelservice.novel.repository.custom.paging.template.AbstractNovelPagingStrategy;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.stereotype.Component;

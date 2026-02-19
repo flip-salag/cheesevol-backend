@@ -1,13 +1,13 @@
-package com.iucyh.novelservice.novel.repository.query;
+package com.iucyh.novelservice.novel.repository.custom;
 
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
-import com.iucyh.novelservice.novel.repository.query.condition.NovelPagingCondition;
-import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
+import com.iucyh.novelservice.novel.repository.custom.condition.NovelPagingCondition;
+import com.iucyh.novelservice.novel.repository.custom.paging.NovelPagingStrategy;
 
 import java.util.List;
 
-public interface NovelQueryRepository {
+public interface NovelCustomRepository {
 
     /**
      * <p>아래 조건들을 충족하는 소설이 존재하는지 검사</p>

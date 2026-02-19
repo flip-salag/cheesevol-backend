@@ -13,10 +13,9 @@ import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelDetailResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
-import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
-import com.iucyh.novelservice.novel.repository.query.condition.NovelPagingCondition;
-import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
-import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
+import com.iucyh.novelservice.novel.repository.custom.condition.NovelPagingCondition;
+import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelCursor;
+import com.iucyh.novelservice.novel.repository.custom.paging.NovelPagingStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,21 +31,20 @@ public class NovelQueryService {
     private final NovelCursorCodec cursorCodec;
     private final NovelPagingStrategyRegistry pagingStrategyRegistry;
     private final NovelRepository novelRepository;
-    private final NovelQueryRepository novelQueryRepository;
 
     private final NovelPolicyValidator novelPolicyValidator;
 
     public PageWithCursorResponse<NovelSummaryResponse> getNovels(GetNovelsQuery query) {
         return findNovels(query.sortType(), query.cursor(), query.limit(),
                 (pagingCondition, strategy) ->
-                        novelQueryRepository.findNovels(pagingCondition, strategy, query.category())
+                        novelRepository.findNovels(pagingCondition, strategy, query.category())
         );
     }
 
     public PageWithCursorResponse<NovelSummaryResponse> getNewNovels(GetNewNovelsQuery query) {
         return findNovels(query.sortType(), query.cursor(), query.limit(),
                 (pagingCondition, strategy) ->
-                        novelQueryRepository.findNewNovels(pagingCondition, strategy, query.category())
+                        novelRepository.findNewNovels(pagingCondition, strategy, query.category())
         );
     }
 

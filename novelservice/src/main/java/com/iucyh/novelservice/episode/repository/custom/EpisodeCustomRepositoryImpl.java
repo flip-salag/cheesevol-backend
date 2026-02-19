@@ -1,8 +1,8 @@
-package com.iucyh.novelservice.episode.repository.query;
+package com.iucyh.novelservice.episode.repository.custom;
 
 import com.iucyh.novelservice.episode.enumtype.EpisodeSortType;
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
-import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
+import com.iucyh.novelservice.episode.repository.custom.condition.EpisodePagingCondition;
 import com.iucyh.novelservice.episode.repository.projection.querydsl.*;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,9 +21,8 @@ import static com.iucyh.novelservice.episode.domain.QEpisode.episode;
 import static com.iucyh.novelservice.novel.domain.QNovel.novel;
 import static com.iucyh.novelservice.user.domain.QUser.user;
 
-@Repository
 @RequiredArgsConstructor
-public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
+public class EpisodeCustomRepositoryImpl implements EpisodeCustomRepository {
 
     private final JPAQueryFactory queryFactory;
 

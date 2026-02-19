@@ -1,12 +1,12 @@
 package com.iucyh.novelservice.novel.service.policy;
 
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
-import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
+import com.iucyh.novelservice.episode.repository.EpisodeRepository;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import com.iucyh.novelservice.novel.exception.*;
-import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
-import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
+import com.iucyh.novelservice.novel.repository.NovelRepository;
+import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelCursor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NovelPolicyValidator {
 
-    private final NovelQueryRepository novelQueryRepository;
-    private final EpisodeQueryRepository episodeQueryRepository;
+    private final NovelRepository novelRepository;
+    private final EpisodeRepository episodeRepository;
 
     /**
      * <p>디코딩된 {@code cursor} 객체가 전달된 {@code sortType}과 실제로 매칭되는지 검증</p>
@@ -38,7 +38,7 @@ public class NovelPolicyValidator {
      * @throws DuplicateNovelTitle 중복되는 제목을 가진 소설이 존재할때
      */
     public void validateTitleNotDuplicatedInUserNovels(String title, long userId) throws DuplicateNovelTitle {
-        boolean isDuplicated = novelQueryRepository.novelTitleExistsByUserId(title, userId, null);
+        boolean isDuplicated = novelRepository.novelTitleExistsByUserId(title, userId, null);
         if (isDuplicated) {
             throw new DuplicateNovelTitle(title);
         }
@@ -56,7 +56,7 @@ public class NovelPolicyValidator {
      * @throws DuplicateNovelTitle 중복되는 제목을 가진 소설이 존재할때
      */
     public void validateTitleNotDuplicatedInUserNovels(String title, long userId, String novelPublicId) throws DuplicateNovelTitle {
-        boolean isDuplicated = novelQueryRepository.novelTitleExistsByUserId(title, userId, novelPublicId);
+        boolean isDuplicated = novelRepository.novelTitleExistsByUserId(title, userId, novelPublicId);
         if (isDuplicated) {
             throw new DuplicateNovelTitle(title);
         }
@@ -69,7 +69,7 @@ public class NovelPolicyValidator {
      * @throws NovelHasNoCommonEpisodes 해당 소설에 일반 회차가 한개도 존재하지 않을때
      */
     public void validateNovelHasCommonEpisodes(long novelId) throws NovelHasNoCommonEpisodes {
-        boolean hasCommonEpisode = episodeQueryRepository.episodeExistsByNovelIdAndEpisodeType(novelId, EpisodeType.COMMON);
+        boolean hasCommonEpisode = episodeRepository.episodeExistsByNovelIdAndEpisodeType(novelId, EpisodeType.COMMON);
         if (!hasCommonEpisode) {
             throw new NovelHasNoCommonEpisodes();
         }
@@ -82,7 +82,7 @@ public class NovelPolicyValidator {
      * @throws NovelAlreadyHasPrologue 해당 소설에 프롤로그 회차가 존재할때
      */
     public void validateNovelHasNoPrologueEpisode(long novelId) throws NovelAlreadyHasPrologue {
-        boolean hasPrologueEpisode = episodeQueryRepository.episodeExistsByNovelIdAndEpisodeType(novelId, EpisodeType.PROLOGUE);
+        boolean hasPrologueEpisode = episodeRepository.episodeExistsByNovelIdAndEpisodeType(novelId, EpisodeType.PROLOGUE);
         if (hasPrologueEpisode) {
             throw new NovelAlreadyHasPrologue();
         }

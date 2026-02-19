@@ -1,6 +1,7 @@
 package com.iucyh.novelservice.novel.repository;
 
 import com.iucyh.novelservice.novel.domain.Novel;
+import com.iucyh.novelservice.novel.repository.custom.NovelCustomRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface NovelRepository extends JpaRepository<Novel, Long> {
+public interface NovelRepository extends JpaRepository<Novel, Long>, NovelCustomRepository {
 
     /**
      * <p>전달된 publicId에 해당하는 소설을 조회하면서 작성자의 id가 전달된 userId인지 동시에 검사</p>

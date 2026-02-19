@@ -65,7 +65,7 @@ public interface EpisodeQueryRepository {
      * <p>삭제된 회차는 제외</p>
      * @param novelPublicId 조회할 소설의 public id
      * @param condition 페이징 조건
-     * @return 페이지 정보와 회차 목록을 담은 {@code Page<EpisodeSummaryQueryProjection>}
+     * @return 페이지 정보와 회차 목록을 담은 {@code Page<EpisodeSummaryProjection>}
      */
     Page<EpisodeSummaryProjection> findEpisodesByNovelPublicId(String novelPublicId, EpisodePagingCondition condition);
 }

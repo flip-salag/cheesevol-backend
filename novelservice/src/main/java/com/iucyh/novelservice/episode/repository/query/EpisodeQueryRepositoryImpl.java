@@ -3,10 +3,9 @@ package com.iucyh.novelservice.episode.repository.query;
 import com.iucyh.novelservice.episode.enumtype.EpisodeSortType;
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
-import com.iucyh.novelservice.episode.repository.query.projection.*;
+import com.iucyh.novelservice.episode.repository.projection.querydsl.*;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -60,10 +59,10 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
     }
 
     @Override
-    public Optional<EpisodePrevNextQueryProjection> findPrevEpisode(Long novelId, Integer episodeNumber) {
-        EpisodePrevNextQueryProjection result = queryFactory
+    public Optional<EpisodePrevNextProjection> findPrevEpisode(Long novelId, Integer episodeNumber) {
+        EpisodePrevNextProjection result = queryFactory
                 .select(Projections.constructor(
-                        EpisodePrevNextQueryProjection.class,
+                        EpisodePrevNextProjection.class,
                         episode.publicId,
                         episode.episodeNumber
                 ))
@@ -81,10 +80,10 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
     }
 
     @Override
-    public Optional<EpisodePrevNextQueryProjection> findNextEpisode(Long novelId, Integer episodeNumber) {
-        EpisodePrevNextQueryProjection result = queryFactory
+    public Optional<EpisodePrevNextProjection> findNextEpisode(Long novelId, Integer episodeNumber) {
+        EpisodePrevNextProjection result = queryFactory
                 .select(Projections.constructor(
-                        EpisodePrevNextQueryProjection.class,
+                        EpisodePrevNextProjection.class,
                         episode.publicId,
                         episode.episodeNumber
                 ))
@@ -102,10 +101,10 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
     }
 
     @Override
-    public Optional<EpisodeDetailQueryProjection> findEpisodeDetailByPublicId(String publicId) {
-        EpisodeDetailQueryProjection result = queryFactory
+    public Optional<EpisodeDetailProjection> findEpisodeDetailByPublicId(String publicId) {
+        EpisodeDetailProjection result = queryFactory
                 .select(
-                        new QEpisodeDetailQueryProjection(
+                        new QEpisodeDetailProjection(
                                 episode.publicId,
                                 episode.episodeType,
                                 episode.title,
@@ -147,11 +146,11 @@ public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
     }
 
     @Override
-    public Page<EpisodeSummaryQueryProjection> findEpisodesByNovelPublicId(String novelPublicId, EpisodePagingCondition condition) {
+    public Page<EpisodeSummaryProjection> findEpisodesByNovelPublicId(String novelPublicId, EpisodePagingCondition condition) {
         Pageable pageable = condition.pageable();
-        List<EpisodeSummaryQueryProjection> content = queryFactory
+        List<EpisodeSummaryProjection> content = queryFactory
                 .select(
-                        new QEpisodeSummaryQueryProjection(
+                        new QEpisodeSummaryProjection(
                                 episode.publicId,
                                 episode.episodeType,
                                 episode.title,

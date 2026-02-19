@@ -2,9 +2,9 @@ package com.iucyh.novelservice.episode.web.dto.mapper;
 
 import com.iucyh.novelservice.common.response.PageWithOffsetResponse;
 import com.iucyh.novelservice.episode.domain.Episode;
-import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
-import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
-import com.iucyh.novelservice.episode.repository.query.projection.EpisodeSummaryQueryProjection;
+import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeDetailProjection;
+import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodePrevNextProjection;
+import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeSummaryProjection;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeContentResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSaveResponse;
@@ -26,7 +26,7 @@ public class EpisodeResponseMapper {
         );
     }
 
-    public static EpisodeSummaryResponse toEpisodeSummaryResponse(EpisodeSummaryQueryProjection episode) {
+    public static EpisodeSummaryResponse toEpisodeSummaryResponse(EpisodeSummaryProjection episode) {
         return new EpisodeSummaryResponse(
                 episode.getPublicId(),
                 episode.getEpisodeNumber(),
@@ -38,7 +38,7 @@ public class EpisodeResponseMapper {
         );
     }
 
-    public static EpisodeDetailResponse toEpisodeDetailResponse(EpisodeDetailQueryProjection episodeDetail, EpisodePrevNextQueryProjection prev, EpisodePrevNextQueryProjection next) {
+    public static EpisodeDetailResponse toEpisodeDetailResponse(EpisodeDetailProjection episodeDetail, EpisodePrevNextProjection prev, EpisodePrevNextProjection next) {
         UserBasicInfo author = new UserBasicInfo(episodeDetail.getUserPublicId(), episodeDetail.getUserNickname());
         EpisodeDetailResponse.NovelInfo novelInfo = new EpisodeDetailResponse.NovelInfo(
                 episodeDetail.getNovelPublicId(),
@@ -64,7 +64,7 @@ public class EpisodeResponseMapper {
         return new EpisodeContentResponse(episodePublicId, content);
     }
 
-    public static PageWithOffsetResponse<EpisodeSummaryResponse> toPageResponse(Page<EpisodeSummaryQueryProjection> page) {
+    public static PageWithOffsetResponse<EpisodeSummaryResponse> toPageResponse(Page<EpisodeSummaryProjection> page) {
         List<EpisodeSummaryResponse> episodes = page.getContent().stream()
                 .map(EpisodeResponseMapper::toEpisodeSummaryResponse)
                 .toList();
@@ -77,7 +77,7 @@ public class EpisodeResponseMapper {
         );
     }
 
-    private static EpisodeDetailResponse.EpisodePrevNext getEpisodePrevNext(EpisodePrevNextQueryProjection prev, EpisodePrevNextQueryProjection next) {
+    private static EpisodeDetailResponse.EpisodePrevNext getEpisodePrevNext(EpisodePrevNextProjection prev, EpisodePrevNextProjection next) {
         EpisodeDetailResponse.EpisodePrevNextItem prevEpisode = null;
         EpisodeDetailResponse.EpisodePrevNextItem nextEpisode = null;
 

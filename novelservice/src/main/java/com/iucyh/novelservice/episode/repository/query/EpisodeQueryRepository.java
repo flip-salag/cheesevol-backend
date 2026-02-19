@@ -1,10 +1,10 @@
 package com.iucyh.novelservice.episode.repository.query;
 
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
+import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeDetailProjection;
+import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeSummaryProjection;
 import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
-import com.iucyh.novelservice.episode.repository.query.projection.EpisodeDetailQueryProjection;
-import com.iucyh.novelservice.episode.repository.query.projection.EpisodePrevNextQueryProjection;
-import com.iucyh.novelservice.episode.repository.query.projection.EpisodeSummaryQueryProjection;
+import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodePrevNextProjection;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
@@ -34,7 +34,7 @@ public interface EpisodeQueryRepository {
      * @param episodeNumber 조회의 기준이 될 회차의 회차 번호
      * @return 기준 회차의 이전 회차, 이전 회차가 존재하지 않는다면 {@code Optional.empty()}
      */
-    Optional<EpisodePrevNextQueryProjection> findPrevEpisode(Long novelId, Integer episodeNumber);
+    Optional<EpisodePrevNextProjection> findPrevEpisode(Long novelId, Integer episodeNumber);
 
     /**
      * <p>현재 회차의 다음 회차 조회</p>
@@ -42,7 +42,7 @@ public interface EpisodeQueryRepository {
      * @param episodeNumber 조회의 기준이 될 회차의 회차 번호
      * @return 기준 회차의 다음 회차, 다음 회차가 존재하지 않는다면 {@code Optional.empty()}
      */
-    Optional<EpisodePrevNextQueryProjection> findNextEpisode(Long novelId, Integer episodeNumber);
+    Optional<EpisodePrevNextProjection> findNextEpisode(Long novelId, Integer episodeNumber);
 
     /**
      * <p>{@code publicId}에 해당하는 회차의 상세 정보를 조회 (소설, 유저의 일부 정보 포함)</p>
@@ -50,7 +50,7 @@ public interface EpisodeQueryRepository {
      * @param publicId 조회할 회차의 public id
      * @return 회차의 상세 정보, 조건에 맞는 episode가 없다면 {@code Optional.empty()}
      */
-    Optional<EpisodeDetailQueryProjection> findEpisodeDetailByPublicId(String publicId);
+    Optional<EpisodeDetailProjection> findEpisodeDetailByPublicId(String publicId);
 
     /**
      * <p>{@code publicId}에 해당하는 회차의 본문을 조회</p>
@@ -65,7 +65,7 @@ public interface EpisodeQueryRepository {
      * <p>삭제된 회차는 제외</p>
      * @param novelPublicId 조회할 소설의 public id
      * @param condition 페이징 조건
-     * @return 페이지 정보와 회차 목록을 담은 {@code Page<EpisodeSummaryQueryProjection>}
+     * @return 페이지 정보와 회차 목록을 담은 {@code Page<EpisodeSummaryProjection>}
      */
-    Page<EpisodeSummaryQueryProjection> findEpisodesByNovelPublicId(String novelPublicId, EpisodePagingCondition condition);
+    Page<EpisodeSummaryProjection> findEpisodesByNovelPublicId(String novelPublicId, EpisodePagingCondition condition);
 }

@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.episode.repository.query.projection;
+package com.iucyh.novelservice.episode.repository.projection.querydsl;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

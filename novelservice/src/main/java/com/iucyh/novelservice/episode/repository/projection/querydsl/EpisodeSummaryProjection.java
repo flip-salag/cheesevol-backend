@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.episode.repository.query.projection;
+package com.iucyh.novelservice.episode.repository.projection.querydsl;
 
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.querydsl.core.annotations.QueryProjection;

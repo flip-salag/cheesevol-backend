@@ -13,11 +13,6 @@ import java.util.Optional;
 public interface EpisodeRepository extends JpaRepository<Episode, Long>, EpisodeCustomRepository {
 
     /**
-     * novelId에 해당하는 소설에 회차가 1개라도 존재하는 지 검사
-     */
-    boolean existsByNovelIdAndDeletedAtIsNull(Long novelId);
-
-    /**
      * <p>{@code publicId}에 해당하는 회차를 조회하면서 아래 조건들을 동시에 검사</p>
      * <ul>
      *     <li>회차가 삭제되지 않았는지 여부</li>

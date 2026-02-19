@@ -4,14 +4,14 @@ import com.iucyh.novelservice.common.exception.DataNotFound;
 import com.iucyh.novelservice.common.response.PageWithOffsetResponse;
 import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeDetailProjection;
 import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeSummaryProjection;
-import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
+import com.iucyh.novelservice.episode.repository.custom.condition.EpisodePagingCondition;
 import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodePrevNextProjection;
 import com.iucyh.novelservice.episode.service.dto.query.GetEpisodesQuery;
 import com.iucyh.novelservice.episode.web.dto.mapper.EpisodeResponseMapper;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeContentResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
-import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
+import com.iucyh.novelservice.episode.repository.custom.EpisodeCustomRepository;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class EpisodeQueryService {
 
     private final NovelRepository novelRepository;
-    private final EpisodeQueryRepository episodeQueryRepository;
+    private final EpisodeCustomRepository episodeQueryRepository;
 
     public PageWithOffsetResponse<EpisodeSummaryResponse> getEpisodesByNovel(GetEpisodesQuery query) {
         boolean novelExists = novelRepository.existsByPublicId(query.novelPublicId());

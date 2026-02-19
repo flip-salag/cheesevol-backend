@@ -1,8 +1,8 @@
-package com.iucyh.novelservice.episode.repository.query;
+package com.iucyh.novelservice.episode.repository.custom;
 
 import com.iucyh.novelservice.episode.enumtype.EpisodeSortType;
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
-import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
+import com.iucyh.novelservice.episode.repository.custom.condition.EpisodePagingCondition;
 import com.iucyh.novelservice.episode.repository.projection.querydsl.*;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
@@ -24,7 +24,7 @@ import static com.iucyh.novelservice.user.domain.QUser.user;
 
 @Repository
 @RequiredArgsConstructor
-public class EpisodeQueryRepositoryImpl implements EpisodeQueryRepository {
+public class EpisodeCustomRepositoryImpl implements EpisodeCustomRepository {
 
     private final JPAQueryFactory queryFactory;
 

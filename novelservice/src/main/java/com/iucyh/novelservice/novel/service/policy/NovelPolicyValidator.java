@@ -1,7 +1,7 @@
 package com.iucyh.novelservice.novel.service.policy;
 
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
-import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
+import com.iucyh.novelservice.episode.repository.custom.EpisodeCustomRepository;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import com.iucyh.novelservice.novel.exception.*;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class NovelPolicyValidator {
 
     private final NovelRepository novelRepository;
-    private final EpisodeQueryRepository episodeQueryRepository;
+    private final EpisodeCustomRepository episodeQueryRepository;
 
     /**
      * <p>디코딩된 {@code cursor} 객체가 전달된 {@code sortType}과 실제로 매칭되는지 검증</p>

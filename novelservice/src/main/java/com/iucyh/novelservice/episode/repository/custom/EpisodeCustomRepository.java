@@ -1,16 +1,16 @@
-package com.iucyh.novelservice.episode.repository.query;
+package com.iucyh.novelservice.episode.repository.custom;
 
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeDetailProjection;
 import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeSummaryProjection;
-import com.iucyh.novelservice.episode.repository.query.condition.EpisodePagingCondition;
+import com.iucyh.novelservice.episode.repository.custom.condition.EpisodePagingCondition;
 import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodePrevNextProjection;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public interface EpisodeQueryRepository {
+public interface EpisodeCustomRepository {
 
     /**
      * <p>{@code novelId}에 해당하는 소설에 종류가 {@code episodeType}인 회차가 존재하는지 검사</p>

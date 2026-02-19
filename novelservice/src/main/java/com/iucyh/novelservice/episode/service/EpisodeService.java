@@ -2,7 +2,7 @@ package com.iucyh.novelservice.episode.service;
 
 import com.iucyh.novelservice.common.exception.DataNotFound;
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
-import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
+import com.iucyh.novelservice.episode.repository.custom.EpisodeCustomRepository;
 import com.iucyh.novelservice.episode.service.dto.command.CreateEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.DeleteEpisodeCommand;
 import com.iucyh.novelservice.episode.service.dto.command.UpdateEpisodeCommand;
@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 public class EpisodeService {
 
     private final NovelRepository novelRepository;
-    private final EpisodeQueryRepository episodeQueryRepository;
+    private final EpisodeCustomRepository episodeQueryRepository;
     private final EpisodeRepository episodeRepository;
 
     private final NovelPolicyValidator novelPolicyValidator;

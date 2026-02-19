@@ -1,8 +1,8 @@
-package com.iucyh.novelservice.novel.repository.query.paging.template;
+package com.iucyh.novelservice.novel.repository.custom.paging.template;
 
 import com.iucyh.novelservice.novel.domain.Novel;
-import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
-import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
+import com.iucyh.novelservice.novel.repository.custom.paging.NovelPagingStrategy;
+import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelCursor;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;

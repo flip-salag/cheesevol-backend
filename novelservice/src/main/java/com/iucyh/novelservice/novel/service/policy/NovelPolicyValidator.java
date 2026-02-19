@@ -5,8 +5,8 @@ import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import com.iucyh.novelservice.novel.exception.*;
-import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
-import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
+import com.iucyh.novelservice.novel.repository.custom.NovelCustomRepository;
+import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelCursor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NovelPolicyValidator {
 
-    private final NovelQueryRepository novelQueryRepository;
+    private final NovelCustomRepository novelQueryRepository;
     private final EpisodeQueryRepository episodeQueryRepository;
 
     /**

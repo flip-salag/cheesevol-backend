@@ -1,7 +1,7 @@
 package com.iucyh.novelservice.novel.service.codec;
 
 import com.iucyh.novelservice.novel.exception.InvalidNovelCursor;
-import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
+import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelCursor;
 
 public interface NovelCursorCodec {
 

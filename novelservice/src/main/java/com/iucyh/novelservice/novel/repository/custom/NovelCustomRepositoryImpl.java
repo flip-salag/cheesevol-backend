@@ -1,9 +1,9 @@
-package com.iucyh.novelservice.novel.repository.query;
+package com.iucyh.novelservice.novel.repository.custom;
 
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
-import com.iucyh.novelservice.novel.repository.query.condition.NovelPagingCondition;
-import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
+import com.iucyh.novelservice.novel.repository.custom.condition.NovelPagingCondition;
+import com.iucyh.novelservice.novel.repository.custom.paging.NovelPagingStrategy;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -20,7 +20,7 @@ import static com.iucyh.novelservice.user.domain.QUser.user;
 
 @Repository
 @RequiredArgsConstructor
-public class NovelQueryRepositoryImpl implements NovelQueryRepository {
+public class NovelCustomRepositoryImpl implements NovelCustomRepository {
 
     private final JPAQueryFactory queryFactory;
 

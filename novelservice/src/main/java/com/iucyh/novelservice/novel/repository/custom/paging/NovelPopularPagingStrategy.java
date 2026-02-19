@@ -1,10 +1,10 @@
-package com.iucyh.novelservice.novel.repository.query.paging;
+package com.iucyh.novelservice.novel.repository.custom.paging;
 
 import com.iucyh.novelservice.novel.domain.Novel;
-import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelCursor;
-import com.iucyh.novelservice.novel.repository.query.paging.cursor.NovelLastUpdateCursor;
+import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelCursor;
+import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelPopularCursor;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
-import com.iucyh.novelservice.novel.repository.query.paging.template.AbstractNovelPagingStrategy;
+import com.iucyh.novelservice.novel.repository.custom.paging.template.AbstractNovelPagingStrategy;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.stereotype.Component;
@@ -12,34 +12,34 @@ import org.springframework.stereotype.Component;
 import static com.iucyh.novelservice.novel.domain.QNovel.novel;
 
 @Component
-public class NovelLastUpdatePagingStrategy extends AbstractNovelPagingStrategy {
+public class NovelPopularPagingStrategy extends AbstractNovelPagingStrategy {
 
     @Override
     protected OrderSpecifier<?>[] applyOrder() {
         return new OrderSpecifier[] {
+                novel.periodViewCount.desc(),
                 novel.lastEpisodePublishDate.desc(),
-                novel.totalViewCount.desc(),
                 novel.id.desc()
         };
     }
 
     @Override
     protected BooleanExpression applyCursor(NovelCursor cursor) {
-        NovelLastUpdateCursor lastUpdateCursor = (NovelLastUpdateCursor) cursor;
-        return novel.lastEpisodePublishDate.lt(lastUpdateCursor.getLastEpisodePublishDate())
+        NovelPopularCursor popularCursor = (NovelPopularCursor) cursor;
+        return novel.periodViewCount.lt(popularCursor.getPeriodViewCount())
                 .or(
-                        novel.lastEpisodePublishDate.eq(lastUpdateCursor.getLastEpisodePublishDate())
+                        novel.periodViewCount.eq(popularCursor.getPeriodViewCount())
                                 .and(
-                                        novel.totalViewCount.lt(lastUpdateCursor.getTotalViewCount())
+                                        novel.lastEpisodePublishDate.lt(popularCursor.getLastEpisodePublishDate())
                                 )
                 )
                 .or(
-                        novel.lastEpisodePublishDate.eq(lastUpdateCursor.getLastEpisodePublishDate())
+                        novel.periodViewCount.eq(popularCursor.getPeriodViewCount())
                                 .and(
-                                        novel.totalViewCount.eq(lastUpdateCursor.getTotalViewCount())
+                                        novel.lastEpisodePublishDate.eq(popularCursor.getLastEpisodePublishDate())
                                 )
                                 .and(
-                                        novel.id.lt(lastUpdateCursor.getNovelId())
+                                        novel.id.lt(popularCursor.getNovelId())
                                 )
                 );
     }
@@ -52,16 +52,16 @@ public class NovelLastUpdatePagingStrategy extends AbstractNovelPagingStrategy {
 
     @Override
     public NovelCursor createCursor(Novel lastResult) {
-        return NovelLastUpdateCursor.of(lastResult.getId(), lastResult.getLastEpisodePublishDate(), lastResult.getTotalViewCount());
+        return NovelPopularCursor.of(lastResult.getId(), lastResult.getPeriodViewCount(), lastResult.getLastEpisodePublishDate());
     }
 
     @Override
     public Class<? extends NovelCursor> getCursorClass() {
-        return NovelLastUpdateCursor.class;
+        return NovelPopularCursor.class;
     }
 
     @Override
     public NovelSortType getSupportedSortType() {
-        return NovelSortType.LAST_UPDATE;
+        return NovelSortType.POPULAR;
     }
 }

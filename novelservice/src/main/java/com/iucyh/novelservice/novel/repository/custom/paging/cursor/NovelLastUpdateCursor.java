@@ -1,4 +1,4 @@
-package com.iucyh.novelservice.novel.repository.query.paging.cursor;
+package com.iucyh.novelservice.novel.repository.custom.paging.cursor;
 
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import lombok.AccessLevel;

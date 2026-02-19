@@ -12,7 +12,7 @@ import com.iucyh.novelservice.episode.web.dto.response.EpisodeContentResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeDetailResponse;
 import com.iucyh.novelservice.episode.web.dto.response.EpisodeSummaryResponse;
 import com.iucyh.novelservice.episode.repository.query.EpisodeQueryRepository;
-import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
+import com.iucyh.novelservice.novel.repository.custom.NovelCustomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor // TODO: 조회수 관련 로직 구현
 public class EpisodeQueryService {
 
-    private final NovelQueryRepository novelQueryRepository;
+    private final NovelCustomRepository novelQueryRepository;
     private final EpisodeQueryRepository episodeQueryRepository;
 
     public PageWithOffsetResponse<EpisodeSummaryResponse> getEpisodesByNovel(GetEpisodesQuery query) {

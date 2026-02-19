@@ -1,7 +1,7 @@
 package com.iucyh.novelservice.novel.service.registry;
 
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
-import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
+import com.iucyh.novelservice.novel.repository.custom.paging.NovelPagingStrategy;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 

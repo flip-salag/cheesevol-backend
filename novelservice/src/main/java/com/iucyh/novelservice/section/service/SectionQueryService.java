@@ -3,9 +3,9 @@ package com.iucyh.novelservice.section.service;
 import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.novel.enumtype.NovelCategory;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
-import com.iucyh.novelservice.novel.repository.query.NovelQueryRepository;
-import com.iucyh.novelservice.novel.repository.query.condition.NovelPagingCondition;
-import com.iucyh.novelservice.novel.repository.query.paging.NovelPagingStrategy;
+import com.iucyh.novelservice.novel.repository.custom.NovelCustomRepository;
+import com.iucyh.novelservice.novel.repository.custom.condition.NovelPagingCondition;
+import com.iucyh.novelservice.novel.repository.custom.paging.NovelPagingStrategy;
 import com.iucyh.novelservice.novel.service.registry.NovelPagingStrategyRegistry;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
@@ -21,7 +21,7 @@ import java.util.List;
 public class SectionQueryService {
 
     private final NovelPagingStrategyRegistry pagingStrategyRegistry;
-    private final NovelQueryRepository novelQueryRepository;
+    private final NovelCustomRepository novelQueryRepository;
 
     public List<NovelSummaryResponse> getPopularNovels(NovelCategory category) {
         NovelPagingCondition pagingCondition = new NovelPagingCondition(null, 10);

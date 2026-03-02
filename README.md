@@ -3,7 +3,7 @@
 <div align="left">
   <a href="https://lucy-blog.notion.site/2990ad45a877803e85b6d597bbce49e4">이슈 로그</a>
   &nbsp;
-  <a href="https://lucy-blog.notion.site/Flip-2f20ad45a877802a8a57c382cea7191b">개발 문서</a>
+  <a href="https://lucy-blog.notion.site/3170ad45a877804383a2fe54b3c188d1?v=3170ad45a87780d2aee9000c4040f3f6">개발 문서</a>
 </div>
 
 ## 기술 스택

@@ -1,5 +1,6 @@
 package com.iucyh.novelservice.core.json.deserializer.html.registry;
 
+import jakarta.annotation.PostConstruct;
 import org.jsoup.safety.Safelist;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,18 @@ public class SafelistRegistry {
                                 Function.identity()
                         )
                 );
+    }
+
+    @PostConstruct
+    private void validate() { // 등록된 provider들과 key가 전부 올바른 상태인지 검증
+        safelistProviderMap.forEach((key, provider) -> {
+            boolean isInvalidKey = key == null || key.isBlank();
+            boolean isInvalidSafelist = provider.getSafelistPolicy() == null;
+
+            if (isInvalidKey || isInvalidSafelist) {
+                throw new IllegalStateException("Key or safelist cannot be null or blank in SafelistProvider: %s".formatted(provider.getClass().getName()));
+            }
+        });
     }
 
     public boolean containsKey(String key) {

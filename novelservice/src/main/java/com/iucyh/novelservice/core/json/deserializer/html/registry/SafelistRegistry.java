@@ -31,6 +31,9 @@ public class SafelistRegistry {
     }
 
     public boolean containsKey(String key) {
+        if (key == null) {
+            return false;
+        }
         return safelistMap.containsKey(key);
     }
 
@@ -39,6 +42,9 @@ public class SafelistRegistry {
      * @return 매칭된 {@code Safelist}, 매칭되는 {@code Safelist}가 없다면 {@code null}
      */
     public Safelist getSafelist(String key) {
+        if (key == null) {
+            return null;
+        }
         return safelistMap.get(key);
     }
 

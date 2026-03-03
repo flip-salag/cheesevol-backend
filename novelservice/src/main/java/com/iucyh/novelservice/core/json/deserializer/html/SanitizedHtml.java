@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 /**
  * <p>도메인별 Safelist 정책과 매핑되는 Key를 명시하기 위한 어노테이션</p>
  */
-@Target({ ElementType.FIELD })
+@Target({ ElementType.TYPE, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface SanitizedHtml {

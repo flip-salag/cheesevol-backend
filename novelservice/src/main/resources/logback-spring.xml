@@ -9,6 +9,10 @@
         </encoder>
     </appender>
 
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
     <!--local-->
     <springProfile name="local">
         <logger name="com.iucyh.novelservice" level="DEBUG" additivity="false">
@@ -18,10 +22,6 @@
         <logger name="org.springframework.web" level="DEBUG" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
-
-        <root level="INFO">
-            <appender-ref ref="STDOUT"/>
-        </root>
     </springProfile>
 
 </configuration>

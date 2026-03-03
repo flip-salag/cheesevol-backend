@@ -49,9 +49,11 @@ public class SafelistRegistry {
      */
     private void validate(List<SafelistProvider> providers) throws IllegalStateException {
         providers.forEach(p -> {
-            boolean isInvalidKey = p.getKey() == null || p.getKey().isBlank();
-            boolean isInvalidSafelist = p.getSafelistPolicy() == null;
+            String key = p.getKey();
+            Safelist safelist = p.getSafelistPolicy();
 
+            boolean isInvalidKey = key == null || key.isBlank();
+            boolean isInvalidSafelist = safelist == null;
             if (isInvalidKey || isInvalidSafelist) {
                 throw new IllegalStateException("Key or safelist cannot be null or blank in SafelistProvider: %s".formatted(p.getClass().getName()));
             }

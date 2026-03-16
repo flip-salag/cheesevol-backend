@@ -24,14 +24,15 @@ public abstract class AbstractNovelPagingStrategy implements NovelPagingStrategy
     protected abstract BooleanExpression applyCursor(NovelCursor cursor);
 
     /**
-     * <p>각 전략이 커서 적용 외에 추가적인 조건을 사용해야 할 시 오버라이딩 하여 사용 (e.g. lastEpisodePublishDate.isNotNull() 과 같이 정렬 안정성을 깨뜨릴 수 있는 경우 방지)</p>
+     * <p>쿼리의 where절에 배치되는 훅 메서드</p>
+     * <p>커서 적용 외에 추가적인 필터 조건이 더 필요할 때 오버라이딩 하여 사용</p>
      */
     protected BooleanExpression applyAdditionalFilter() {
         return null;
     }
 
     @Override
-    public JPAQuery<Novel> applyPaging(JPAQuery<Novel> query, NovelCursor cursor) {
+    public final JPAQuery<Novel> applyPaging(JPAQuery<Novel> query, NovelCursor cursor) {
         query.orderBy(
                 applyOrder()
         );

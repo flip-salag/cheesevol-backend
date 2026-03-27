@@ -1,4 +1,4 @@
-USE `novel_service`;
+USE novel_service;
 
 -- ==== novel ====
 CREATE INDEX idx_novel_sort_popular ON novel (deleted_at, period_view_count DESC, last_episode_publish_date DESC, novel_id DESC);

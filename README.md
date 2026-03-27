@@ -25,7 +25,7 @@
 ```
 ### DB 실행 (로컬에서 애플리케이션 실행 시 먼저 실행 필요)
 ```
-docker compose -f ./docker/db/docker-compose.yml up -d
+docker compose --env-file .env.local up -d
 ```
 ### 애플리케이션 실행
 ```

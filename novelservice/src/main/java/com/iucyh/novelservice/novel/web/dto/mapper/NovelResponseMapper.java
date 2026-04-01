@@ -69,7 +69,10 @@ public class NovelResponseMapper {
         return new NovelLikeCountResponse(likeCount);
     }
 
-    public static PageWithCursorResponse<NovelSummaryResponse> toPageResponse(List<NovelSummaryResponse> novels, String encodedCursor, int size) {
-        return new PageWithCursorResponse<>(size, encodedCursor, novels);
+    public static PageWithCursorResponse<NovelSummaryResponse> toPageResponse(List<Novel> novels, String encodedCursor, int limit) {
+        List<NovelSummaryResponse> result = novels.stream()
+                .map(NovelResponseMapper::toNovelSummaryResponse)
+                .toList();
+        return new PageWithCursorResponse<>(limit, encodedCursor, result);
     }
 }

@@ -81,19 +81,11 @@ public class NovelQueryService {
             return NovelResponseMapper.toPageResponse(List.of(), null, limit);
         }
 
-        List<Novel> pageResult = result.stream().limit(limit).toList();
-
+        List<Novel> limitedResult = result.stream().limit(limit).toList(); // 클라이언트로 응답할 최종 결과 (limit만큼 자르기)
         PageSizeInfo pageSizeInfo = new PageSizeInfo(result.size(), limit);
-        String newCursor = createNewCursor(pagingStrategy, pageResult, pageSizeInfo);
+        String newCursor = createNewCursor(pagingStrategy, limitedResult, pageSizeInfo);
 
-        List<NovelSummaryResponse> novels = mapToNovelResponseList(pageResult);
-        return NovelResponseMapper.toPageResponse(novels, newCursor, limit);
-    }
-
-    private List<NovelSummaryResponse> mapToNovelResponseList(List<Novel> novels) {
-        return novels.stream()
-                .map(NovelResponseMapper::toNovelSummaryResponse)
-                .toList();
+        return NovelResponseMapper.toPageResponse(limitedResult, newCursor, limit);
     }
 
     /**

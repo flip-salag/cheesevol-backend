@@ -4,7 +4,11 @@ import com.iucyh.novelservice.base.enumtype.valuedenum.ValuedEnum;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * <p>String 타입으로 들어온 값이 enumClass 에 정의한 Enum 으로 변환 가능한지 검증</p>

@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static com.iucyh.novelservice.novel.constant.NovelConstants.*;
+import static com.iucyh.novelservice.novel.constant.NovelConstants.NOVEL_DESC_LENGTH_MAX;
+import static com.iucyh.novelservice.novel.constant.NovelConstants.NOVEL_TITLE_LENGTH_MAX;
 
 @Entity
 @Table(name = "novel")

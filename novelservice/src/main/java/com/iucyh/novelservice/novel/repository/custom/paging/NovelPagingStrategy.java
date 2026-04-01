@@ -1,8 +1,8 @@
 package com.iucyh.novelservice.novel.repository.custom.paging;
 
 import com.iucyh.novelservice.novel.domain.Novel;
-import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelCursor;
 import com.iucyh.novelservice.novel.enumtype.NovelSortType;
+import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelCursor;
 import com.querydsl.jpa.impl.JPAQuery;
 
 /**

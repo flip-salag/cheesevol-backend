@@ -1,16 +1,18 @@
 package com.iucyh.novelservice.episode.web.dto.request;
 
+import com.iucyh.novelservice.common.vo.HtmlContent;
 import com.iucyh.novelservice.core.json.deserializer.html.SanitizedHtml;
 import com.iucyh.novelservice.core.validator.enumfield.EnumField;
 import com.iucyh.novelservice.core.validator.htmlnotblank.NotBlankWithoutHtml;
-import com.iucyh.novelservice.common.vo.HtmlContent;
 import com.iucyh.novelservice.episode.constant.EpisodeConstants;
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import static com.iucyh.novelservice.episode.constant.EpisodeConstants.*;
+import static com.iucyh.novelservice.episode.constant.EpisodeConstants.EPISODE_CONTENT_SAFE_LIST_KEY;
+import static com.iucyh.novelservice.episode.constant.EpisodeConstants.EPISODE_DESC_LENGTH_MAX;
+import static com.iucyh.novelservice.episode.constant.EpisodeConstants.EPISODE_TITLE_LENGTH_MIN;
 
 public record CreateEpisodeRequest(
 

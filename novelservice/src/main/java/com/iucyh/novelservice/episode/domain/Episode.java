@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import static com.iucyh.novelservice.episode.constant.EpisodeConstants.*;
+import static com.iucyh.novelservice.episode.constant.EpisodeConstants.EPISODE_DESC_LENGTH_MAX;
+import static com.iucyh.novelservice.episode.constant.EpisodeConstants.EPISODE_TITLE_LENGTH_MAX;
 
 @Entity
 @Table(name = "episode")

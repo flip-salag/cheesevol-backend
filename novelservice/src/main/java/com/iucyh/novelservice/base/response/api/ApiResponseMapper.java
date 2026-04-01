@@ -1,7 +1,7 @@
 package com.iucyh.novelservice.base.response.api;
 
-import com.iucyh.novelservice.base.response.api.internal.FailInformation;
 import com.iucyh.novelservice.base.exception.BusinessException;
+import com.iucyh.novelservice.base.response.api.internal.FailInformation;
 
 import java.util.Map;
 

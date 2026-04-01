@@ -1,6 +1,10 @@
 package com.iucyh.novelservice.core.json.deserializer.html;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * <p>도메인별 Safelist 정책과 매핑되는 Key를 명시하기 위한 어노테이션</p>

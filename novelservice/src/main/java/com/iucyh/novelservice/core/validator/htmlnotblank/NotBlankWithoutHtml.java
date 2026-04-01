@@ -3,7 +3,11 @@ package com.iucyh.novelservice.core.validator.htmlnotblank;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * <p>HTML 태그를 모두 제외한 순수한 텍스트를 기준으로 비어있는지 검증</p>

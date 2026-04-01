@@ -1,10 +1,10 @@
 package com.iucyh.novelservice.episode.repository.custom;
 
 import com.iucyh.novelservice.episode.enumtype.EpisodeType;
-import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeDetailProjection;
-import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeSummaryProjection;
 import com.iucyh.novelservice.episode.repository.custom.condition.EpisodePagingCondition;
+import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeDetailProjection;
 import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodePrevNextProjection;
+import com.iucyh.novelservice.episode.repository.projection.querydsl.EpisodeSummaryProjection;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;

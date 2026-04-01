@@ -5,8 +5,10 @@ import com.iucyh.novelservice.episode.enumtype.EpisodeType;
 import com.iucyh.novelservice.episode.exception.EpisodeContentLengthNotValid;
 import org.springframework.stereotype.Component;
 
-import static com.iucyh.novelservice.episode.constant.EpisodeConstants.*;
+import static com.iucyh.novelservice.episode.constant.EpisodeConstants.COMMON_EPISODE_CONTENT_LENGTH_MAX;
+import static com.iucyh.novelservice.episode.constant.EpisodeConstants.COMMON_EPISODE_CONTENT_LENGTH_MIN;
 import static com.iucyh.novelservice.episode.constant.EpisodeConstants.PROLOGUE_EPISODE_CONTENT_LENGTH_MAX;
+import static com.iucyh.novelservice.episode.constant.EpisodeConstants.PROLOGUE_EPISODE_CONTENT_LENGTH_MIN;
 
 @Component
 public class EpisodePolicyValidator {

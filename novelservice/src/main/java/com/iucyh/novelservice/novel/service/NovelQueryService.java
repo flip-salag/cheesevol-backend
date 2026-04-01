@@ -1,21 +1,21 @@
 package com.iucyh.novelservice.novel.service;
 
 import com.iucyh.novelservice.common.exception.DataNotFound;
-import com.iucyh.novelservice.novel.domain.Novel;
 import com.iucyh.novelservice.common.response.PageWithCursorResponse;
+import com.iucyh.novelservice.novel.domain.Novel;
+import com.iucyh.novelservice.novel.enumtype.NovelSortType;
 import com.iucyh.novelservice.novel.repository.NovelRepository;
+import com.iucyh.novelservice.novel.repository.custom.condition.NovelPagingCondition;
+import com.iucyh.novelservice.novel.repository.custom.paging.NovelPagingStrategy;
+import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelCursor;
 import com.iucyh.novelservice.novel.service.codec.NovelCursorCodec;
 import com.iucyh.novelservice.novel.service.dto.query.GetNewNovelsQuery;
 import com.iucyh.novelservice.novel.service.dto.query.GetNovelsQuery;
-import com.iucyh.novelservice.novel.service.registry.NovelPagingStrategyRegistry;
 import com.iucyh.novelservice.novel.service.policy.NovelPolicyValidator;
+import com.iucyh.novelservice.novel.service.registry.NovelPagingStrategyRegistry;
 import com.iucyh.novelservice.novel.web.dto.mapper.NovelResponseMapper;
 import com.iucyh.novelservice.novel.web.dto.response.NovelDetailResponse;
 import com.iucyh.novelservice.novel.web.dto.response.NovelSummaryResponse;
-import com.iucyh.novelservice.novel.enumtype.NovelSortType;
-import com.iucyh.novelservice.novel.repository.custom.condition.NovelPagingCondition;
-import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelCursor;
-import com.iucyh.novelservice.novel.repository.custom.paging.NovelPagingStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

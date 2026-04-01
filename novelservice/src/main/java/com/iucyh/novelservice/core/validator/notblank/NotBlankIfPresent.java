@@ -3,7 +3,11 @@ package com.iucyh.novelservice.core.validator.notblank;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * <p>대상 문자열이 비어있지 않고, 공백으로만 채워지지도 않았는지 검증</p>

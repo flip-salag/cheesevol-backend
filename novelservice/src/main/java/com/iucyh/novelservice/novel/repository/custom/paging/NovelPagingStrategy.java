@@ -6,7 +6,7 @@ import com.iucyh.novelservice.novel.repository.custom.paging.cursor.NovelCursor;
 import com.querydsl.jpa.impl.JPAQuery;
 
 /**
- * <p>Novel의 각 정렬 기준에 맞는 페이징 쿼리 생성을 위한 전략</p>
+ * <p>Novel의 각 정렬 기준에 맞는 페이징 전/후처리 전략</p>
  */
 public interface NovelPagingStrategy {
 

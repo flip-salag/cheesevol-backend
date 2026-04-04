@@ -83,6 +83,16 @@ public class Novel extends PublicEntity {
         return maxEpisodeNumber + 1;
     }
 
+    public void increaseCommonEpisodeCount() {
+        commonEpisodeCount++;
+    }
+
+    public void decreaseCommonEpisodeCount() {
+        if (commonEpisodeCount > 0) {
+            commonEpisodeCount--;
+        }
+    }
+
     public void updateTextMetaData(String title, String description) {
         if (title != null) {
             this.title = title.strip();
@@ -114,15 +124,5 @@ public class Novel extends PublicEntity {
 
     public void updateLastEpisodePublishDate(LocalDate lastEpisodePublishDate) {
         this.lastEpisodePublishDate = lastEpisodePublishDate;
-    }
-
-    public void increaseCommonEpisodeCount() {
-        this.commonEpisodeCount++;
-    }
-
-    public void decreaseCommonEpisodeCount() {
-        if (this.commonEpisodeCount > 0) {
-            this.commonEpisodeCount--;
-        }
     }
 }

@@ -92,7 +92,7 @@ public class EpisodeService {
     }
 
     private Episode createCommonEpisode(CreateEpisodeCommand command, Novel novel) {
-        int newEpisodeNumber = novel.getNextEpisodeNumber();
+        int newEpisodeNumber = novel.generateNewEpisodeNumber();
 
         Episode episode = EpisodeCommandMapper.toEpisode(command, novel, newEpisodeNumber, LocalDateTime.now());
         return episodeRepository.save(episode);

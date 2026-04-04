@@ -79,7 +79,7 @@ public class Novel extends PublicEntity {
         return isCompleted;
     }
 
-    public int getNextEpisodeNumber() {
+    public int generateNewEpisodeNumber() {
         return maxEpisodeNumber + 1;
     }
 

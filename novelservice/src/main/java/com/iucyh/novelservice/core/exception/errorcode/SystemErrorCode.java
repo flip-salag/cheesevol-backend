@@ -19,7 +19,8 @@ public enum SystemErrorCode implements ErrorCode {
 
     NO_RESOURCE_FOUND(HttpStatus.NOT_FOUND, "SYSTEM-4041", "No resource found"),
 
-    DUPLICATE_KEY(HttpStatus.CONFLICT, "SYSTEM-4091", "Duplicate resource exists");
+    DUPLICATE_KEY(HttpStatus.CONFLICT, "SYSTEM-4091", "Duplicate resource exists"),
+    OPTIMISTIC_LOCKING_FAILURE(HttpStatus.CONFLICT, "SYSTEM-4092", "Someone is modifying the same resource, please try again later");
 
     private final HttpStatus status;
     private final String code;

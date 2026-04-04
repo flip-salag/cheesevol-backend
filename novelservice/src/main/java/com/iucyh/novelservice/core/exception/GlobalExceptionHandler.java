@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -169,6 +170,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<FailResponse> handleDuplicateKeyException(DuplicateKeyException ex, HttpServletRequest req) {
         ErrorCode errorCode = SystemErrorCode.DUPLICATE_KEY;
+
+        FailInformation info = createFailInformation(errorCode, req);
+        FailResponse failResponse = ApiResponseMapper.fail(info);
+
+        log(LOG_LEVEL_WARN, req, ex, null);
+        return ResponseEntity
+                .status(errorCode.getStatus())
+                .body(failResponse);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<FailResponse> handleOptimisticLockingFailureException(OptimisticLockingFailureException ex, HttpServletRequest req) {
+        ErrorCode errorCode = SystemErrorCode.OPTIMISTIC_LOCKING_FAILURE;
 
         FailInformation info = createFailInformation(errorCode, req);
         FailResponse failResponse = ApiResponseMapper.fail(info);

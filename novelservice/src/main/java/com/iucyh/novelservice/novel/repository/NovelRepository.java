@@ -35,30 +35,6 @@ public interface NovelRepository extends JpaRepository<Novel, Long>, NovelCustom
     """)
     Optional<Novel> findByPublicIdFetch(@Param("publicId") String publicId);
 
-    /**
-     * <p>{@code id}에 해당하는 소설의 common_episode_count 값을 1만큼 증가</p>
-     * @param id 증가시킬 소설의 pk
-     */
-    @Modifying(clearAutomatically = true)
-    @Query("""
-    update Novel n
-    set n.commonEpisodeCount = n.commonEpisodeCount + 1
-    where n.id = :id and n.deletedAt is null
-    """)
-    void increaseCommonEpisodeCount(@Param("id") Long id);
-
-    /**
-     * <p>{@code id}에 해당하는 소설의 common_episode_count 값을 1만큼 감소</p>
-     * @param id 감소시킬 소설의 pk
-     */
-    @Modifying(clearAutomatically = true)
-    @Query("""
-    update Novel n
-    set n.commonEpisodeCount = n.commonEpisodeCount - 1
-    where n.id = :id and n.commonEpisodeCount > 0 and n.deletedAt is null
-    """)
-    void decreaseCommonEpisodeCount(@Param("id") Long id);
-
     @Modifying(clearAutomatically = true)
     @Query("update Novel n set n.totalViewCount = n.totalViewCount + 1 where n.id = :novelId and n.deletedAt is null")
     void increaseTotalViewCount(@Param("novelId") Long novelId);

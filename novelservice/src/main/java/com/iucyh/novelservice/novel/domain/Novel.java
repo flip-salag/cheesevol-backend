@@ -25,6 +25,9 @@ public class Novel extends PublicEntity {
     @Column(name = "novel_id")
     private Long id;
 
+    @Version
+    private Long version;
+
     @Column(length = NOVEL_TITLE_LENGTH_MAX, nullable = false)
     private String title;
 
@@ -74,6 +77,20 @@ public class Novel extends PublicEntity {
 
     public boolean isCompletedNovel() {
         return isCompleted;
+    }
+
+    public int generateNewEpisodeNumber() {
+        return maxEpisodeNumber + 1;
+    }
+
+    public void increaseCommonEpisodeCount() {
+        commonEpisodeCount++;
+    }
+
+    public void decreaseCommonEpisodeCount() {
+        if (commonEpisodeCount > 0) {
+            commonEpisodeCount--;
+        }
     }
 
     public void updateTextMetaData(String title, String description) {

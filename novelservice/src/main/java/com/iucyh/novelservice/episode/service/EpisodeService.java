@@ -50,7 +50,7 @@ public class EpisodeService {
         // COMMON 회차 생성 시 관련 컬럼 업데이트
         if (command.episodeType() == EpisodeType.COMMON) {
             novel.updateMaxEpisodeNumber(savedEpisode.getEpisodeNumber());
-            novelRepository.increaseCommonEpisodeCount(novel.getId());
+            novel.increaseCommonEpisodeCount();
         }
 
         return EpisodeResponseMapper.toEpisodeSaveResponse(savedEpisode);
@@ -70,6 +70,7 @@ public class EpisodeService {
         episode.updateContent(command.content().getSanitizedValue());
     }
 
+    // TODO: 락 예외 발생 시 재시도 기능 구현
     public void deleteEpisode(DeleteEpisodeCommand command) {
         Episode episode = findEpisodeWithNovelUserFetch(command.episodePublicId(), command.userId());
         Novel novel = episode.getNovel();
@@ -86,13 +87,12 @@ public class EpisodeService {
 
         // COMMON 회차와 관련된 컬럼 업데이트 (삭제하려는 회차가 COMMON이 아니라면 COMMON과 관련된 상태는 변하지 않으므로 업데이트 스킵)
         if (episode.getEpisodeType() == EpisodeType.COMMON) {
-            // DB 레벨에서 음수값 방지
-            novelRepository.decreaseCommonEpisodeCount(novel.getId());
+            novel.decreaseCommonEpisodeCount();
         }
     }
 
     private Episode createCommonEpisode(CreateEpisodeCommand command, Novel novel) {
-        int newEpisodeNumber = novel.getMaxEpisodeNumber() + 1;
+        int newEpisodeNumber = novel.generateNewEpisodeNumber();
 
         Episode episode = EpisodeCommandMapper.toEpisode(command, novel, newEpisodeNumber, LocalDateTime.now());
         return episodeRepository.save(episode);

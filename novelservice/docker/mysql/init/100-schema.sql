@@ -23,6 +23,7 @@ CREATE TABLE `novel`
     novel_id                  BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id                   BIGINT       NOT NULL,
     public_id                 VARCHAR(25)  NOT NULL,
+    version                   BIGINT       NOT NULL DEFAULT 0,
     title                     VARCHAR(50)  NOT NULL,
     description               VARCHAR(500) NOT NULL,
     category                  VARCHAR(50)  NOT NULL,

@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iucyh.flip.base.exception.BusinessException;
 import com.iucyh.flip.base.exception.ErrorCode;
-import com.iucyh.flip.base.response.api.ApiResponseMapper;
 import com.iucyh.flip.base.response.api.FailResponse;
-import com.iucyh.flip.base.response.api.internal.FailInformation;
 import com.iucyh.flip.common.util.IpUtil;
 import com.iucyh.flip.core.exception.errorcode.SystemErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,8 +48,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<FailResponse> handleBusinessException(BusinessException ex, HttpServletRequest req) {
         String path = req.getRequestURI();
-        FailResponse failResponse = ApiResponseMapper.fail(ex, path);
 
+        FailResponse failResponse = FailResponse.from(ex, path);
         log(LOG_LEVEL_WARN, req, ex, ex.getCauses());
         return ResponseEntity
                 .status(ex.getErrorCode().getStatus())
@@ -61,11 +59,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleNoResourceFoundException(NoResourceFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         HttpServletRequest req = getRequest(request);
+        String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.NO_RESOURCE_FOUND;
 
-        FailInformation info = createFailInformation(errorCode, req);
-        FailResponse failResponse = ApiResponseMapper.fail(info);
-
+        FailResponse failResponse = FailResponse.of(errorCode, path);
         log(LOG_LEVEL_INFO, req, ex, null);
         return ResponseEntity
                 .status(errorCode.getStatus())
@@ -75,18 +72,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         HttpServletRequest req = getRequest(request);
+        String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.MISSING_SERVLET_REQUEST_PARAMETER;
 
         String parameterName = ex.getParameterName();
         String parameterType = ex.getParameterType();
-
         LinkedHashMap<String, Object> causes = new LinkedHashMap<>();
+
         causes.put("parameterName", parameterName);
         causes.put("parameterType", parameterType);
 
-        FailInformation info = createFailInformation(errorCode, req);
-        FailResponse failResponse = ApiResponseMapper.fail(info, causes);
-
+        FailResponse failResponse = FailResponse.of(errorCode, path, causes);
         log(LOG_LEVEL_INFO, req, ex, causes);
         return ResponseEntity
                 .status(errorCode.getStatus())
@@ -95,18 +91,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<FailResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex, HttpServletRequest req) {
+        String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.METHOD_ARGUMENT_TYPE_MISMATCH;
 
         String parameterName = ex.getName();
         String parameterType = ex.getRequiredType() == null ? "" : ex.getRequiredType().getSimpleName();
-
         LinkedHashMap<String, Object> causes = new LinkedHashMap<>();
+
         causes.put("parameterName", parameterName);
         causes.put("requiredType", parameterType);
 
-        FailInformation info = createFailInformation(errorCode, req);
-        FailResponse failResponse = ApiResponseMapper.fail(info, causes);
-
+        FailResponse failResponse = FailResponse.of(errorCode, path, causes);
         log(LOG_LEVEL_INFO, req, ex, causes);
         return ResponseEntity
                 .status(errorCode.getStatus())
@@ -116,21 +111,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         HttpServletRequest req = getRequest(request);
+        String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.MISSING_PATH_VARIABLE;
-        boolean isMissingAfterConversion = ex.isMissingAfterConversion();
 
         Map<String, Object> causes = null;
+        boolean isMissingAfterConversion = ex.isMissingAfterConversion();
         if (isMissingAfterConversion) {
             String variableName = ex.getVariableName();
             causes = Map.of("missingVariable", variableName);
         }
 
-        FailInformation info = createFailInformation(errorCode, req);
-        FailResponse failResponse = ApiResponseMapper.fail(info, causes);
-
-        log(LOG_LEVEL_WARN, req, ex, causes);
-
         HttpStatus statusCode = isMissingAfterConversion ? errorCode.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+        FailResponse failResponse = FailResponse.of(errorCode, path, causes);
+        log(LOG_LEVEL_WARN, req, ex, causes);
         return ResponseEntity
                 .status(statusCode)
                 .body(failResponse);
@@ -139,11 +132,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         HttpServletRequest req = getRequest(request);
+        String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.HTTP_MESSAGE_NOT_READABLE;
 
-        FailInformation info = createFailInformation(errorCode, req);
-        FailResponse failResponse = ApiResponseMapper.fail(info);
-
+        FailResponse failResponse = FailResponse.of(errorCode, path);
         log(LOG_LEVEL_WARN, req, ex, null); // TODO: 원인이 된 Request Body 로깅
         return ResponseEntity
                 .status(errorCode.getStatus())
@@ -153,14 +145,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         HttpServletRequest req = getRequest(request);
+        String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.VALIDATION_FAILED;
 
         List<LinkedHashMap<String, String>> failedFields = getFailedFields(ex);
         Map<String, Object> fieldErrors = Map.of("fields", failedFields);
 
-        FailInformation info = createFailInformation(errorCode, req);
-        FailResponse failResponse = ApiResponseMapper.fail(info, fieldErrors);
-
+        FailResponse failResponse = FailResponse.of(errorCode, path, fieldErrors);
         log(LOG_LEVEL_INFO, req, ex, fieldErrors);
         return ResponseEntity
                 .status(errorCode.getStatus())
@@ -169,11 +160,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<FailResponse> handleDuplicateKeyException(DuplicateKeyException ex, HttpServletRequest req) {
+        String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.DUPLICATE_KEY;
 
-        FailInformation info = createFailInformation(errorCode, req);
-        FailResponse failResponse = ApiResponseMapper.fail(info);
-
+        FailResponse failResponse = FailResponse.of(errorCode, path);
         log(LOG_LEVEL_WARN, req, ex, null);
         return ResponseEntity
                 .status(errorCode.getStatus())
@@ -182,11 +172,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<FailResponse> handleOptimisticLockingFailureException(OptimisticLockingFailureException ex, HttpServletRequest req) {
+        String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.OPTIMISTIC_LOCKING_FAILURE;
 
-        FailInformation info = createFailInformation(errorCode, req);
-        FailResponse failResponse = ApiResponseMapper.fail(info);
-
+        FailResponse failResponse = FailResponse.of(errorCode, path);
         log(LOG_LEVEL_WARN, req, ex, null);
         return ResponseEntity
                 .status(errorCode.getStatus())
@@ -195,11 +184,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<FailResponse> handleException(Exception ex, HttpServletRequest req) {
+        String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.INTERNAL_SERVER_ERROR;
 
-        FailInformation info = createFailInformation(errorCode, req);
-        FailResponse failResponse = ApiResponseMapper.fail(info);
-
+        FailResponse failResponse = FailResponse.of(errorCode, path);
         log(LOG_LEVEL_ERROR, req, ex, null);
         return ResponseEntity
                 .status(errorCode.getStatus())
@@ -209,11 +197,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private HttpServletRequest getRequest(WebRequest request) {
         ServletWebRequest servletWebRequest = (ServletWebRequest) request;
         return servletWebRequest.getRequest();
-    }
-
-    private FailInformation createFailInformation(ErrorCode errorCode, HttpServletRequest req) {
-        String path = req.getRequestURI();
-        return new FailInformation(errorCode, errorCode.getDefaultMessage(), path);
     }
 
     private List<LinkedHashMap<String, String>> getFailedFields(MethodArgumentNotValidException ex) {

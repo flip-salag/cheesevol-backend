@@ -1,4 +1,4 @@
-USE `novel_service`;
+USE `flip`;
 
 INSERT INTO user (public_id, email, password, nickname, bio, created_at, updated_at)
 VALUES

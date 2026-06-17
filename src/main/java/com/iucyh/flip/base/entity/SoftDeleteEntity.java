@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @Getter
-public abstract class SoftDeleteEntity extends DateAuditEntity {
+public abstract class SoftDeleteEntity extends AuditableEntity {
 
     private LocalDateTime deletedAt;
 

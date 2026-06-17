@@ -8,12 +8,12 @@ import java.util.Map;
 public class DataNotFound extends BusinessException {
 
     /**
-     * @param publicId 해당 리소스를 조회했을 당시 사용한 식별자
+     * @param id 해당 리소스를 조회했을 당시 사용한 식별자
      */
-    public DataNotFound(String publicId) {
+    public DataNotFound(String id) {
         super(
                 CommonErrorCode.DATA_NOT_FOUND,
-                Map.of("id", publicId)
+                Map.of("id", id)
         );
     }
 
@@ -21,9 +21,6 @@ public class DataNotFound extends BusinessException {
      * <p>식별자를 노출하고 싶지 않을 때 사용</p>
      */
     public DataNotFound() {
-        super(
-                CommonErrorCode.DATA_NOT_FOUND,
-                "Resource not found"
-        );
+        super(CommonErrorCode.DATA_NOT_FOUND);
     }
 }

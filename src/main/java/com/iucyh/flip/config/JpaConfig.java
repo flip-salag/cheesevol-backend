@@ -2,17 +2,17 @@ package com.iucyh.flip.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @Configuration
 @EnableJpaAuditing
-@RequiredArgsConstructor
 public class JpaConfig {
 
-    private final EntityManager em;
+    @PersistenceContext
+    private EntityManager em;
 
     @Bean
     public JPAQueryFactory jpaQueryFactory() {

@@ -1,4 +1,4 @@
-USE novel_service;
+USE flip;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`

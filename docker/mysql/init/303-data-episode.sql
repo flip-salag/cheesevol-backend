@@ -1,4 +1,4 @@
-USE `novel_service`;
+USE `flip`;
 
 /*
 ==== 소설 당 회차 개수 ====

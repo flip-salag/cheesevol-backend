@@ -15,7 +15,7 @@
 
     <!--local-->
     <springProfile name="local">
-        <logger name="com.iucyh.novelservice" level="DEBUG" additivity="false">
+        <logger name="com.iucyh.flip" level="DEBUG" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
 

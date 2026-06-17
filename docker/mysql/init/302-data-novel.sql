@@ -1,4 +1,4 @@
-USE `novel_service`;
+USE `flip`;
 
 /*
 ==== 작가 당 소설 개수 ====

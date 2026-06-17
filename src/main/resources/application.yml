@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: novel-service
+    name: flip
 
   profiles:
     active:

@@ -13,5 +13,5 @@ public enum CommonErrorCode implements ErrorCode {
 
     private final HttpStatus status;
     private final String code;
-    private final String defaultMessage;
+    private final String message;
 }

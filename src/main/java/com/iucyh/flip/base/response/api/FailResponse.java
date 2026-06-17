@@ -1,28 +1,34 @@
 package com.iucyh.flip.base.response.api;
 
+import com.iucyh.flip.base.exception.BusinessException;
 import com.iucyh.flip.base.exception.ErrorCode;
-import lombok.Getter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Map;
 
-@Getter
-public class FailResponse {
+public record FailResponse(
 
-    private final Boolean isSuccess = false;
-    private final Instant timestamp;
-    private final int status;
-    private final String code;
-    private final String message;
-    private final String path;
-    private final Map<String, Object> causes;
+        Boolean isSuccess,
+        LocalDateTime timestamp,
+        String code,
+        String message,
+        String path,
+        Map<String, Object> causes
+) {
+    private FailResponse(ErrorCode errorCode, String path, Map<String, Object> causes) {
+        this(false, LocalDateTime.now(), errorCode.getCode(), errorCode.getMessage(), path, causes);
+    }
 
-    protected FailResponse(ErrorCode errorCode, String message, String path, Map<String, Object> causes) {
-        this.timestamp = Instant.now();
-        this.status = errorCode.getStatus().value();
-        this.code = errorCode.getCode();
-        this.message = message;
-        this.path = path;
-        this.causes = causes;
+    public static FailResponse of(ErrorCode errorCode, String path, Map<String, Object> causes) {
+        return new FailResponse(errorCode, path, causes);
+    }
+
+    public static FailResponse of(ErrorCode errorCode, String path) {
+        return new FailResponse(errorCode, path, null);
+    }
+
+    public static FailResponse from(BusinessException ex, String path) {
+        return new FailResponse(ex.getErrorCode(), path, ex.getCauses());
     }
 }
+

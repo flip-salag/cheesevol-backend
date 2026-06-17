@@ -1,14 +1,16 @@
 package com.iucyh.flip.base.response.api;
 
-import lombok.Getter;
+public record SuccessResponse<T>(Boolean isSuccess, T data) {
 
-@Getter
-public class SuccessResponse<T> {
+    private SuccessResponse(T data) {
+        this(true, data);
+    }
 
-    private final Boolean isSuccess = true;
-    private final T data;
+    public static <T> SuccessResponse<T> of(T data) {
+        return new SuccessResponse<>(data);
+    }
 
-    protected SuccessResponse(T data) {
-        this.data = data;
+    public static SuccessResponse<Void> empty() {
+        return new SuccessResponse<>(null);
     }
 }

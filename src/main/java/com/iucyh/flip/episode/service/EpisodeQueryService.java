@@ -1,0 +1,61 @@
+package com.iucyh.flip.episode.service;
+
+import com.iucyh.flip.common.exception.DataNotFound;
+import com.iucyh.flip.common.response.PageWithOffsetResponse;
+import com.iucyh.flip.episode.repository.EpisodeRepository;
+import com.iucyh.flip.episode.repository.custom.condition.EpisodePagingCondition;
+import com.iucyh.flip.episode.repository.projection.querydsl.EpisodeDetailProjection;
+import com.iucyh.flip.episode.repository.projection.querydsl.EpisodePrevNextProjection;
+import com.iucyh.flip.episode.repository.projection.querydsl.EpisodeSummaryProjection;
+import com.iucyh.flip.episode.service.dto.query.GetEpisodesQuery;
+import com.iucyh.flip.episode.web.dto.mapper.EpisodeResponseMapper;
+import com.iucyh.flip.episode.web.dto.response.EpisodeContentResponse;
+import com.iucyh.flip.episode.web.dto.response.EpisodeDetailResponse;
+import com.iucyh.flip.episode.web.dto.response.EpisodeSummaryResponse;
+import com.iucyh.flip.novel.repository.NovelRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor // TODO: 조회수 관련 로직 구현
+public class EpisodeQueryService {
+
+    private final NovelRepository novelRepository;
+    private final EpisodeRepository episodeRepository;
+
+    public PageWithOffsetResponse<EpisodeSummaryResponse> getEpisodesByNovel(GetEpisodesQuery query) {
+        boolean novelExists = novelRepository.existsByPublicId(query.novelPublicId());
+        if (!novelExists) {
+            throw new DataNotFound(query.novelPublicId()); // 소설이 유효하지 않거나 존재하지 않으면 없는 것으로 간주 (자세한 정책은 existsByPublicId 메서드 주석 확인)
+        }
+
+        Pageable pageable = PageRequest.of(query.page(), query.limit());
+        EpisodePagingCondition condition = new EpisodePagingCondition(pageable, query.sortType());
+        Page<EpisodeSummaryProjection> result = episodeRepository.findEpisodesByNovelPublicId(query.novelPublicId(), condition);
+
+        return EpisodeResponseMapper.toPageResponse(result);
+    }
+
+    public EpisodeDetailResponse getEpisodeDetail(String episodePublicId) {
+        EpisodeDetailProjection detailResult = episodeRepository.findEpisodeDetailByPublicId(episodePublicId)
+                .orElseThrow(() -> new DataNotFound(episodePublicId));
+
+        EpisodePrevNextProjection prevEpisode = episodeRepository.findPrevEpisode(detailResult.getNovelId(), detailResult.getEpisodeNumber())
+                .orElse(null);
+        EpisodePrevNextProjection nextEpisode = episodeRepository.findNextEpisode(detailResult.getNovelId(), detailResult.getEpisodeNumber())
+                .orElse(null);
+
+        return EpisodeResponseMapper.toEpisodeDetailResponse(detailResult, prevEpisode, nextEpisode);
+    }
+
+    public EpisodeContentResponse getEpisodeContent(String episodePublicId) {
+        String contentResult = episodeRepository.findEpisodeContentByPublicId(episodePublicId)
+                .orElseThrow(() -> new DataNotFound(episodePublicId));
+        return EpisodeResponseMapper.toEpisodeContentResponse(episodePublicId, contentResult);
+    }
+}

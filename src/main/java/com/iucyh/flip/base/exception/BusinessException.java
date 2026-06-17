@@ -10,7 +10,7 @@ public class BusinessException extends RuntimeException {
     private final ErrorCode errorCode;
     private final Map<String, Object> causes;
 
-    private BusinessException(ErrorCode errorCode, Map<String, Object> causes, Throwable cause) {
+    protected BusinessException(ErrorCode errorCode, Map<String, Object> causes, Throwable cause) {
         super(errorCode.getMessage(), cause);
         this.errorCode = errorCode;
         this.causes = causes;

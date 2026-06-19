@@ -19,6 +19,6 @@ spring:
           batch_size: 100
         order_inserts: true
         order_updates: true
-        default_batch_fetch_size: 150
+        default_batch_fetch_size: 100
         format_sql: true
         use_sql_comments: true

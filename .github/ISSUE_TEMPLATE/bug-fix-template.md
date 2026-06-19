@@ -1,9 +1,10 @@
 ---
-name: "Bug fix"
+name: Bug fix
 about: 버그 수정 작업
 title: ''
 labels: ''
 assignees: ''
+
 ---
 
 ## 📝 요약

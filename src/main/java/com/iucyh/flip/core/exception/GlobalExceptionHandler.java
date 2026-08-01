@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iucyh.flip.base.exception.BusinessException;
 import com.iucyh.flip.base.exception.ErrorCode;
-import com.iucyh.flip.base.response.api.FailResponse;
+import com.iucyh.flip.common.response.envelope.FailResponse;
 import com.iucyh.flip.common.util.IpUtil;
 import com.iucyh.flip.core.exception.errorcode.SystemErrorCode;
 import jakarta.servlet.http.HttpServletRequest;

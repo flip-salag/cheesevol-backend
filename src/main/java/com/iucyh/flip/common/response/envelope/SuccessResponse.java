@@ -1,4 +1,4 @@
-package com.iucyh.flip.base.response.api;
+package com.iucyh.flip.common.response.envelope;
 
 public record SuccessResponse<T>(Boolean isSuccess, T data) {
 

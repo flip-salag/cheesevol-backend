@@ -1,4 +1,4 @@
-package com.iucyh.flip.base.response.api;
+package com.iucyh.flip.common.response.envelope;
 
 import com.iucyh.flip.base.exception.BusinessException;
 import com.iucyh.flip.base.exception.ErrorCode;

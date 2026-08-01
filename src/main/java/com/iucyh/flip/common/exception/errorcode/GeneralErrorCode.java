@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum CommonErrorCode implements ErrorCode {
+public enum GeneralErrorCode implements ErrorCode {
 
-    DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "COMMON-4041", "Requested resource not found"); // 특정 도메인 리소스를 찾지 못했을 때 사용
+    DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "GENERAL-4041", "Requested resource not found"); // 특정 도메인 리소스를 찾지 못했을 때 사용
 
     private final HttpStatus status;
     private final String code;

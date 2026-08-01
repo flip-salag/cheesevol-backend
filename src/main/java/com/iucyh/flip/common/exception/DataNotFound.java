@@ -1,7 +1,7 @@
 package com.iucyh.flip.common.exception;
 
 import com.iucyh.flip.base.exception.BusinessException;
-import com.iucyh.flip.common.exception.errorcode.CommonErrorCode;
+import com.iucyh.flip.common.exception.errorcode.GeneralErrorCode;
 
 import java.util.Map;
 
@@ -12,7 +12,7 @@ public class DataNotFound extends BusinessException {
      */
     public DataNotFound(String id) {
         super(
-                CommonErrorCode.DATA_NOT_FOUND,
+                GeneralErrorCode.DATA_NOT_FOUND,
                 Map.of("id", id)
         );
     }
@@ -21,6 +21,6 @@ public class DataNotFound extends BusinessException {
      * <p>식별자를 노출하고 싶지 않을 때 사용</p>
      */
     public DataNotFound() {
-        super(CommonErrorCode.DATA_NOT_FOUND);
+        super(GeneralErrorCode.DATA_NOT_FOUND);
     }
 }

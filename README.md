@@ -1,10 +1,5 @@
-# 사락(Flip)
-> 가벼운 도파민 소비형 작품이 아닌, 문학적 깊이와 개성을 지닌 작품을 웹소설처럼 간편하게 읽을 수 있는 플랫폼
-<div align="left">
-  <a href="https://lucy-blog.notion.site/2990ad45a877803e85b6d597bbce49e4">이슈 로그</a>
-  &nbsp;
-  <a href="https://lucy-blog.notion.site/3170ad45a877804383a2fe54b3c188d1?v=3170ad45a87780d2aee9000c4040f3f6">개발 문서</a>
-</div>
+# 치즈볼 (CheeseVol)
+> 치지직 채널별 볼륨 자동 저장 / 자동 적용 확장 프로그램
 
 ## 기술 스택
 ### 개발 환경

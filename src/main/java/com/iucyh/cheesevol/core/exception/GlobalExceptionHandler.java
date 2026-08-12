@@ -63,7 +63,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.NO_RESOURCE_FOUND;
 
-        ApiResponse.ErrorInfo error = ApiResponse.ErrorInfo.of(errorCode.getCode(), errorCode.getMessage(), null);
+        ApiResponse.ErrorInfo error = ApiResponse.ErrorInfo.of(errorCode.getCode(), errorCode.getMessage());
         log(LOG_LEVEL_INFO, req, ex, null);
         return ResponseEntity
                 .status(errorCode.getStatus())
@@ -134,7 +134,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.HTTP_MESSAGE_NOT_READABLE;
 
-        ApiResponse.ErrorInfo error = ApiResponse.ErrorInfo.of(errorCode.getCode(), errorCode.getMessage(), null);
+        ApiResponse.ErrorInfo error = ApiResponse.ErrorInfo.of(errorCode.getCode(), errorCode.getMessage());
         log(LOG_LEVEL_WARN, req, ex, null); // TODO: 원인이 된 Request Body 로깅
         return ResponseEntity
                 .status(errorCode.getStatus())
@@ -162,7 +162,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.DUPLICATE_KEY;
 
-        ApiResponse.ErrorInfo error = ApiResponse.ErrorInfo.of(errorCode.getCode(), errorCode.getMessage(), null);
+        ApiResponse.ErrorInfo error = ApiResponse.ErrorInfo.of(errorCode.getCode(), errorCode.getMessage());
         log(LOG_LEVEL_WARN, req, ex, null);
         return ResponseEntity
                 .status(errorCode.getStatus())
@@ -174,7 +174,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.OPTIMISTIC_LOCKING_FAILURE;
 
-        ApiResponse.ErrorInfo error = ApiResponse.ErrorInfo.of(errorCode.getCode(), errorCode.getMessage(), null);
+        ApiResponse.ErrorInfo error = ApiResponse.ErrorInfo.of(errorCode.getCode(), errorCode.getMessage());
         log(LOG_LEVEL_WARN, req, ex, null);
         return ResponseEntity
                 .status(errorCode.getStatus())
@@ -186,7 +186,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         String path = req.getRequestURI();
         ErrorCode errorCode = SystemErrorCode.INTERNAL_SERVER_ERROR;
 
-        ApiResponse.ErrorInfo error = ApiResponse.ErrorInfo.of(errorCode.getCode(), errorCode.getMessage(), null);
+        ApiResponse.ErrorInfo error = ApiResponse.ErrorInfo.of(errorCode.getCode(), errorCode.getMessage());
         log(LOG_LEVEL_ERROR, req, ex, null);
         return ResponseEntity
                 .status(errorCode.getStatus())

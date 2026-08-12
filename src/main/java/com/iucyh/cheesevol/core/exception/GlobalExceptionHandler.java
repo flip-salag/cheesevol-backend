@@ -48,10 +48,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleBusinessException(BusinessException ex, HttpServletRequest req) {
         String path = req.getRequestURI();
         ErrorCode errorCode = ex.getErrorCode();
+        String message = ex.getMessage();
         Map<String, Object> causes = ex.getCauses();
 
-        ApiResponse.ErrorInfo error = ApiResponse.ErrorInfo.of(errorCode.getCode(), errorCode.getMessage(), causes);
-        log(LOG_LEVEL_WARN, req, ex, ex.getCauses());
+        ApiResponse.ErrorInfo error = ApiResponse.ErrorInfo.of(errorCode.getCode(), message, causes);
+        log(LOG_LEVEL_WARN, req, ex, causes);
         return ResponseEntity
                 .status(errorCode.getStatus())
                 .body(ApiResponse.error(error, path));

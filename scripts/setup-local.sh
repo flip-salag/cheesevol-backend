@@ -11,7 +11,7 @@ ENV_EXAMPLE="$ROOT_DIR/.env.example"
 cp "$ENV_EXAMPLE" "$ENV_FILE"
 
 sed -i '' 's/^DB_PORT=.*/DB_PORT=22306/' "$ENV_FILE"
-sed -i '' 's/^DB_NAME=.*/DB_NAME=flip/' "$ENV_FILE"
+sed -i '' 's/^DB_NAME=.*/DB_NAME=cheesevol/' "$ENV_FILE"
 sed -i '' 's/^DB_USERNAME=.*/DB_USERNAME=root/' "$ENV_FILE"
 sed -i '' 's/^DB_PASSWORD=.*/DB_PASSWORD=root123/' "$ENV_FILE"
 

@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: flip
+    name: cheesevol
 
   profiles:
     active:

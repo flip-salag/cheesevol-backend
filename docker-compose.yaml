@@ -1,7 +1,7 @@
 services:
   db:
     image: mysql:8.4
-    container_name: flip-db
+    container_name: cheesevol-db
     restart: unless-stopped
     ports:
       - ${DB_PORT:?DB_PORT is required}:3306

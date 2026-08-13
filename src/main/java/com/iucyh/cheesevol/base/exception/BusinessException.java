@@ -23,4 +23,9 @@ public class BusinessException extends RuntimeException {
     protected BusinessException(ErrorCode errorCode) {
         this(errorCode, null, null);
     }
+
+    @Override
+    public String getMessage() {
+        return errorCode.getMessage();
+    }
 }

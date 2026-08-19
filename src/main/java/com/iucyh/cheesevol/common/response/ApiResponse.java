@@ -3,11 +3,12 @@ package com.iucyh.cheesevol.common.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.Map;
 
 /**
  * 성공, 에러 공통 응답 객체
- * <p>{@link ErrorInfo}의 {@code causes}는 경우에 따라 {@code null}일 수 있음</p>
  * @param isSuccess 성공 여부
  * @param timestamp 응답이 완료된 시간 ({@link ApiResponse}가 생성된 시점)
  * @param path 요청 경로
@@ -27,7 +28,7 @@ public record ApiResponse<T>(
         return new ApiResponse<>(true, now(), path, data, null);
     }
 
-    public static <T> ApiResponse<T> success(String path) {
+    public static ApiResponse<Void> success(String path) {
         return new ApiResponse<>(true, now(), path, null, null);
     }
 
@@ -36,17 +37,31 @@ public record ApiResponse<T>(
     }
 
     private static LocalDateTime now() {
-        return LocalDateTime.now();
+        return LocalDateTime.now()
+                .truncatedTo(ChronoUnit.SECONDS); // 초 단위까지만 표시
     }
 
+    /**
+     * 발생한 예외의 정보
+     * @param code 에러 코드
+     * @param message 어떤 예외인지 알 수 있는 설명 (보통 {@code ErrorCode}의 message)
+     * @param causes 원인이 된 값들(객체 형식), {@code null}이거나 비어있다면 {@code null}로 설정됨
+     */
     public record ErrorInfo(String code, String message, Map<String, Object> causes) {
 
         public static ErrorInfo of(String code, String message, Map<String, Object> causes) {
-            return new ErrorInfo(code, message, causes);
+            return new ErrorInfo(code, message, sanitizeCauses(causes));
         }
 
         public static ErrorInfo of(String code, String message) {
-            return new ErrorInfo(code, message, null);
+            return new ErrorInfo(code, message, sanitizeCauses(null));
+        }
+
+        private static Map<String, Object> sanitizeCauses(Map<String, Object> causes) {
+            if (causes == null || causes.isEmpty()) {
+                return null;
+            }
+            return Collections.unmodifiableMap(causes);
         }
     }
 }

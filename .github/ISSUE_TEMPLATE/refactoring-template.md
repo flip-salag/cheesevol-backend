@@ -1,6 +1,6 @@
 ---
-name: Refactoring
-about: 코드, DB 등 리펙토링 작업
+name: Base
+about: 기능 추가, 리펙토링 등 일반적인 작업
 title: ''
 labels: ''
 assignees: ''
@@ -8,9 +8,9 @@ assignees: ''
 ---
 
 ## 📝 요약
-- 리펙토링 작업에 대한 요약
+- 작업에 대한 요약
 ## 💡목적
-- 리펙토링의 목적
+- 리펙토링 작업이거나 작업에 대한 목적이 있는 경우 작성
 ## 🧾 상세 계획
 - [ ] TODO
 ## 🔍 참고

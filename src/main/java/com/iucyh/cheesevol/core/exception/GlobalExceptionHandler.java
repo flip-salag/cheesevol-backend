@@ -116,10 +116,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         String path = req.getRequestURI();
         ErrorCode errorCode = ex.isMissingAfterConversion() ? SystemErrorCode.MISSING_PATH_VARIABLE : SystemErrorCode.INTERNAL_SERVER_ERROR;
 
-        Map<String, Object> causes = null;
+        Map<String, Object> causes = new LinkedHashMap<>();
         if (ex.isMissingAfterConversion()) {
             String variableName = ex.getVariableName();
-            causes = Map.of("missingVariable", variableName);
+            causes.put("missingVariable", variableName);
         }
 
         ApiResponse.ErrorInfo error = ApiResponse.ErrorInfo.of(errorCode.getCode(), errorCode.getMessage(), causes);

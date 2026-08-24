@@ -2,7 +2,7 @@ language: ko-KR
 tone_instructions: >-
   Write all reviews in 'Korean'.
   Speak like a colleague with clear technical details.
-  Focus on code convention violations, security issues, bugs, and performance problems.
+  Focus on code convention violations, security issues, bugs, and performance issues.
   Ignore formatting but check for typos or grammar errors.
 
 early_access: true
@@ -11,25 +11,43 @@ reviews:
   profile: chill
   request_changes_workflow: true
   collapse_walkthrough: false
-  path_filters:
-    - "!**/README.md"
+  high_level_summary: true
+  high_level_summary_in_walkthrough: false
+  changed_files_summary: true
+  related_issues: true
+  related_prs: true
+  poem: false
+
   path_instructions:
     - path: "**/*.sql"
       instructions: If a table column name is "id" or ends with "_id", verify that the column type is "bigint".
-    - path: "**/*(Query)?Service.java"
-      instructions: >-
-        In Service Layer, we don't create validation method or code directly. if you found validation method or validation code, issue a warning. this convention is mandatory.
-        If file name is {domain}Service.java, it means command service. command service cannot have query(Get) method.
-        If file name is {domain}QueryService.java, it means query service, query service cannot have command(Write) method.
-        If file name is not {domain}Service.java or {domain}QueryService.java, you should check the role of that class, and review it clearly (if you can't figure out the role, you can ask by a comment.)
-        For all Service classes, review if the comments are clear. if the comments are useless or are not readable, you should warn them.
-    - path: "**/*PolicyValidator.java"
-      instructions: >-
-        PolicyValidator is responsible for policy validation for each domain. review that each method has an comments and all comments are clear.
-        Each of the methods in PolicyValidator must specify what exceptions they are throwing as 'throws'.
-        Be sure to check the name of the method. the name should start with 'validate' and explain exactly what the method verifies.
-    - path: "**/*SafelistProvider.java"
-      instructions: >-
-        SafelistProvider is responsible for providing a Safelist of Jsoup that fits the policies of each domain.
-        SafelistProvider implementations must have @Component annotation.
-  
+
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    ignore_title_keywords:
+      - "wip"
+      - "draft"
+    drafts: false
+    base_branches:
+      - "dev"
+
+  finishing_touches:
+    docstrings:
+      enabled: true
+
+knowledge_base:
+  web_search:
+    enabled: true
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - "**/README.md"
+      - "**/REVIEW.md"
+
+chat:
+  auto_reply: true
+
+code_generation:
+  docstrings:
+    language: "ko-KR"

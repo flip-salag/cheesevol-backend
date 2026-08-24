@@ -47,7 +47,7 @@ public class BusinessException extends RuntimeException {
     }
 
     /**
-     * @return {@code causes}가 {@code null}이거나 비어있다면 빈 Map (불변), 아니라면 불변 Map으로 감싼 {@code causes}
+     * @return {@code causes}가 {@code null}이거나 비어있다면 빈 Map (불변), 아니라면 수정 불가능한 Map으로 감싼 {@code causes}
      */
     public Map<String, Object> getCauses() {
         if (causes == null || causes.isEmpty()) {

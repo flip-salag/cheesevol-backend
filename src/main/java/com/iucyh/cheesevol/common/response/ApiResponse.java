@@ -65,7 +65,7 @@ public record ApiResponse<T>(
             if (causes == null || causes.isEmpty()) {
                 return null;
             }
-            return Collections.unmodifiableMap(causes);
+            return Map.copyOf(causes);
         }
     }
 }

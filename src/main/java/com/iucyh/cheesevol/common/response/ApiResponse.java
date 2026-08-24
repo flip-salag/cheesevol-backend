@@ -49,13 +49,16 @@ public record ApiResponse<T>(
      */
     public record ErrorInfo(String code, String message, Map<String, Object> causes) {
 
+        public ErrorInfo {
+            causes = sanitizeCauses(causes);
+        }
+
         public static ErrorInfo of(String code, String message, Map<String, Object> causes) {
-            return new ErrorInfo(code, message, sanitizeCauses(causes));
+            return new ErrorInfo(code, message, causes);
         }
 
         public static ErrorInfo of(String code, String message) {
-            // sanitizeCauses() 메서드 사용: 응답 규칙이 변경되어도 sanitizeCauses() 메서드만 수정할 수 있도록 함
-            return new ErrorInfo(code, message, sanitizeCauses(null));
+            return new ErrorInfo(code, message, null);
         }
 
         private static Map<String, Object> sanitizeCauses(Map<String, Object> causes) {

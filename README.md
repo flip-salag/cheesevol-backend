@@ -6,8 +6,11 @@
 - Java 17
 - Gradle
 - Spring Boot 3.5.4
-### 데이터베이스
-- MySQL 8.4.7
+### 데이터베이스 및 접근 기술
+- MySQL 8.4
+- h2 (test)
+- JPA, Spring Data JPA
+- QueryDSL 7.1 (openfeign)
 
 ## 시작하기
 ### .env.local 생성 및 로컬 환경 세팅
@@ -27,9 +30,7 @@ docker compose --env-file .env.local up -d
 ./gradlew bootRun
 ```
 
-## 코드 아키텍처
-레이어드 아키텍처(Layered Architecture)를 기반으로 최대한 실용적으로 변형한 아키텍처 사용
-### 패키지 구조
+## 패키지별 역할
 - ```base```
   - 다른 모듈들이 상속받는 기반 부모 클래스 혹은 인터페이스
 - ```common```
@@ -38,6 +39,6 @@ docker compose --env-file .env.local up -d
   - 애플리케이션의 설정 클래스
 - ```core```
   - 애플리케이션 시스템을 구성하는 핵심 모듈(예외 핸들러, 커스텀 검증기, JSON 역직렬화기 등)
-- 그 외: 각 도메인별 패키지 (세부 구조는 미정)
+- 그 외: 각 도메인별 패키지
 ### 주요 모듈
 - 리팩토링 후 작성 예정

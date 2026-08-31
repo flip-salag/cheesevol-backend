@@ -33,21 +33,21 @@ docker compose --env-file .env.local up -d
 ## 패키지 구조 및 주요 규칙
 ```
 com.iucyh.cheesevol
-├── global/        # 전역 모듈
-    ├── base/            # 다른 모듈들이 상속받는 기반 부모 클래스 혹은 인터페이스
-    ├── common/          # 프로젝트 전반적으로 쓰이는 공용 모듈(범용 예외, 공통 응답, 유틸리티 등)
-    ├── config/          # 애플리케이션의 설정 클래스
-    └── core/            # 애플리케이션 시스템을 구성하는 핵심 모듈(예외 핸들러, 커스텀 검증기, JSON 역직렬화기 등)
-├── {domain}/      # 각 도메인(+특정 도메인의 이력 등 최상위 도메인에 완전히 종속되는 하위 도메인)별 모듈, 네이밍은 최상위 도메인의 이름(Member, Channel...)
+├── global/     # 전역 모듈
+│   ├── base/            # 다른 모듈들이 상속받는 기반 부모 클래스 혹은 인터페이스
+│   ├── common/          # 프로젝트 전반적으로 쓰이는 공용 모듈(범용 예외, 공통 응답, 유틸리티 등)
+│   ├── config/          # 애플리케이션의 설정 클래스
+│   └── core/            # 애플리케이션 시스템을 구성하는 핵심 모듈(예외 핸들러, 커스텀 검증기, JSON 역직렬화기 등)
+└── {domain}/    # 각 도메인(+특정 도메인의 이력 등 최상위 도메인에 완전히 종속되는 하위 도메인)별 모듈, 네이밍은 최상위 도메인의 이름(Member, Channel...)
     ├── domain/          # 도메인 객체를 겸하는 JPA Entity 및 도메인에서 사용되는 enum
     ├── repository/      # Spring Data JPA 리포지토리, Redis 리포지토리, QueryDSL 리포지토리 등 데이터 접근 계층
-    ├── application/     # 비즈니스 로직을 수행하는 응용 계층, Service
-    ├── presentation/    # API Spec을 정의하는 표현 계층, Controller
-        ├── dto/               # API 요청/응답 객체
-            ├── request/             # 요청 객체(record)
-            └── response/            # 응답 객체(record)
+    ├── application/     # 비즈니스 로직을 수행하는 응용 계층
+    ├── presentation/    # API Spec을 정의하는 표현 계층
+    │   └── dto/             # API 요청/응답 객체
+    │       ├── request/         # 요청 객체(record)
+    │       └── response/        # 응답 객체(record)
     ├── exception/       # BusinessException을 상속받는 도메인 비즈니스 예외 클래스
-        └── errorcode/         # 각 도메인별 에러코드 enum
+    │   └── errorcode/       # 각 도메인별 에러코드 enum
     └── infrastructure/  # http 클라이언트 등 외부 시스템과 통신하는 계층
 ```
 **요청/응답 매핑**

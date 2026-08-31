@@ -42,7 +42,7 @@ com.iucyh.cheesevol
     ├── domain/          # 도메인 객체를 겸하는 JPA Entity 및 도메인에서 사용되는 enum
     ├── repository/      # Spring Data JPA 리포지토리, Redis 리포지토리, QueryDSL 리포지토리 등 데이터 접근 계층
     ├── application/     # 비즈니스 로직을 수행하는 응용 계층, Service
-    ├── presentation/    # API 스팩을 정의하는 표현 계층, Controller
+    ├── presentation/    # API Spec을 정의하는 표현 계층, Controller
         ├── dto/               # API 요청/응답 객체
             ├── request/             # 요청 객체(record)
             ├── response/            # 응답 객체(record)

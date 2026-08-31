@@ -45,9 +45,9 @@ com.iucyh.cheesevol
     ├── presentation/    # API Spec을 정의하는 표현 계층, Controller
         ├── dto/               # API 요청/응답 객체
             ├── request/             # 요청 객체(record)
-            ├── response/            # 응답 객체(record)
+            └── response/            # 응답 객체(record)
     ├── exception/       # BusinessException을 상속받는 도메인 비즈니스 예외 클래스
-        ├── errorcode/         # 각 도메인별 에러코드 enum
+        └── errorcode/         # 각 도메인별 에러코드 enum
     └── infrastructure/  # http 클라이언트 등 외부 시스템과 통신하는 계층
 ```
 **요청/응답 매핑**
